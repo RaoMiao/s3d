@@ -1,0 +1,408 @@
+{
+  "contractName": "SeeleDealer",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "incomingToken",
+          "type": "uint256"
+        },
+        {
+          "name": "referredBy",
+          "type": "address"
+        }
+      ],
+      "name": "purchaseTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5060ce8061001f6000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063504cceac146044575b600080fd5b608060048036038101908080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506096565b6040518082815260200191505060405180910390f35b600060c89050929150505600a165627a7a72305820adf4d6a1d6421d5378f268298568dfeac475709e843e5cbc5d4507ddf2d05db10029",
+  "deployedBytecode": "0x608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063504cceac146044575b600080fd5b608060048036038101908080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506096565b6040518082815260200191505060405180910390f35b600060c89050929150505600a165627a7a72305820adf4d6a1d6421d5378f268298568dfeac475709e843e5cbc5d4507ddf2d05db10029",
+  "sourceMap": "30:161:3:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;30:161:3;;;;;;;",
+  "deployedSourceMap": "30:161:3:-;;;;;;;;;;;;;;;;;;;;;;;;59:129;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;151:7;177:3;170:10;;59:129;;;;:::o",
+  "source": "pragma solidity ^0.4.24;\r\n\r\n\r\ncontract SeeleDealer { \r\n    function purchaseTokens(uint256 incomingToken, address referredBy) external payable returns(uint256){\r\n        return 200;\r\n    }\r\n}",
+  "sourcePath": "D:\\work\\truffle\\s3d\\contracts\\SeeleDealer.sol",
+  "ast": {
+    "absolutePath": "/D/work/truffle/s3d/contracts/SeeleDealer.sol",
+    "exportedSymbols": {
+      "SeeleDealer": [
+        234
+      ]
+    },
+    "id": 235,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 221,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 234,
+        "linearizedBaseContracts": [
+          234
+        ],
+        "name": "SeeleDealer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 232,
+              "nodeType": "Block",
+              "src": "159:29:3",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "323030",
+                    "id": 230,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "177:3:3",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_200_by_1",
+                      "typeString": "int_const 200"
+                    },
+                    "value": "200"
+                  },
+                  "functionReturnParameters": 229,
+                  "id": 231,
+                  "nodeType": "Return",
+                  "src": "170:10:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 233,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "purchaseTokens",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 226,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 223,
+                  "name": "incomingToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 233,
+                  "src": "83:21:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 222,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "83:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 225,
+                  "name": "referredBy",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 233,
+                  "src": "106:18:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 224,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "106:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "82:43:3"
+            },
+            "payable": true,
+            "returnParameters": {
+              "id": 229,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 228,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 233,
+                  "src": "151:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 227,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "151:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "150:9:3"
+            },
+            "scope": 234,
+            "src": "59:129:3",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 235,
+        "src": "30:161:3"
+      }
+    ],
+    "src": "0:191:3"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/work/truffle/s3d/contracts/SeeleDealer.sol",
+    "exportedSymbols": {
+      "SeeleDealer": [
+        234
+      ]
+    },
+    "id": 235,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 221,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 234,
+        "linearizedBaseContracts": [
+          234
+        ],
+        "name": "SeeleDealer",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 232,
+              "nodeType": "Block",
+              "src": "159:29:3",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "323030",
+                    "id": 230,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "177:3:3",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_200_by_1",
+                      "typeString": "int_const 200"
+                    },
+                    "value": "200"
+                  },
+                  "functionReturnParameters": 229,
+                  "id": 231,
+                  "nodeType": "Return",
+                  "src": "170:10:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 233,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "purchaseTokens",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 226,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 223,
+                  "name": "incomingToken",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 233,
+                  "src": "83:21:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 222,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "83:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 225,
+                  "name": "referredBy",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 233,
+                  "src": "106:18:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 224,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "106:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "82:43:3"
+            },
+            "payable": true,
+            "returnParameters": {
+              "id": 229,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 228,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 233,
+                  "src": "151:7:3",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 227,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "151:7:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "150:9:3"
+            },
+            "scope": 234,
+            "src": "59:129:3",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 235,
+        "src": "30:161:3"
+      }
+    ],
+    "src": "0:191:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xd17f353c039d7d0d8fb63ade70b682ca72479773",
+      "transactionHash": "0xf9aae1e2cbde07c8759165ab566241a6987d45f8bb04225f30bae0eff1048992"
+    }
+  },
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-08-08T11:30:20.938Z"
+}
