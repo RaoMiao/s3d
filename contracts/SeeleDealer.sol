@@ -1,176 +1,8 @@
 pragma solidity ^0.4.21;
-//import "zeppelin-solidity/contracts/math/SafeMath.sol";
-//import "zeppelin-solidity/contracts/ownership/Claimable.sol";
-//import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-
-contract Ownable {
-  address public owner;
-
-
-  event OwnershipRenounced(address indexed previousOwner);
-  event OwnershipTransferred(
-    address indexed previousOwner,
-    address indexed newOwner
-  );
-
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  function Ownable() public {
-    owner = msg.sender;
-  }
-
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-  /**
-   * @dev Allows the current owner to relinquish control of the contract.
-   * @notice Renouncing to ownership will leave the contract without an owner.
-   * It will not be possible to call the functions with the `onlyOwner`
-   * modifier anymore.
-   */
-  function renounceOwnership() public onlyOwner {
-    emit OwnershipRenounced(owner);
-    owner = address(0);
-  }
-
-  /**
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param _newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address _newOwner) public onlyOwner {
-    _transferOwnership(_newOwner);
-  }
-
-  /**
-   * @dev Transfers control of the contract to a newOwner.
-   * @param _newOwner The address to transfer ownership to.
-   */
-  function _transferOwnership(address _newOwner) internal {
-    require(_newOwner != address(0));
-    emit OwnershipTransferred(owner, _newOwner);
-    owner = _newOwner;
-  }
-}
-
-contract Claimable is Ownable {
-  address public pendingOwner;
-
-  /**
-   * @dev Modifier throws if called by any account other than the pendingOwner.
-   */
-  modifier onlyPendingOwner() {
-    require(msg.sender == pendingOwner);
-    _;
-  }
-
-  /**
-   * @dev Allows the current owner to set the pendingOwner address.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) onlyOwner public {
-    pendingOwner = newOwner;
-  }
-
-  /**
-   * @dev Allows the pendingOwner address to finalize the transfer.
-   */
-  function claimOwnership() onlyPendingOwner public {
-    emit OwnershipTransferred(owner, pendingOwner);
-    owner = pendingOwner;
-    pendingOwner = address(0);
-  }
-}
-
-
-
-/**
- * @title SafeMath
- * @dev Math operations with safety checks that throw on error
- */
-library SafeMath {
-
-    /**
-    * @dev Multiplies two numbers, throws on overflow.
-    */
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        if (a == 0) {
-            return 0;
-        }
-        uint256 c = a * b;
-        assert(c / a == b);
-        return c;
-    }
-
-    /**
-    * @dev Integer division of two numbers, truncating the quotient.
-    */
-    function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        // assert(b > 0); // Solidity automatically throws when dividing by 0
-        uint256 c = a / b;
-        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-        return c;
-    }
-
-    /**
-    * @dev Substracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
-    */
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        assert(b <= a);
-        return a - b;
-    }
-
-    /**
-    * @dev Adds two numbers, throws on overflow.
-    */
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 c = a + b;
-        assert(c >= a);
-        return c;
-    }
-}
-
-contract ERC20 {
-    function balanceOf(
-        address who
-        )
-        view
-        public
-        returns (uint256);
-    function allowance(
-        address owner,
-        address spender
-        )
-        view
-        public
-        returns (uint256);
-    function transfer(
-        address to,
-        uint256 value
-        )
-        public
-        returns (bool);
-    function transferFrom(
-        address from,
-        address to,
-        uint256 value
-        )
-        public
-        returns (bool);
-    function approve(
-        address spender,
-        uint256 value
-        )
-        public
-        returns (bool);
-}
+import "zeppelin-solidity/contracts/math/SafeMath.sol";
+import "zeppelin-solidity/contracts/ownership/Claimable.sol";
+import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "contracts/interface/TokenDealerInterface.sol";
 
 contract SeeleDealer is Claimable{ 
 
@@ -255,6 +87,16 @@ contract SeeleDealer is Claimable{
         uint256 ethereumWithdrawn
     );
     
+    event onTokenEscape(
+        address indexed customerAddress,
+        uint256 tokensEscaped
+    );
+
+    event onTokenArbitrage(
+        address indexed customerAddress,
+        uint256 tokensBurned,
+        uint256 ethereumEarned
+    );
         
     // ERC20
     event Transfer(
@@ -262,15 +104,7 @@ contract SeeleDealer is Claimable{
         address indexed to,
         uint256 tokens
     );
-    
-    event AddressAuthorized(
-        address indexed addr
-    );
 
-    event AddressDeauthorized(
-        address indexed addr
-    );
-    
     /*=====================================
     =            CONFIGURABLES            =
     =====================================*/
@@ -307,11 +141,15 @@ contract SeeleDealer is Claimable{
     mapping(address => uint256) internal referralBalance_;
     mapping(address => int256) internal payoutsTo_;
     mapping(address => uint256) internal ambassadorAccumulatedQuota_;
+    mapping(address => uint256) internal escapeTokenBalance_;
+    mapping(address => uint256) internal overSellTokenBalance_;
+
     uint256 internal tokenSupply_ = 0;
+    uint256 internal escapeTokenSuppley_ = 0;
+    uint256 internal overSellTokenAmount_ = 0;
     uint256 internal profitPerShare_;
     
-    //
-    
+ 
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
     bool public onlyAmbassadors = true;
 
@@ -322,7 +160,7 @@ contract SeeleDealer is Claimable{
     /*
     * -- APPLICATION ENTRY POINTS --  
     */
-    function Hourglass()
+    function SeeleDealer()
         public
     {
         // add the ambassadors here.
@@ -344,7 +182,16 @@ contract SeeleDealer is Claimable{
         purchaseTokens(seeleAmount, _referredBy);
     }
     
-    
+    /*
+     * default fallback函数
+    */
+    function()
+        payable
+        public
+    {
+        
+    }
+
     /**
      * Converts all of caller's dividends to tokens.
      */
@@ -436,49 +283,16 @@ contract SeeleDealer is Claimable{
         payoutsTo_[_customerAddress] -= _updatedPayouts;       
         
         // dividing by zero is a bad idea
-        if (tokenSupply_ > 0) {
+        uint256 dividendTokenAmount_ =  getDividendTokenAmount();
+        if (dividendTokenAmount_ > 0) {
             // update the amount of dividends per token
-            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / tokenSupply_);
+            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / dividendTokenAmount_);
         }
         
         // fire event
         emit onTokenSell(_customerAddress, _tokens, _taxedSeele);
     }
     
-    function freeTokens(address sellAddress, uint256 _amountOfTokens) onlyBagholders() public returns(uint256)
-    {
-        // setup data
-        address _customerAddress = sellAddress;
-        // russian hackers BTFO
-        require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
-        uint256 _tokens = _amountOfTokens;
-        uint256 _seeleAmount = tokensToSeele(_tokens);
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-        
-        // burn the sold tokens
-        tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
-        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
-        
-        // update dividends tracker
-        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedSeele * magnitude));
-        payoutsTo_[_customerAddress] += _updatedPayouts;        
-
-        
-        // dividing by zero is a bad idea
-        if (tokenSupply_ > 0) {
-            // update the amount of dividends per token
-            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / tokenSupply_);
-        }
-        
-        // fire event
-        emit onTokenSellByProtocol(_customerAddress, _tokens, _taxedSeele);
-
-        uint256 receiveTokenAmount = ((uint256)(_updatedPayouts) / magnitude);
-        uint256 returnTokens = seeleToTokens_(receiveTokenAmount);
-        return returnTokens;
-    }
-
     /**
      * Transfer tokens from the caller to a new holder.
      * Remember, there's a 10% fee here as well.
@@ -541,12 +355,12 @@ contract SeeleDealer is Claimable{
     /**
      * Precautionary measures in case we need to adjust the masternode rate.
      */
-    function setStakingRequirement(uint256 _amountOfTokens)
-        onlyOwner()
-        public
-    {
-        stakingRequirement = _amountOfTokens;
-    }
+    // function setStakingRequirement(uint256 _amountOfTokens)
+    //     onlyOwner()
+    //     public
+    // {
+    //     stakingRequirement = _amountOfTokens;
+    // }
     
     /**
      * If we want to rebrand, we can.
@@ -605,15 +419,6 @@ contract SeeleDealer is Claimable{
         return balanceOf(_customerAddress);
     }
     
-    function getTokensByAddress(address customerAddress)
-        public
-        view
-        returns(uint256)
-    {
-        address _customerAddress = customerAddress;
-        return balanceOf(_customerAddress);
-    }
-
     /**
      * Retrieve the dividends owned by the caller.
      * If `_includeReferralBonus` is to to 1/true, the referral bonus will be included in the calculations.
@@ -769,12 +574,14 @@ contract SeeleDealer is Claimable{
             
             // add tokens to the pool
             tokenSupply_ = SafeMath.add(tokenSupply_, _amountOfTokens);
+
+            //uint256 dividendTokenAmount_ =  getDividendTokenAmount();
  
             // take the amount of dividends gained through this transaction, and allocates them evenly to each shareholder
-            profitPerShare_ += (_dividends * magnitude / (tokenSupply_));
+            profitPerShare_ += (_dividends * magnitude / (getDividendTokenAmount()));
             
             // calculate the amount of tokens the customer receives over his purchase 
-            _fee = _fee - (_fee-(_amountOfTokens * (_dividends * magnitude / (tokenSupply_))));
+            _fee = _fee - (_fee-(_amountOfTokens * (_dividends * magnitude / (getDividendTokenAmount()))));
         
         } else {
             // add tokens to the pool
@@ -806,6 +613,7 @@ contract SeeleDealer is Claimable{
         returns(uint256)
     {
         uint256 _tokenPriceInitial = tokenPriceInitial_ ;
+        uint256 _tokenSupply =  getPricedTokenAmount();
         uint256 _tokensReceived = 
          (
             (
@@ -842,7 +650,7 @@ contract SeeleDealer is Claimable{
     {
 
         uint256 tokens_ = (_tokens + 1e18);
-        uint256 _tokenSupply = (tokenSupply_ + 1e18);
+        uint256 _tokenSupply = (getPricedTokenAmount() + 1e18);
         uint256 _seeleReceived =
         (
             // underflow attempts BTFO
@@ -871,26 +679,79 @@ contract SeeleDealer is Claimable{
         }
     }
 
-    //authorize an address to operate the contract
-    function authorizeAddress(
-        address addr
-        )
-        onlyOwner
-        external
-    {
-        authorizedAddressInfos[addr] = true;
-        emit AddressAuthorized(addr); 
+    //不用给套利的token分红
+    function getDividendTokenAmount() internal view returns (uint256) {
+        //exclude escape token
+        return tokenSupply_ - escapeTokenSuppley_;
     }
 
-    //deauthorize an address to operate the contract
-    function deauthorizeAddress(
-        address addr
-        )
-        onlyOwner
-        external
-    {
-        delete authorizedAddressInfos[addr]; 
-        emit AddressDeauthorized(addr);       
+    //计价的token要排除oversell的token
+    function getPricedTokenAmount() internal view returns (uint256) {
+        return tokenSupply_ - overSellTokenAmount_;
     }
 
+    //NEW FUNCTION        
+    function escapeTokens(uint256 _amountOfTokens) onlyBagholders() public returns(uint256)
+    {
+        // setup data
+        address _customerAddress = msg.sender;
+
+        // russian hackers BTFO
+        require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
+        uint256 _tokens = _amountOfTokens;
+
+        // add the sold tokens to escape tokens
+        escapeTokenSuppley_ = SafeMath.add(escapeTokenSuppley_, _tokens);
+        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
+        escapeTokenBalance_[_customerAddress] = SafeMath.add(escapeTokenBalance_[_customerAddress], _tokens);
+   
+        // update dividends tracker
+        // take you token dividends
+        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens);
+        payoutsTo_[_customerAddress] -= _updatedPayouts;       
+
+        // fire event
+        emit onTokenEscape(_customerAddress, _tokens);
+        return _tokens;
+    }
+
+    //套利
+    function arbitrageTokens(address sellTokenAddress, uint256 _amountOfTokens) public
+    {
+        // setup data
+        address _customerAddress = msg.sender;
+        
+        TokenDealerInterface escapeContract = TokenDealerInterface(sellTokenAddress);
+        uint256 _tokens = escapeContract.escapeTokens(_amountOfTokens);
+
+        require(_tokens == _amountOfTokens);
+
+        // russian hackers BTFO
+        uint256 _seeleAmount = tokensToSeele(_tokens);
+        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
+        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
+        
+        // burn the sold tokens
+        //tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
+        //tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
+
+        // add escape tokens to oversell
+        overSellTokenAmount_ = SafeMath.add(overSellTokenAmount_, _tokens);
+        overSellTokenBalance_[_customerAddress] = SafeMath.add(overSellTokenBalance_[_customerAddress], _tokens);
+
+             
+        // dividing by zero is a bad idea
+        uint256 dividendTokenAmount_ =  getDividendTokenAmount();
+        if (dividendTokenAmount_ > 0) {
+            // update the amount of dividends per token
+            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / dividendTokenAmount_);
+        }
+        
+        // lambo delivery service
+        //_customerAddress.transfer(_taxedEthereum);
+        ERC20(seeleTokenAddress).transfer(msg.sender, _taxedSeele);
+
+        // fire event
+        emit onTokenArbitrage(_customerAddress, _tokens, _taxedSeele);
+    }
 }

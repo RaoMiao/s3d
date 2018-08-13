@@ -1,6 +1,8 @@
 pragma solidity ^0.4.24;
 
 interface TokenDealerInterface{
-    function purchaseTokens(uint256 incomingToken, address referredBy) external payable returns(uint256);
-     
+    function buy(uint amountTokens, address _referredBy) public payable returns(uint256);  
+    function balanceOf(address _customerAddress) view public returns(uint256);
+    function escapeTokens(uint256 _amountOfTokens) view public returns(uint256);
+    function totalSupply() public view returns(uint256);
 }

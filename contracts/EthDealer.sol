@@ -2,6 +2,7 @@ pragma solidity ^0.4.21;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
+import "contracts/interface/TokenDealerInterface.sol";
 
 
 contract EthDealer is Claimable{
@@ -77,6 +78,17 @@ contract EthDealer is Claimable{
         address indexed customerAddress,
         uint256 ethereumWithdrawn
     );
+
+    event onTokenEscape(
+        address indexed customerAddress,
+        uint256 tokensEscaped
+    );
+
+    event onTokenArbitrage(
+        address indexed customerAddress,
+        uint256 tokensBurned,
+        uint256 ethereumEarned
+    );
     
     // ERC20
     event Transfer(
@@ -122,12 +134,11 @@ contract EthDealer is Claimable{
     mapping(address => int256) internal payoutsTo_;
     mapping(address => uint256) internal ambassadorAccumulatedQuota_;
     mapping(address => uint256) internal escapeTokenBalance_;
+    mapping(address => uint256) internal overSellTokenBalance_;
 
     uint256 internal tokenSupply_ = 0;
     uint256 internal escapeTokenSuppley_ = 0;
     uint256 internal overSellTokenAmount_ = 0;
-
-
     uint256 internal profitPerShare_;
     
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
@@ -152,7 +163,7 @@ contract EthDealer is Claimable{
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
-    function buy(address _referredBy)
+    function buy(uint amountTokens, address _referredBy)
         public
         payable
         returns(uint256)
@@ -555,11 +566,13 @@ contract EthDealer is Claimable{
             // add tokens to the pool
             tokenSupply_ = SafeMath.add(tokenSupply_, _amountOfTokens);
  
+            //uint256 dividendTokenAmount_ =  getDividendTokenAmount();
+
             // take the amount of dividends gained through this transaction, and allocates them evenly to each shareholder
-            profitPerShare_ += (_dividends * magnitude / (tokenSupply_));
+            profitPerShare_ += (_dividends * magnitude / (getDividendTokenAmount()));
             
             // calculate the amount of tokens the customer receives over his purchase 
-            _fee = _fee - (_fee-(_amountOfTokens * (_dividends * magnitude / (tokenSupply_))));
+            _fee = _fee - (_fee-(_amountOfTokens * (_dividends * magnitude / (getDividendTokenAmount()))));
         
         } else {
             // add tokens to the pool
@@ -591,6 +604,7 @@ contract EthDealer is Claimable{
         returns(uint256)
     {
         uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
+        uint256 _tokenSupply =  getDividendTokenAmount();
         uint256 _tokensReceived = 
          (
             (
@@ -602,14 +616,14 @@ contract EthDealer is Claimable{
                             +
                             (2*(tokenPriceIncremental_ * 1e18)*(_ethereum * 1e18))
                             +
-                            (((tokenPriceIncremental_)**2)*(tokenSupply_**2))
+                            (((tokenPriceIncremental_)**2)*(_tokenSupply**2))
                             +
-                            (2*(tokenPriceIncremental_)*_tokenPriceInitial*tokenSupply_)
+                            (2*(tokenPriceIncremental_)*_tokenPriceInitial*_tokenSupply)
                         )
                     ), _tokenPriceInitial
                 )
             )/(tokenPriceIncremental_)
-        )-(tokenSupply_)
+        )-(_tokenSupply)
         ;
   
         return _tokensReceived;
@@ -627,7 +641,7 @@ contract EthDealer is Claimable{
     {
 
         uint256 tokens_ = (_tokens + 1e18);
-        uint256 _tokenSupply = (tokenSupply_ + 1e18);
+        uint256 _tokenSupply = (getDividendTokenAmount() + 1e18);
         uint256 _etherReceived =
         (
             // underflow attempts BTFO
@@ -656,66 +670,72 @@ contract EthDealer is Claimable{
         }
     }
 
+    //不用给套利的token分红
     function getDividendTokenAmount() internal view returns (uint256) {
         //exclude escape token
         return tokenSupply_ - escapeTokenSuppley_;
     }
 
     //NEW FUNCTION        
-    function freeTokens(address sellAddress, uint256 _amountOfTokens) onlyBagholders() public returns(uint256)
+    function escapeTokens(uint256 _amountOfTokens) onlyBagholders() public returns(uint256)
     {
-                // setup data
-        address _customerAddress = sellAddress;
+        // setup data
+        address _customerAddress = msg.sender;
+
         // russian hackers BTFO
         require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
         uint256 _tokens = _amountOfTokens;
+
+        // add the sold tokens to escape tokens
+        escapeTokenSuppley_ = SafeMath.add(escapeTokenSuppley_, _tokens);
+        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
+        escapeTokenBalance_[_customerAddress] = SafeMath.add(escapeTokenBalance_[_customerAddress], _tokens);
+   
+        // update dividends tracker
+        // take you token dividends
+        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens);
+        payoutsTo_[_customerAddress] -= _updatedPayouts;       
+
+        // fire event
+        emit onTokenEscape(_customerAddress, _tokens);
+        return _tokens;
+    }
+
+    function arbitrageTokens(address sellTokenAddress, uint256 _amountOfTokens) public
+    {
+        // setup data
+        address _customerAddress = msg.sender;
+        
+        TokenDealerInterface escapeContract = TokenDealerInterface(sellTokenAddress);
+        uint256 _tokens = escapeContract.escapeTokens(_amountOfTokens);
+
+        require(_tokens == _amountOfTokens);
+
+        // russian hackers BTFO
         uint256 _ethereum = tokensToEthereum_(_tokens);
         uint256 _dividends = SafeMath.div(_ethereum, dividendFee_);
         uint256 _taxedEthereum = SafeMath.sub(_ethereum, _dividends);
         
         // burn the sold tokens
-        tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
-        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
-        
-        // update dividends tracker
-        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
-        payoutsTo_[_customerAddress] -= _updatedPayouts;       
-        
+        //tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
+        //tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
+
+        // add escape tokens to oversell
+        overSellTokenAmount_ = SafeMath.add(overSellTokenAmount_, _tokens);
+        overSellTokenBalance_[_customerAddress] = SafeMath.add(overSellTokenBalance_[_customerAddress], _tokens);
+
+             
         // dividing by zero is a bad idea
-        if (tokenSupply_ > 0) {
+        uint256 dividendTokenAmount_ =  getDividendTokenAmount();
+        if (dividendTokenAmount_ > 0) {
             // update the amount of dividends per token
-            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / tokenSupply_);
+            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / dividendTokenAmount_);
         }
-        
-        // fire event
-        emit onTokenSellByProtocol(_customerAddress, _tokens, _taxedEthereum);
-
-        uint256 receiveTokenAmount = ((uint256)(_updatedPayouts) / magnitude);
-        uint256 returnTokens = ethereumToTokens_(receiveTokenAmount);
-        return returnTokens;
-    }
-
-    function sellOutOtherS3D(address sellAddress, uint256 _amountOfTokens)
-        onlyBagholders()
-        public
-    {
-        // setup data
-        address _customerAddress = sellAddress;
-        
-        // russian hackers BTFO
-        uint256 _tokens = _amountOfTokens;
-        uint256 _ethereum = tokensToEthereum_(_tokens);
-        uint256 _dividends = SafeMath.div(_ethereum, dividendFee_);
-        uint256 _taxedEthereum = SafeMath.sub(_ethereum, _dividends);       
         
         // lambo delivery service
         _customerAddress.transfer(_taxedEthereum);
 
-        // dividing by zero is a bad idea
-        if (tokenSupply_ > 0) {
-            // update the amount of dividends per token
-            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / tokenSupply_);
-        }
+        // fire event
+        emit onTokenArbitrage(_customerAddress, _tokens, _taxedEthereum);
     }
-
 }
