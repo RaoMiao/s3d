@@ -6,14 +6,30 @@ var S3DProtocol = artifacts.require("./S3DProtocol.sol");
 var SeeleToken = artifacts.require("./SeeleToken.sol");
 
 module.exports = function(deployer) {
+
+    var SeeleTokenInst;
+    deployer.deploy(SeeleToken, '0xcd16575a90ed9506bcf44c78845d93f1b647f48c', '0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e27);
+
     deployer.deploy(StringTuils);
     deployer.deploy(TokenDealerMapping);
+    deployer.deploy(EthDealer);
+
+    deployer.then(function(instance) {
+        return SeeleToken.deployed();
+    }).then(function(instance) {
+        SeeleTokenInst = instance;
+        deployer.deploy(SeeleDealer, SeeleTokenInst.address);
+
+        SeeleTokenInst.unpause().then(function(){
+          SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);
+          SeeleTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23, false);
+        })
+    })
+
+
     deployer.link(StringTuils, S3DProtocol);
     deployer.link(TokenDealerMapping, S3DProtocol);
-    deployer.deploy(EthDealer);
-    deployer.deploy(SeeleDealer);
     deployer.deploy(S3DProtocol);
-    deployer.deploy(SeeleToken, 0x627306090abab3a6e1400e9345bc60c78a8bef57, 0x627306090abab3a6e1400e9345bc60c78a8bef57, 1e27);
 
 
     var EthDealerInstance ;
@@ -21,11 +37,9 @@ module.exports = function(deployer) {
     var S3DProtocolInstance ;
 
     deployer.then(function(instance) {
-   
         return EthDealer.deployed();
       }).then(function(instance) {
         EthDealerInstance = instance;
-        // Set the new instance of A's address on B via B's setA() function.
         return SeeleDealer.deployed();
       }).then(function(instance) {
         SeeleDealerInstance = instance;
@@ -38,6 +52,7 @@ module.exports = function(deployer) {
         S3DProtocolInstance.addDealer('eth', EthDealerInstance.address);
         S3DProtocolInstance.addDealer('seele', SeeleDealerInstance.address);      
       });
+
 
 
 };

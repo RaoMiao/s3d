@@ -2,7 +2,7 @@ pragma solidity ^0.4.21;
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-import "contracts/interface/TokenDealerInterface.sol";
+import "../contracts/interface/TokenDealerInterface.sol";
 
 contract SeeleDealer is Claimable{ 
 
@@ -132,7 +132,7 @@ contract SeeleDealer is Claimable{
         _;
     }
 
-    address constant public seeleTokenAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
+    address public seeleTokenAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
    /*================================
     =            DATASETS            =
     ================================*/
@@ -160,9 +160,11 @@ contract SeeleDealer is Claimable{
     /*
     * -- APPLICATION ENTRY POINTS --  
     */
-    function SeeleDealer()
+    function SeeleDealer(address tokenAddress)
         public
     {
+        seeleTokenAddress = tokenAddress;
+
         // add the ambassadors here.
         // mantso - lead solidity dev & lead web dev. 
         ambassadors_[0xCd16575A90eD9506BCf44C78845d93F1b647F48C] = true;
@@ -172,14 +174,14 @@ contract SeeleDealer is Claimable{
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
-    function buy(uint256 seeleAmount, address _referredBy)
+    function buy(address buyerAddress, uint256 seeleAmount, address _referredBy)
         public
         payable
         returns(uint256)
     {
         //transfer seele to contract
         require(ERC20(seeleTokenAddress).transferFrom(msg.sender, address(this), seeleAmount));
-        purchaseTokens(seeleAmount, _referredBy);
+        purchaseTokens(buyerAddress, seeleAmount, _referredBy);
     }
     
     /*
@@ -211,7 +213,7 @@ contract SeeleDealer is Claimable{
         referralBalance_[_customerAddress] = 0;
         
         // dispatch a buy order with the virtualized "withdrawn dividends"
-        uint256 _tokens = purchaseTokens(_dividends, 0x0);
+        uint256 _tokens = purchaseTokens(_customerAddress, _dividends, 0x0);
         
         // fire event
         emit onReinvestment(_customerAddress, _dividends, _tokens);
@@ -528,13 +530,13 @@ contract SeeleDealer is Claimable{
     /*==========================================
     =            INTERNAL FUNCTIONS            =
     ==========================================*/
-    function purchaseTokens(uint256 _incomingSeele, address _referredBy)
+    function purchaseTokens(address buyer, uint256 _incomingSeele, address _referredBy)
         antiEarlyWhale(_incomingSeele)
         internal
         returns(uint256)
     {
         // data setup
-        address _customerAddress = msg.sender;
+        address _customerAddress = buyer;
         uint256 _undividedDividends = SafeMath.div(_incomingSeele, dividendFee_);
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);

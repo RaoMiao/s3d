@@ -1,11 +1,10 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.4.24;
 
 
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
-import "contracts/interface/TokenDealerInterface.sol";
-import "contracts/library/TokenDealerMapping.sol";
-import "contracts/library/StringUtils.sol";
-
+import "../contracts/interface/TokenDealerInterface.sol";
+import "../contracts/library/TokenDealerMapping.sol";
+import "../contracts/library/StringUtils.sol";
 
 
 contract S3DProtocol is Claimable{
@@ -19,6 +18,14 @@ contract S3DProtocol is Claimable{
 
     function addDealer(string symbol, address dealerAddress) public onlyOwner returns (uint size) {
         TokenDealerMapping.insert(tokenDealerMap, symbol, dealerAddress);
+        return tokenDealerMap.size;
+    }
+
+    function getDealer(string symbol) public view returns (address) {
+        return tokenDealerMap.data[symbol].value;
+    }
+
+    function getSize() public view returns (uint) {
         return tokenDealerMap.size;
     }
 
@@ -74,9 +81,9 @@ contract S3DProtocol is Claimable{
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         if(StringUtils.compare(symbol, ethSymbol) == 0) {
-            dealerContract.buy.value(msg.value)(0, _referredBy);
+            dealerContract.buy.value(msg.value)(msg.sender, msg.value, _referredBy);
         } else {
-            dealerContract.buy(_tokenAmount, _referredBy);
+            dealerContract.buy(msg.sender, _tokenAmount, _referredBy);
         }
     }
 

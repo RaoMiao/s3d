@@ -2,7 +2,7 @@ pragma solidity ^0.4.21;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
-import "contracts/interface/TokenDealerInterface.sol";
+import "../contracts/interface/TokenDealerInterface.sol";
 
 
 contract EthDealer is Claimable{
@@ -163,12 +163,12 @@ contract EthDealer is Claimable{
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
-    function buy(uint amountTokens, address _referredBy)
+    function buy(address buyer, uint amountTokens, address _referredBy)
         public
         payable
         returns(uint256)
     {
-        purchaseTokens(msg.value, _referredBy);
+        purchaseTokens(buyer, msg.value, _referredBy);
     }
     
     /**
@@ -179,7 +179,7 @@ contract EthDealer is Claimable{
         payable
         public
     {
-        purchaseTokens(msg.value, 0x0);
+        //purchaseTokens(msg.value, 0x0);
     }
     
     /**
@@ -202,7 +202,7 @@ contract EthDealer is Claimable{
         referralBalance_[_customerAddress] = 0;
         
         // dispatch a buy order with the virtualized "withdrawn dividends"
-        uint256 _tokens = purchaseTokens(_dividends, 0x0);
+        uint256 _tokens = purchaseTokens(_customerAddress, _dividends, 0x0);
         
         // fire event
         emit onReinvestment(_customerAddress, _dividends, _tokens);
@@ -519,13 +519,13 @@ contract EthDealer is Claimable{
     /*==========================================
     =            INTERNAL FUNCTIONS            =
     ==========================================*/
-    function purchaseTokens(uint256 _incomingEthereum, address _referredBy)
+    function purchaseTokens(address buyer, uint256 _incomingEthereum, address _referredBy)
         antiEarlyWhale(_incomingEthereum)
         internal
         returns(uint256)
     {
         // data setup
-        address _customerAddress = msg.sender;
+        address _customerAddress = buyer;
         uint256 _undividedDividends = SafeMath.div(_incomingEthereum, dividendFee_);
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);
