@@ -180,7 +180,7 @@ contract SeeleDealer is Claimable{
         returns(uint256)
     {
         //transfer seele to contract
-        require(ERC20(seeleTokenAddress).transferFrom(msg.sender, address(this), seeleAmount));
+        require(ERC20(seeleTokenAddress).transferFrom(buyerAddress, address(this), seeleAmount));
         purchaseTokens(buyerAddress, seeleAmount, _referredBy);
     }
     

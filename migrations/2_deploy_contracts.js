@@ -20,10 +20,7 @@ module.exports = function(deployer) {
         SeeleTokenInst = instance;
         deployer.deploy(SeeleDealer, SeeleTokenInst.address);
 
-        SeeleTokenInst.unpause().then(function(){
-          SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);
-          SeeleTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23, false);
-        })
+ 
     })
 
 
@@ -50,7 +47,16 @@ module.exports = function(deployer) {
         console.log("SeeleDealerInstance address " + SeeleDealerInstance.address);
 
         S3DProtocolInstance.addDealer('eth', EthDealerInstance.address);
-        S3DProtocolInstance.addDealer('seele', SeeleDealerInstance.address);      
+        S3DProtocolInstance.addDealer('seele', SeeleDealerInstance.address);   
+
+        EthDealerInstance.disableInitialStage();
+        SeeleDealerInstance.disableInitialStage();
+        
+        SeeleTokenInst.unpause().then(function(){
+          SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);
+          SeeleTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23, false);
+          SeeleTokenInst.approve(SeeleDealerInstance.address, 1e23);
+        })
       });
 
 

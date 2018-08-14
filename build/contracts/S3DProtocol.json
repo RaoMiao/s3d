@@ -282,7 +282,7 @@
         "id": 1581,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 5774,
+        "sourceUnit": 5773,
         "src": "30:61:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -293,7 +293,7 @@
         "id": 1582,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 4764,
+        "sourceUnit": 4763,
         "src": "93:57:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -304,7 +304,7 @@
         "id": 1583,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 5309,
+        "sourceUnit": 5308,
         "src": "152:53:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -315,7 +315,7 @@
         "id": 1584,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 5062,
+        "sourceUnit": 5061,
         "src": "207:46:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -329,10 +329,10 @@
               "id": 1585,
               "name": "Claimable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5773,
+              "referencedDeclaration": 5772,
               "src": "283:9:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Claimable_$5773",
+                "typeIdentifier": "t_contract$_Claimable_$5772",
                 "typeString": "contract Claimable"
               }
             },
@@ -342,8 +342,8 @@
           }
         ],
         "contractDependencies": [
-          5773,
-          5859
+          5772,
+          5858
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -351,8 +351,8 @@
         "id": 1840,
         "linearizedBaseContracts": [
           1840,
-          5773,
-          5859
+          5772,
+          5858
         ],
         "name": "S3DProtocol",
         "nodeType": "ContractDefinition",
@@ -367,7 +367,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+              "typeIdentifier": "t_struct$_itmap_$5082_storage",
               "typeString": "struct TokenDealerMapping.itmap"
             },
             "typeName": {
@@ -375,10 +375,10 @@
               "id": 1587,
               "name": "TokenDealerMapping.itmap",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5083,
+              "referencedDeclaration": 5082,
               "src": "301:24:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_itmap_$5083_storage_ptr",
+                "typeIdentifier": "t_struct$_itmap_$5082_storage_ptr",
                 "typeString": "struct TokenDealerMapping.itmap"
               }
             },
@@ -490,7 +490,7 @@
                         "referencedDeclaration": 1588,
                         "src": "628:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         }
                       },
@@ -524,7 +524,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         },
                         {
@@ -542,10 +542,10 @@
                         "name": "TokenDealerMapping",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5308,
+                        "referencedDeclaration": 5307,
                         "src": "602:18:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                           "typeString": "type(library TokenDealerMapping)"
                         }
                       },
@@ -556,10 +556,10 @@
                       "lValueRequested": false,
                       "memberName": "insert",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5153,
+                      "referencedDeclaration": 5152,
                       "src": "602:25:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_string_memory_ptr_$_t_address_$returns$_t_bool_$",
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_string_memory_ptr_$_t_address_$returns$_t_bool_$",
                         "typeString": "function (struct TokenDealerMapping.itmap storage pointer,string memory,address) returns (bool)"
                       }
                     },
@@ -593,7 +593,7 @@
                       "referencedDeclaration": 1588,
                       "src": "684:14:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                        "typeIdentifier": "t_struct$_itmap_$5082_storage",
                         "typeString": "struct TokenDealerMapping.itmap storage ref"
                       }
                     },
@@ -604,7 +604,7 @@
                     "lValueRequested": false,
                     "memberName": "size",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5082,
+                    "referencedDeclaration": 5081,
                     "src": "684:19:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -633,7 +633,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 5807,
+                  "referencedDeclaration": 5806,
                   "src": "561:9:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -767,7 +767,7 @@
                           "referencedDeclaration": 1588,
                           "src": "801:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         },
@@ -778,10 +778,10 @@
                         "lValueRequested": false,
                         "memberName": "data",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5077,
+                        "referencedDeclaration": 5076,
                         "src": "801:19:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5073_storage_$",
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5072_storage_$",
                           "typeString": "mapping(string memory => struct TokenDealerMapping.IndexValue storage ref)"
                         }
                       },
@@ -806,7 +806,7 @@
                       "nodeType": "IndexAccess",
                       "src": "801:27:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_IndexValue_$5073_storage",
+                        "typeIdentifier": "t_struct$_IndexValue_$5072_storage",
                         "typeString": "struct TokenDealerMapping.IndexValue storage ref"
                       }
                     },
@@ -817,7 +817,7 @@
                     "lValueRequested": false,
                     "memberName": "value",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5072,
+                    "referencedDeclaration": 5071,
                     "src": "801:33:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -930,7 +930,7 @@
                       "referencedDeclaration": 1588,
                       "src": "914:14:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                        "typeIdentifier": "t_struct$_itmap_$5082_storage",
                         "typeString": "struct TokenDealerMapping.itmap storage ref"
                       }
                     },
@@ -941,7 +941,7 @@
                     "lValueRequested": false,
                     "memberName": "size",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5082,
+                    "referencedDeclaration": 5081,
                     "src": "914:19:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -1078,7 +1078,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 5807,
+                  "referencedDeclaration": 5806,
                   "src": "1005:9:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1203,7 +1203,7 @@
                               "referencedDeclaration": 1588,
                               "src": "1418:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               }
                             },
@@ -1224,7 +1224,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               },
                               {
@@ -1238,10 +1238,10 @@
                               "name": "TokenDealerMapping",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 5308,
+                              "referencedDeclaration": 5307,
                               "src": "1387:18:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                                 "typeString": "type(library TokenDealerMapping)"
                               }
                             },
@@ -1252,10 +1252,10 @@
                             "lValueRequested": false,
                             "memberName": "iterate_get",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5307,
+                            "referencedDeclaration": 5306,
                             "src": "1387:30:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
+                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
                               "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (string memory,address)"
                             }
                           },
@@ -1291,7 +1291,7 @@
                             "stateVariable": false,
                             "storageLocation": "default",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                               "typeString": "contract TokenDealerInterface"
                             },
                             "typeName": {
@@ -1299,10 +1299,10 @@
                               "id": 1684,
                               "name": "TokenDealerInterface",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 4763,
+                              "referencedDeclaration": 4762,
                               "src": "1451:20:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                 "typeString": "contract TokenDealerInterface"
                               }
                             },
@@ -1339,10 +1339,10 @@
                             "name": "TokenDealerInterface",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4763,
+                            "referencedDeclaration": 4762,
                             "src": "1489:20:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4763_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4762_$",
                               "typeString": "type(contract TokenDealerInterface)"
                             }
                           },
@@ -1356,7 +1356,7 @@
                           "nodeType": "FunctionCall",
                           "src": "1489:27:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                             "typeString": "contract TokenDealerInterface"
                           }
                         },
@@ -1400,7 +1400,7 @@
                                 "referencedDeclaration": 1685,
                                 "src": "1538:14:2",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                   "typeString": "contract TokenDealerInterface"
                                 }
                               },
@@ -1411,7 +1411,7 @@
                               "lValueRequested": false,
                               "memberName": "totalSupply",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4762,
+                              "referencedDeclaration": 4761,
                               "src": "1538:26:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -1456,7 +1456,7 @@
                         "referencedDeclaration": 1588,
                         "src": "1268:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         }
                       },
@@ -1477,7 +1477,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         },
                         {
@@ -1491,10 +1491,10 @@
                         "name": "TokenDealerMapping",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5308,
+                        "referencedDeclaration": 5307,
                         "src": "1235:18:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                           "typeString": "type(library TokenDealerMapping)"
                         }
                       },
@@ -1505,10 +1505,10 @@
                       "lValueRequested": false,
                       "memberName": "iterate_valid",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5249,
+                      "referencedDeclaration": 5248,
                       "src": "1235:32:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_bool_$",
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_bool_$",
                         "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (bool)"
                       }
                     },
@@ -1563,7 +1563,7 @@
                           "referencedDeclaration": 1588,
                           "src": "1218:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         }
@@ -1571,7 +1571,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         ],
@@ -1581,10 +1581,10 @@
                           "name": "TokenDealerMapping",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5308,
+                          "referencedDeclaration": 5307,
                           "src": "1185:18:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                             "typeString": "type(library TokenDealerMapping)"
                           }
                         },
@@ -1595,10 +1595,10 @@
                         "lValueRequested": false,
                         "memberName": "iterate_start",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5233,
+                        "referencedDeclaration": 5232,
                         "src": "1185:32:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$returns$_t_uint256_$",
+                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$returns$_t_uint256_$",
                           "typeString": "function (struct TokenDealerMapping.itmap storage pointer) returns (uint256)"
                         }
                       },
@@ -1654,7 +1654,7 @@
                             "referencedDeclaration": 1588,
                             "src": "1324:14:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             }
                           },
@@ -1675,7 +1675,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             },
                             {
@@ -1689,10 +1689,10 @@
                             "name": "TokenDealerMapping",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5308,
+                            "referencedDeclaration": 5307,
                             "src": "1292:18:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                               "typeString": "type(library TokenDealerMapping)"
                             }
                           },
@@ -1703,10 +1703,10 @@
                           "lValueRequested": false,
                           "memberName": "iterate_next",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5279,
+                          "referencedDeclaration": 5278,
                           "src": "1292:31:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
+                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
                             "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (uint256)"
                           }
                         },
@@ -1859,7 +1859,7 @@
                               "referencedDeclaration": 1588,
                               "src": "1954:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               }
                             },
@@ -1880,7 +1880,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               },
                               {
@@ -1894,10 +1894,10 @@
                               "name": "TokenDealerMapping",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 5308,
+                              "referencedDeclaration": 5307,
                               "src": "1923:18:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                                 "typeString": "type(library TokenDealerMapping)"
                               }
                             },
@@ -1908,10 +1908,10 @@
                             "lValueRequested": false,
                             "memberName": "iterate_get",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5307,
+                            "referencedDeclaration": 5306,
                             "src": "1923:30:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
+                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
                               "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (string memory,address)"
                             }
                           },
@@ -1947,7 +1947,7 @@
                             "stateVariable": false,
                             "storageLocation": "default",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                               "typeString": "contract TokenDealerInterface"
                             },
                             "typeName": {
@@ -1955,10 +1955,10 @@
                               "id": 1733,
                               "name": "TokenDealerInterface",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 4763,
+                              "referencedDeclaration": 4762,
                               "src": "1987:20:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                 "typeString": "contract TokenDealerInterface"
                               }
                             },
@@ -1995,10 +1995,10 @@
                             "name": "TokenDealerInterface",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4763,
+                            "referencedDeclaration": 4762,
                             "src": "2025:20:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4763_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4762_$",
                               "typeString": "type(contract TokenDealerInterface)"
                             }
                           },
@@ -2012,7 +2012,7 @@
                           "nodeType": "FunctionCall",
                           "src": "2025:27:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                             "typeString": "contract TokenDealerInterface"
                           }
                         },
@@ -2075,7 +2075,7 @@
                                 "referencedDeclaration": 1734,
                                 "src": "2074:14:2",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                   "typeString": "contract TokenDealerInterface"
                                 }
                               },
@@ -2086,7 +2086,7 @@
                               "lValueRequested": false,
                               "memberName": "balanceOf",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4750,
+                              "referencedDeclaration": 4749,
                               "src": "2074:24:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -2131,7 +2131,7 @@
                         "referencedDeclaration": 1588,
                         "src": "1804:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         }
                       },
@@ -2152,7 +2152,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         },
                         {
@@ -2166,10 +2166,10 @@
                         "name": "TokenDealerMapping",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5308,
+                        "referencedDeclaration": 5307,
                         "src": "1771:18:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                           "typeString": "type(library TokenDealerMapping)"
                         }
                       },
@@ -2180,10 +2180,10 @@
                       "lValueRequested": false,
                       "memberName": "iterate_valid",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5249,
+                      "referencedDeclaration": 5248,
                       "src": "1771:32:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_bool_$",
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_bool_$",
                         "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (bool)"
                       }
                     },
@@ -2238,7 +2238,7 @@
                           "referencedDeclaration": 1588,
                           "src": "1754:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         }
@@ -2246,7 +2246,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         ],
@@ -2256,10 +2256,10 @@
                           "name": "TokenDealerMapping",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5308,
+                          "referencedDeclaration": 5307,
                           "src": "1721:18:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                             "typeString": "type(library TokenDealerMapping)"
                           }
                         },
@@ -2270,10 +2270,10 @@
                         "lValueRequested": false,
                         "memberName": "iterate_start",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5233,
+                        "referencedDeclaration": 5232,
                         "src": "1721:32:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$returns$_t_uint256_$",
+                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$returns$_t_uint256_$",
                           "typeString": "function (struct TokenDealerMapping.itmap storage pointer) returns (uint256)"
                         }
                       },
@@ -2329,7 +2329,7 @@
                             "referencedDeclaration": 1588,
                             "src": "1860:14:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             }
                           },
@@ -2350,7 +2350,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             },
                             {
@@ -2364,10 +2364,10 @@
                             "name": "TokenDealerMapping",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5308,
+                            "referencedDeclaration": 5307,
                             "src": "1828:18:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                               "typeString": "type(library TokenDealerMapping)"
                             }
                           },
@@ -2378,10 +2378,10 @@
                           "lValueRequested": false,
                           "memberName": "iterate_next",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5279,
+                          "referencedDeclaration": 5278,
                           "src": "1828:31:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
+                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
                             "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (uint256)"
                           }
                         },
@@ -2707,10 +2707,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              5952,
-                              5953
+                              5951,
+                              5952
                             ],
-                            "referencedDeclaration": 5952,
+                            "referencedDeclaration": 5951,
                             "src": "2349:7:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2806,7 +2806,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                        "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                         "typeString": "contract TokenDealerInterface"
                       },
                       "typeName": {
@@ -2814,10 +2814,10 @@
                         "id": 1786,
                         "name": "TokenDealerInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 4763,
+                        "referencedDeclaration": 4762,
                         "src": "2717:20:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                          "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                           "typeString": "contract TokenDealerInterface"
                         }
                       },
@@ -2844,7 +2844,7 @@
                               "referencedDeclaration": 1588,
                               "src": "2776:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               }
                             },
@@ -2855,10 +2855,10 @@
                             "lValueRequested": false,
                             "memberName": "data",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5077,
+                            "referencedDeclaration": 5076,
                             "src": "2776:19:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5072_storage_$",
                               "typeString": "mapping(string memory => struct TokenDealerMapping.IndexValue storage ref)"
                             }
                           },
@@ -2883,7 +2883,7 @@
                           "nodeType": "IndexAccess",
                           "src": "2776:27:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_IndexValue_$5073_storage",
+                            "typeIdentifier": "t_struct$_IndexValue_$5072_storage",
                             "typeString": "struct TokenDealerMapping.IndexValue storage ref"
                           }
                         },
@@ -2894,7 +2894,7 @@
                         "lValueRequested": false,
                         "memberName": "value",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5072,
+                        "referencedDeclaration": 5071,
                         "src": "2776:33:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2913,10 +2913,10 @@
                       "name": "TokenDealerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4763,
+                      "referencedDeclaration": 4762,
                       "src": "2755:20:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4763_$",
+                        "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4762_$",
                         "typeString": "type(contract TokenDealerInterface)"
                       }
                     },
@@ -2930,7 +2930,7 @@
                     "nodeType": "FunctionCall",
                     "src": "2755:55:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                      "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                       "typeString": "contract TokenDealerInterface"
                     }
                   },
@@ -2961,7 +2961,7 @@
                           "referencedDeclaration": 1787,
                           "src": "2829:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                             "typeString": "contract TokenDealerInterface"
                           }
                         },
@@ -3041,10 +3041,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5952,
-                        5953
+                        5951,
+                        5952
                       ],
-                      "referencedDeclaration": 5952,
+                      "referencedDeclaration": 5951,
                       "src": "2821:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -3128,10 +3128,10 @@
                           "name": "StringUtils",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5061,
+                          "referencedDeclaration": 5060,
                           "src": "2872:11:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_StringUtils_$5061_$",
+                            "typeIdentifier": "t_type$_t_contract$_StringUtils_$5060_$",
                             "typeString": "type(library StringUtils)"
                           }
                         },
@@ -3142,7 +3142,7 @@
                         "lValueRequested": false,
                         "memberName": "compare",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 4918,
+                        "referencedDeclaration": 4917,
                         "src": "2872:19:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_delegatecall_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_int256_$",
@@ -3206,7 +3206,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5949,
+                                "referencedDeclaration": 5948,
                                 "src": "3055:3:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -3278,7 +3278,7 @@
                               "referencedDeclaration": 1787,
                               "src": "3036:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                 "typeString": "contract TokenDealerInterface"
                               }
                             },
@@ -3289,7 +3289,7 @@
                             "lValueRequested": false,
                             "memberName": "buy",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 4743,
+                            "referencedDeclaration": 4742,
                             "src": "3036:18:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_payable$_t_address_$_t_uint256_$_t_address_$returns$_t_uint256_$",
@@ -3336,7 +3336,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5949,
+                                "referencedDeclaration": 5948,
                                 "src": "2968:3:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -3365,7 +3365,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5949,
+                                "referencedDeclaration": 5948,
                                 "src": "2980:3:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -3424,7 +3424,7 @@
                                   "name": "msg",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5949,
+                                  "referencedDeclaration": 5948,
                                   "src": "2957:3:2",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_magic_message",
@@ -3464,7 +3464,7 @@
                                   "referencedDeclaration": 1787,
                                   "src": "2932:14:2",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                    "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                     "typeString": "contract TokenDealerInterface"
                                   }
                                 },
@@ -3475,7 +3475,7 @@
                                 "lValueRequested": false,
                                 "memberName": "buy",
                                 "nodeType": "MemberAccess",
-                                "referencedDeclaration": 4743,
+                                "referencedDeclaration": 4742,
                                 "src": "2932:18:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_external_payable$_t_address_$_t_uint256_$_t_address_$returns$_t_uint256_$",
@@ -3734,7 +3734,7 @@
         "id": 1581,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 5774,
+        "sourceUnit": 5773,
         "src": "30:61:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -3745,7 +3745,7 @@
         "id": 1582,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 4764,
+        "sourceUnit": 4763,
         "src": "93:57:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -3756,7 +3756,7 @@
         "id": 1583,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 5309,
+        "sourceUnit": 5308,
         "src": "152:53:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -3767,7 +3767,7 @@
         "id": 1584,
         "nodeType": "ImportDirective",
         "scope": 1841,
-        "sourceUnit": 5062,
+        "sourceUnit": 5061,
         "src": "207:46:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -3781,10 +3781,10 @@
               "id": 1585,
               "name": "Claimable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5773,
+              "referencedDeclaration": 5772,
               "src": "283:9:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Claimable_$5773",
+                "typeIdentifier": "t_contract$_Claimable_$5772",
                 "typeString": "contract Claimable"
               }
             },
@@ -3794,8 +3794,8 @@
           }
         ],
         "contractDependencies": [
-          5773,
-          5859
+          5772,
+          5858
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -3803,8 +3803,8 @@
         "id": 1840,
         "linearizedBaseContracts": [
           1840,
-          5773,
-          5859
+          5772,
+          5858
         ],
         "name": "S3DProtocol",
         "nodeType": "ContractDefinition",
@@ -3819,7 +3819,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+              "typeIdentifier": "t_struct$_itmap_$5082_storage",
               "typeString": "struct TokenDealerMapping.itmap"
             },
             "typeName": {
@@ -3827,10 +3827,10 @@
               "id": 1587,
               "name": "TokenDealerMapping.itmap",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5083,
+              "referencedDeclaration": 5082,
               "src": "301:24:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_itmap_$5083_storage_ptr",
+                "typeIdentifier": "t_struct$_itmap_$5082_storage_ptr",
                 "typeString": "struct TokenDealerMapping.itmap"
               }
             },
@@ -3942,7 +3942,7 @@
                         "referencedDeclaration": 1588,
                         "src": "628:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         }
                       },
@@ -3976,7 +3976,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         },
                         {
@@ -3994,10 +3994,10 @@
                         "name": "TokenDealerMapping",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5308,
+                        "referencedDeclaration": 5307,
                         "src": "602:18:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                           "typeString": "type(library TokenDealerMapping)"
                         }
                       },
@@ -4008,10 +4008,10 @@
                       "lValueRequested": false,
                       "memberName": "insert",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5153,
+                      "referencedDeclaration": 5152,
                       "src": "602:25:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_string_memory_ptr_$_t_address_$returns$_t_bool_$",
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_string_memory_ptr_$_t_address_$returns$_t_bool_$",
                         "typeString": "function (struct TokenDealerMapping.itmap storage pointer,string memory,address) returns (bool)"
                       }
                     },
@@ -4045,7 +4045,7 @@
                       "referencedDeclaration": 1588,
                       "src": "684:14:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                        "typeIdentifier": "t_struct$_itmap_$5082_storage",
                         "typeString": "struct TokenDealerMapping.itmap storage ref"
                       }
                     },
@@ -4056,7 +4056,7 @@
                     "lValueRequested": false,
                     "memberName": "size",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5082,
+                    "referencedDeclaration": 5081,
                     "src": "684:19:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -4085,7 +4085,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 5807,
+                  "referencedDeclaration": 5806,
                   "src": "561:9:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -4219,7 +4219,7 @@
                           "referencedDeclaration": 1588,
                           "src": "801:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         },
@@ -4230,10 +4230,10 @@
                         "lValueRequested": false,
                         "memberName": "data",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5077,
+                        "referencedDeclaration": 5076,
                         "src": "801:19:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5073_storage_$",
+                          "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5072_storage_$",
                           "typeString": "mapping(string memory => struct TokenDealerMapping.IndexValue storage ref)"
                         }
                       },
@@ -4258,7 +4258,7 @@
                       "nodeType": "IndexAccess",
                       "src": "801:27:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_IndexValue_$5073_storage",
+                        "typeIdentifier": "t_struct$_IndexValue_$5072_storage",
                         "typeString": "struct TokenDealerMapping.IndexValue storage ref"
                       }
                     },
@@ -4269,7 +4269,7 @@
                     "lValueRequested": false,
                     "memberName": "value",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5072,
+                    "referencedDeclaration": 5071,
                     "src": "801:33:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -4382,7 +4382,7 @@
                       "referencedDeclaration": 1588,
                       "src": "914:14:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                        "typeIdentifier": "t_struct$_itmap_$5082_storage",
                         "typeString": "struct TokenDealerMapping.itmap storage ref"
                       }
                     },
@@ -4393,7 +4393,7 @@
                     "lValueRequested": false,
                     "memberName": "size",
                     "nodeType": "MemberAccess",
-                    "referencedDeclaration": 5082,
+                    "referencedDeclaration": 5081,
                     "src": "914:19:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
@@ -4530,7 +4530,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 5807,
+                  "referencedDeclaration": 5806,
                   "src": "1005:9:2",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -4655,7 +4655,7 @@
                               "referencedDeclaration": 1588,
                               "src": "1418:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               }
                             },
@@ -4676,7 +4676,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               },
                               {
@@ -4690,10 +4690,10 @@
                               "name": "TokenDealerMapping",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 5308,
+                              "referencedDeclaration": 5307,
                               "src": "1387:18:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                                 "typeString": "type(library TokenDealerMapping)"
                               }
                             },
@@ -4704,10 +4704,10 @@
                             "lValueRequested": false,
                             "memberName": "iterate_get",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5307,
+                            "referencedDeclaration": 5306,
                             "src": "1387:30:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
+                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
                               "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (string memory,address)"
                             }
                           },
@@ -4743,7 +4743,7 @@
                             "stateVariable": false,
                             "storageLocation": "default",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                               "typeString": "contract TokenDealerInterface"
                             },
                             "typeName": {
@@ -4751,10 +4751,10 @@
                               "id": 1684,
                               "name": "TokenDealerInterface",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 4763,
+                              "referencedDeclaration": 4762,
                               "src": "1451:20:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                 "typeString": "contract TokenDealerInterface"
                               }
                             },
@@ -4791,10 +4791,10 @@
                             "name": "TokenDealerInterface",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4763,
+                            "referencedDeclaration": 4762,
                             "src": "1489:20:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4763_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4762_$",
                               "typeString": "type(contract TokenDealerInterface)"
                             }
                           },
@@ -4808,7 +4808,7 @@
                           "nodeType": "FunctionCall",
                           "src": "1489:27:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                             "typeString": "contract TokenDealerInterface"
                           }
                         },
@@ -4852,7 +4852,7 @@
                                 "referencedDeclaration": 1685,
                                 "src": "1538:14:2",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                   "typeString": "contract TokenDealerInterface"
                                 }
                               },
@@ -4863,7 +4863,7 @@
                               "lValueRequested": false,
                               "memberName": "totalSupply",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4762,
+                              "referencedDeclaration": 4761,
                               "src": "1538:26:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -4908,7 +4908,7 @@
                         "referencedDeclaration": 1588,
                         "src": "1268:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         }
                       },
@@ -4929,7 +4929,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         },
                         {
@@ -4943,10 +4943,10 @@
                         "name": "TokenDealerMapping",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5308,
+                        "referencedDeclaration": 5307,
                         "src": "1235:18:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                           "typeString": "type(library TokenDealerMapping)"
                         }
                       },
@@ -4957,10 +4957,10 @@
                       "lValueRequested": false,
                       "memberName": "iterate_valid",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5249,
+                      "referencedDeclaration": 5248,
                       "src": "1235:32:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_bool_$",
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_bool_$",
                         "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (bool)"
                       }
                     },
@@ -5015,7 +5015,7 @@
                           "referencedDeclaration": 1588,
                           "src": "1218:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         }
@@ -5023,7 +5023,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         ],
@@ -5033,10 +5033,10 @@
                           "name": "TokenDealerMapping",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5308,
+                          "referencedDeclaration": 5307,
                           "src": "1185:18:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                             "typeString": "type(library TokenDealerMapping)"
                           }
                         },
@@ -5047,10 +5047,10 @@
                         "lValueRequested": false,
                         "memberName": "iterate_start",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5233,
+                        "referencedDeclaration": 5232,
                         "src": "1185:32:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$returns$_t_uint256_$",
+                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$returns$_t_uint256_$",
                           "typeString": "function (struct TokenDealerMapping.itmap storage pointer) returns (uint256)"
                         }
                       },
@@ -5106,7 +5106,7 @@
                             "referencedDeclaration": 1588,
                             "src": "1324:14:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             }
                           },
@@ -5127,7 +5127,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             },
                             {
@@ -5141,10 +5141,10 @@
                             "name": "TokenDealerMapping",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5308,
+                            "referencedDeclaration": 5307,
                             "src": "1292:18:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                               "typeString": "type(library TokenDealerMapping)"
                             }
                           },
@@ -5155,10 +5155,10 @@
                           "lValueRequested": false,
                           "memberName": "iterate_next",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5279,
+                          "referencedDeclaration": 5278,
                           "src": "1292:31:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
+                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
                             "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (uint256)"
                           }
                         },
@@ -5311,7 +5311,7 @@
                               "referencedDeclaration": 1588,
                               "src": "1954:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               }
                             },
@@ -5332,7 +5332,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               },
                               {
@@ -5346,10 +5346,10 @@
                               "name": "TokenDealerMapping",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 5308,
+                              "referencedDeclaration": 5307,
                               "src": "1923:18:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                                "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                                 "typeString": "type(library TokenDealerMapping)"
                               }
                             },
@@ -5360,10 +5360,10 @@
                             "lValueRequested": false,
                             "memberName": "iterate_get",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5307,
+                            "referencedDeclaration": 5306,
                             "src": "1923:30:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
+                              "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_address_$",
                               "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (string memory,address)"
                             }
                           },
@@ -5399,7 +5399,7 @@
                             "stateVariable": false,
                             "storageLocation": "default",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                              "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                               "typeString": "contract TokenDealerInterface"
                             },
                             "typeName": {
@@ -5407,10 +5407,10 @@
                               "id": 1733,
                               "name": "TokenDealerInterface",
                               "nodeType": "UserDefinedTypeName",
-                              "referencedDeclaration": 4763,
+                              "referencedDeclaration": 4762,
                               "src": "1987:20:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                 "typeString": "contract TokenDealerInterface"
                               }
                             },
@@ -5447,10 +5447,10 @@
                             "name": "TokenDealerInterface",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4763,
+                            "referencedDeclaration": 4762,
                             "src": "2025:20:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4763_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4762_$",
                               "typeString": "type(contract TokenDealerInterface)"
                             }
                           },
@@ -5464,7 +5464,7 @@
                           "nodeType": "FunctionCall",
                           "src": "2025:27:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                             "typeString": "contract TokenDealerInterface"
                           }
                         },
@@ -5527,7 +5527,7 @@
                                 "referencedDeclaration": 1734,
                                 "src": "2074:14:2",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                  "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                   "typeString": "contract TokenDealerInterface"
                                 }
                               },
@@ -5538,7 +5538,7 @@
                               "lValueRequested": false,
                               "memberName": "balanceOf",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4750,
+                              "referencedDeclaration": 4749,
                               "src": "2074:24:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -5583,7 +5583,7 @@
                         "referencedDeclaration": 1588,
                         "src": "1804:14:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         }
                       },
@@ -5604,7 +5604,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                          "typeIdentifier": "t_struct$_itmap_$5082_storage",
                           "typeString": "struct TokenDealerMapping.itmap storage ref"
                         },
                         {
@@ -5618,10 +5618,10 @@
                         "name": "TokenDealerMapping",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5308,
+                        "referencedDeclaration": 5307,
                         "src": "1771:18:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                          "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                           "typeString": "type(library TokenDealerMapping)"
                         }
                       },
@@ -5632,10 +5632,10 @@
                       "lValueRequested": false,
                       "memberName": "iterate_valid",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5249,
+                      "referencedDeclaration": 5248,
                       "src": "1771:32:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_bool_$",
+                        "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_bool_$",
                         "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (bool)"
                       }
                     },
@@ -5690,7 +5690,7 @@
                           "referencedDeclaration": 1588,
                           "src": "1754:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         }
@@ -5698,7 +5698,7 @@
                       "expression": {
                         "argumentTypes": [
                           {
-                            "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                            "typeIdentifier": "t_struct$_itmap_$5082_storage",
                             "typeString": "struct TokenDealerMapping.itmap storage ref"
                           }
                         ],
@@ -5708,10 +5708,10 @@
                           "name": "TokenDealerMapping",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5308,
+                          "referencedDeclaration": 5307,
                           "src": "1721:18:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                            "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                             "typeString": "type(library TokenDealerMapping)"
                           }
                         },
@@ -5722,10 +5722,10 @@
                         "lValueRequested": false,
                         "memberName": "iterate_start",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5233,
+                        "referencedDeclaration": 5232,
                         "src": "1721:32:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$returns$_t_uint256_$",
+                          "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$returns$_t_uint256_$",
                           "typeString": "function (struct TokenDealerMapping.itmap storage pointer) returns (uint256)"
                         }
                       },
@@ -5781,7 +5781,7 @@
                             "referencedDeclaration": 1588,
                             "src": "1860:14:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             }
                           },
@@ -5802,7 +5802,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                              "typeIdentifier": "t_struct$_itmap_$5082_storage",
                               "typeString": "struct TokenDealerMapping.itmap storage ref"
                             },
                             {
@@ -5816,10 +5816,10 @@
                             "name": "TokenDealerMapping",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5308,
+                            "referencedDeclaration": 5307,
                             "src": "1828:18:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5308_$",
+                              "typeIdentifier": "t_type$_t_contract$_TokenDealerMapping_$5307_$",
                               "typeString": "type(library TokenDealerMapping)"
                             }
                           },
@@ -5830,10 +5830,10 @@
                           "lValueRequested": false,
                           "memberName": "iterate_next",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5279,
+                          "referencedDeclaration": 5278,
                           "src": "1828:31:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5083_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
+                            "typeIdentifier": "t_function_delegatecall_nonpayable$_t_struct$_itmap_$5082_storage_ptr_$_t_uint256_$returns$_t_uint256_$",
                             "typeString": "function (struct TokenDealerMapping.itmap storage pointer,uint256) returns (uint256)"
                           }
                         },
@@ -6159,10 +6159,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              5952,
-                              5953
+                              5951,
+                              5952
                             ],
-                            "referencedDeclaration": 5952,
+                            "referencedDeclaration": 5951,
                             "src": "2349:7:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -6258,7 +6258,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                        "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                         "typeString": "contract TokenDealerInterface"
                       },
                       "typeName": {
@@ -6266,10 +6266,10 @@
                         "id": 1786,
                         "name": "TokenDealerInterface",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 4763,
+                        "referencedDeclaration": 4762,
                         "src": "2717:20:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                          "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                           "typeString": "contract TokenDealerInterface"
                         }
                       },
@@ -6296,7 +6296,7 @@
                               "referencedDeclaration": 1588,
                               "src": "2776:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_itmap_$5083_storage",
+                                "typeIdentifier": "t_struct$_itmap_$5082_storage",
                                 "typeString": "struct TokenDealerMapping.itmap storage ref"
                               }
                             },
@@ -6307,10 +6307,10 @@
                             "lValueRequested": false,
                             "memberName": "data",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5077,
+                            "referencedDeclaration": 5076,
                             "src": "2776:19:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5073_storage_$",
+                              "typeIdentifier": "t_mapping$_t_string_memory_$_t_struct$_IndexValue_$5072_storage_$",
                               "typeString": "mapping(string memory => struct TokenDealerMapping.IndexValue storage ref)"
                             }
                           },
@@ -6335,7 +6335,7 @@
                           "nodeType": "IndexAccess",
                           "src": "2776:27:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_struct$_IndexValue_$5073_storage",
+                            "typeIdentifier": "t_struct$_IndexValue_$5072_storage",
                             "typeString": "struct TokenDealerMapping.IndexValue storage ref"
                           }
                         },
@@ -6346,7 +6346,7 @@
                         "lValueRequested": false,
                         "memberName": "value",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5072,
+                        "referencedDeclaration": 5071,
                         "src": "2776:33:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -6365,10 +6365,10 @@
                       "name": "TokenDealerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 4763,
+                      "referencedDeclaration": 4762,
                       "src": "2755:20:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4763_$",
+                        "typeIdentifier": "t_type$_t_contract$_TokenDealerInterface_$4762_$",
                         "typeString": "type(contract TokenDealerInterface)"
                       }
                     },
@@ -6382,7 +6382,7 @@
                     "nodeType": "FunctionCall",
                     "src": "2755:55:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                      "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                       "typeString": "contract TokenDealerInterface"
                     }
                   },
@@ -6413,7 +6413,7 @@
                           "referencedDeclaration": 1787,
                           "src": "2829:14:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                            "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                             "typeString": "contract TokenDealerInterface"
                           }
                         },
@@ -6493,10 +6493,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5952,
-                        5953
+                        5951,
+                        5952
                       ],
-                      "referencedDeclaration": 5952,
+                      "referencedDeclaration": 5951,
                       "src": "2821:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -6580,10 +6580,10 @@
                           "name": "StringUtils",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5061,
+                          "referencedDeclaration": 5060,
                           "src": "2872:11:2",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_StringUtils_$5061_$",
+                            "typeIdentifier": "t_type$_t_contract$_StringUtils_$5060_$",
                             "typeString": "type(library StringUtils)"
                           }
                         },
@@ -6594,7 +6594,7 @@
                         "lValueRequested": false,
                         "memberName": "compare",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 4918,
+                        "referencedDeclaration": 4917,
                         "src": "2872:19:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_delegatecall_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_int256_$",
@@ -6658,7 +6658,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5949,
+                                "referencedDeclaration": 5948,
                                 "src": "3055:3:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -6730,7 +6730,7 @@
                               "referencedDeclaration": 1787,
                               "src": "3036:14:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                 "typeString": "contract TokenDealerInterface"
                               }
                             },
@@ -6741,7 +6741,7 @@
                             "lValueRequested": false,
                             "memberName": "buy",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 4743,
+                            "referencedDeclaration": 4742,
                             "src": "3036:18:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_payable$_t_address_$_t_uint256_$_t_address_$returns$_t_uint256_$",
@@ -6788,7 +6788,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5949,
+                                "referencedDeclaration": 5948,
                                 "src": "2968:3:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -6817,7 +6817,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 5949,
+                                "referencedDeclaration": 5948,
                                 "src": "2980:3:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -6876,7 +6876,7 @@
                                   "name": "msg",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 5949,
+                                  "referencedDeclaration": 5948,
                                   "src": "2957:3:2",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_magic_message",
@@ -6916,7 +6916,7 @@
                                   "referencedDeclaration": 1787,
                                   "src": "2932:14:2",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_contract$_TokenDealerInterface_$4763",
+                                    "typeIdentifier": "t_contract$_TokenDealerInterface_$4762",
                                     "typeString": "contract TokenDealerInterface"
                                   }
                                 },
@@ -6927,7 +6927,7 @@
                                 "lValueRequested": false,
                                 "memberName": "buy",
                                 "nodeType": "MemberAccess",
-                                "referencedDeclaration": 4743,
+                                "referencedDeclaration": 4742,
                                 "src": "2932:18:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_external_payable$_t_address_$_t_uint256_$_t_address_$returns$_t_uint256_$",
@@ -7163,7 +7163,17 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "10": {
+      "events": {},
+      "links": {
+        "StringUtils": "0x376f147ddca443fe3f8248637921611fb5ee3845",
+        "TokenDealerMapping": "0x3ceaed7566d636c7837dfc562e059c9712e966d1"
+      },
+      "address": "0xf4ce5aff86863ea4f777fd3d5f3cd1db3da08916",
+      "transactionHash": "0xfab42730cbbdd973e995d36d9a73722fba0753db3d449a6633cea372174da0b4"
+    }
+  },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-14T10:44:16.617Z"
+  "updatedAt": "2018-08-14T11:15:51.796Z"
 }
