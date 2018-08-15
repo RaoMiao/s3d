@@ -10,14 +10,14 @@ contract SeeleDealer is Claimable{
     =            MODIFIERS            =
     =================================*/
     // only people with tokens
-    modifier onlyBagholders() {
-        require(myTokens() > 0);
+    modifier onlyBagholders(address myAddress) {
+        require(balanceOf(myAddress) > 0);
         _;
     }
     
     // only people with profits
-    modifier onlyStronghands() {
-        require(myDividends(true) > 0);
+    modifier onlyStronghands(address myAddress) {
+        require(myDividends(myAddress, true) > 0);
         _;
     }
     
@@ -25,8 +25,8 @@ contract SeeleDealer is Claimable{
     // ensures that the first tokens in the contract will be equally distributed
     // meaning, no divine dump will be ever possible
     // result: healthy longevity.
-    modifier antiEarlyWhale(uint256 _amountOfEthereum){
-        address _customerAddress = msg.sender;
+    modifier antiEarlyWhale(address buyer, uint256 _amountOfEthereum){
+        address _customerAddress = buyer;
         
         // are we still in the vulnerable phase?
         // if so, enact anti early whale protocol 
@@ -112,8 +112,9 @@ contract SeeleDealer is Claimable{
     string public symbol = "Seele-S3D";
     uint8 constant public decimals = 18;
     uint8 constant internal dividendFee_ = 10;
-    uint256 constant internal tokenPriceInitial_ = 10 * 1e18;
-    uint256 constant internal tokenPriceIncremental_ = 1 * 1e18;
+
+    uint256 constant internal tokenPriceInitial_ = 0.0010356 * 1e18;
+    uint256 constant internal tokenPriceIncremental_ = 0.00010356 * 1e18;
     uint256 constant internal magnitude = 2**64;
     
     // proof of stake (defaults at 100 tokens)
@@ -145,9 +146,11 @@ contract SeeleDealer is Claimable{
     mapping(address => uint256) internal overSellTokenBalance_;
 
     uint256 internal tokenSupply_ = 0;
-    uint256 internal escapeTokenSuppley_ = 0;
-    uint256 internal overSellTokenAmount_ = 0;
     uint256 internal profitPerShare_;
+
+    //NEED DO!! change to internal
+    uint256 public escapeTokenSuppley_ = 0;
+    uint256 public overSellTokenAmount_ = 0;
     
  
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
@@ -174,14 +177,14 @@ contract SeeleDealer is Claimable{
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
-    function buy(address buyerAddress, uint256 seeleAmount, address _referredBy)
+    function buy(address buyer, uint256 seeleAmount, address _referredBy)
         public
         payable
         returns(uint256)
     {
         //transfer seele to contract
-        require(ERC20(seeleTokenAddress).transferFrom(buyerAddress, address(this), seeleAmount));
-        purchaseTokens(buyerAddress, seeleAmount, _referredBy);
+        require(ERC20(seeleTokenAddress).transferFrom(buyer, address(this), seeleAmount));
+        purchaseTokens(buyer, seeleAmount, _referredBy);
     }
     
     /*
@@ -197,15 +200,15 @@ contract SeeleDealer is Claimable{
     /**
      * Converts all of caller's dividends to tokens.
      */
-    function reinvest()
-        onlyStronghands()
+    function reinvest(address buyer)
+        onlyStronghands(buyer)
         public
     {
         // fetch dividends
-        uint256 _dividends = myDividends(false); // retrieve ref. bonus later in the code
+        uint256 _dividends = myDividends(buyer, false); // retrieve ref. bonus later in the code
         
         // pay out the dividends virtually
-        address _customerAddress = msg.sender;
+        address _customerAddress = buyer;
         payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
         
         // retrieve ref. bonus
@@ -222,28 +225,29 @@ contract SeeleDealer is Claimable{
     /**
      * Alias of sell() and withdraw().
      */
-    function exit()
+    function exit(address buyer)
         public
     {
         // get token count for caller & sell them all
-        address _customerAddress = msg.sender;
+        address _customerAddress = buyer;
         uint256 _tokens = tokenBalanceLedger_[_customerAddress];
-        if(_tokens > 0) sell(_tokens);
+        if(_tokens > 0) 
+            sell(buyer, _tokens);
         
         // lambo delivery service
-        withdraw();
+        withdraw(buyer);
     }
 
     /**
      * Withdraws all of the callers earnings.
      */
-    function withdraw()
-        onlyStronghands()
+    function withdraw(address buyer)
+        onlyStronghands(buyer)
         public
     {
         // setup data
-        address _customerAddress = msg.sender;
-        uint256 _dividends = myDividends(false); // get ref. bonus later in the code
+        address _customerAddress = buyer;
+        uint256 _dividends = myDividends(_customerAddress, false); // get ref. bonus later in the code
         
         // update dividend tracker
         payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
@@ -254,7 +258,7 @@ contract SeeleDealer is Claimable{
         
         // lambo delivery service
         //_customerAddress.transfer(_dividends);
-        ERC20(seeleTokenAddress).transfer(msg.sender, _dividends);
+        ERC20(seeleTokenAddress).transfer(_customerAddress, _dividends);
         
         // fire event
         emit onWithdraw(_customerAddress, _dividends);
@@ -263,12 +267,12 @@ contract SeeleDealer is Claimable{
     /**
      * Liquifies tokens to ethereum.
      */
-    function sell(uint256 _amountOfTokens)
-        onlyBagholders()
+    function sell(address seller, uint256 _amountOfTokens)
+        onlyBagholders(seller)
         public
     {
         // setup data
-        address _customerAddress = msg.sender;
+        address _customerAddress = seller;
         // russian hackers BTFO
         require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
         uint256 _tokens = _amountOfTokens;
@@ -299,49 +303,49 @@ contract SeeleDealer is Claimable{
      * Transfer tokens from the caller to a new holder.
      * Remember, there's a 10% fee here as well.
      */
-    function transfer(address _toAddress, uint256 _amountOfTokens)
-        onlyBagholders()
-        public
-        returns(bool)
-    {
-        // setup
-        address _customerAddress = msg.sender;
+    // function transfer(address _toAddress, uint256 _amountOfTokens)
+    //     onlyBagholders()
+    //     public
+    //     returns(bool)
+    // {
+    //     // setup
+    //     address _customerAddress = msg.sender;
         
-        // make sure we have the requested tokens
-        // also disables transfers until ambassador phase is over
-        // ( we dont want whale premines )
-        require(!onlyAmbassadors && _amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
+    //     // make sure we have the requested tokens
+    //     // also disables transfers until ambassador phase is over
+    //     // ( we dont want whale premines )
+    //     require(!onlyAmbassadors && _amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
         
-        // withdraw all outstanding dividends first
-        if(myDividends(true) > 0) withdraw();
+    //     // withdraw all outstanding dividends first
+    //     if(myDividends(true) > 0) withdraw();
         
-        // liquify 10% of the tokens that are transfered
-        // these are dispersed to shareholders
-        uint256 _tokenFee = SafeMath.div(_amountOfTokens, dividendFee_);
-        uint256 _taxedTokens = SafeMath.sub(_amountOfTokens, _tokenFee);
-        uint256 _dividends = tokensToSeele(_tokenFee);
+    //     // liquify 10% of the tokens that are transfered
+    //     // these are dispersed to shareholders
+    //     uint256 _tokenFee = SafeMath.div(_amountOfTokens, dividendFee_);
+    //     uint256 _taxedTokens = SafeMath.sub(_amountOfTokens, _tokenFee);
+    //     uint256 _dividends = tokensToSeele(_tokenFee);
   
-        // burn the fee tokens
-        tokenSupply_ = SafeMath.sub(tokenSupply_, _tokenFee);
+    //     // burn the fee tokens
+    //     tokenSupply_ = SafeMath.sub(tokenSupply_, _tokenFee);
 
-        // exchange tokens
-        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _amountOfTokens);
-        tokenBalanceLedger_[_toAddress] = SafeMath.add(tokenBalanceLedger_[_toAddress], _taxedTokens);
+    //     // exchange tokens
+    //     tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _amountOfTokens);
+    //     tokenBalanceLedger_[_toAddress] = SafeMath.add(tokenBalanceLedger_[_toAddress], _taxedTokens);
         
-        // update dividend trackers
-        payoutsTo_[_customerAddress] -= (int256) (profitPerShare_ * _amountOfTokens);
-        payoutsTo_[_toAddress] += (int256) (profitPerShare_ * _taxedTokens);
+    //     // update dividend trackers
+    //     payoutsTo_[_customerAddress] -= (int256) (profitPerShare_ * _amountOfTokens);
+    //     payoutsTo_[_toAddress] += (int256) (profitPerShare_ * _taxedTokens);
         
-        // disperse dividends among holders
-        profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / tokenSupply_);
+    //     // disperse dividends among holders
+    //     profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / tokenSupply_);
         
-        // fire event
-        emit Transfer(_customerAddress, _toAddress, _taxedTokens);
+    //     // fire event
+    //     emit Transfer(_customerAddress, _toAddress, _taxedTokens);
         
-        // ERC20
-        return true;
+    //     // ERC20
+    //     return true;
        
-    }
+    // }
     
     /*----------  ADMINISTRATOR ONLY FUNCTIONS  ----------*/
     /**
@@ -409,17 +413,6 @@ contract SeeleDealer is Claimable{
         return tokenSupply_;
     }
     
-    /**
-     * Retrieve the tokens owned by the caller.
-     */
-    function myTokens()
-        public
-        view
-        returns(uint256)
-    {
-        address _customerAddress = msg.sender;
-        return balanceOf(_customerAddress);
-    }
     
     /**
      * Retrieve the dividends owned by the caller.
@@ -427,12 +420,12 @@ contract SeeleDealer is Claimable{
      * The reason for this, is that in the frontend, we will want to get the total divs (global + ref)
      * But in the internal calculations, we want them separate. 
      */ 
-    function myDividends(bool _includeReferralBonus) 
+    function myDividends(address myAddress, bool _includeReferralBonus) 
         public 
         view 
         returns(uint256)
     {
-        address _customerAddress = msg.sender;
+        address _customerAddress = myAddress;
         return _includeReferralBonus ? dividendsOf(_customerAddress) + referralBalance_[_customerAddress] : dividendsOf(_customerAddress) ;
     }
     
@@ -458,6 +451,14 @@ contract SeeleDealer is Claimable{
         return (uint256) ((int256)(profitPerShare_ * tokenBalanceLedger_[_customerAddress]) - payoutsTo_[_customerAddress]) / magnitude;
     }
     
+    function referralBalanceOf(address _customerAddress)
+        view
+        public 
+        returns(uint256)
+    {
+        return referralBalance_[_customerAddress];
+    }
+
     /**
      * Return the buy price of 1 individual token.
      */
@@ -511,10 +512,21 @@ contract SeeleDealer is Claimable{
         return _amountOfTokens;
     }
     
+    function calculateBuyTokenSpend(uint256 _tokensToBuy)
+        public 
+        view
+        returns(uint256)
+    {
+        uint256 _seeleAmount = tokensToSeele(_tokensToBuy);
+        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
+        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
+        return _taxedSeele;
+    }
+
     /**
      * Function for the frontend to dynamically retrieve the price scaling of sell orders.
      */
-    function calculateSeeleReceived(uint256 _tokensToSell) 
+    function calculateBuyTokenReceived(uint256 _tokensToSell) 
         public 
         view 
         returns(uint256)
@@ -526,17 +538,17 @@ contract SeeleDealer is Claimable{
         return _taxedSeele;
     }
     
-    
+
     /*==========================================
     =            INTERNAL FUNCTIONS            =
     ==========================================*/
     function purchaseTokens(address buyer, uint256 _incomingSeele, address _referredBy)
-        antiEarlyWhale(_incomingSeele)
+        antiEarlyWhale(buyer, _incomingSeele)
         internal
         returns(uint256)
     {
         // data setup
-        address _customerAddress = buyer;
+        //address _customerAddress = buyer;
         uint256 _undividedDividends = SafeMath.div(_incomingSeele, dividendFee_);
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);
@@ -556,7 +568,7 @@ contract SeeleDealer is Claimable{
             _referredBy != 0x0000000000000000000000000000000000000000 &&
 
             // no cheating!
-            _referredBy != _customerAddress &&
+            _referredBy != buyer &&
             
             // does the referrer have at least X whole tokens?
             // i.e is the referrer a godly chad masternode
@@ -591,15 +603,16 @@ contract SeeleDealer is Claimable{
         }
         
         // update circulating supply & the ledger address for the customer
-        tokenBalanceLedger_[_customerAddress] = SafeMath.add(tokenBalanceLedger_[_customerAddress], _amountOfTokens);
+        tokenBalanceLedger_[buyer] = SafeMath.add(tokenBalanceLedger_[buyer], _amountOfTokens);
         
         // Tells the contract that the buyer doesn't deserve dividends for the tokens before they owned them;
         //really i know you think you do but you don't
-        int256 _updatedPayouts = (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
-        payoutsTo_[_customerAddress] += _updatedPayouts;
+
+        //int256 _updatedPayouts = (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
+        payoutsTo_[buyer] += (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
         
         // fire event
-        emit onTokenPurchase(_customerAddress, _incomingSeele, _amountOfTokens, _referredBy);
+        emit onTokenPurchase(buyer, _incomingSeele, _amountOfTokens, _referredBy);
         
         return _amountOfTokens;
     }
@@ -625,7 +638,7 @@ contract SeeleDealer is Claimable{
                         (
                             (_tokenPriceInitial**2)
                             +
-                            (2*(tokenPriceIncremental_ )*(seeleAmount ))
+                            (2*(tokenPriceIncremental_ * 1e18 )*(seeleAmount * 1e18))
                             +
                             (((tokenPriceIncremental_)**2)*(tokenSupply_**2))
                             +
@@ -693,10 +706,13 @@ contract SeeleDealer is Claimable{
     }
 
     //NEW FUNCTION        
-    function escapeTokens(uint256 _amountOfTokens) onlyBagholders() public returns(uint256)
+    function escapeTokens(address sellerAddress, uint256 _amountOfTokens) 
+        onlyBagholders(sellerAddress) 
+        public 
+        returns(uint256)
     {
         // setup data
-        address _customerAddress = msg.sender;
+        address _customerAddress = sellerAddress;
 
         // russian hackers BTFO
         require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
@@ -718,13 +734,13 @@ contract SeeleDealer is Claimable{
     }
 
     //套利
-    function arbitrageTokens(address sellTokenAddress, uint256 _amountOfTokens) public
+    function arbitrageTokens(address sellerAddress, address sellTokenAddress, uint256 _amountOfTokens) public
     {
         // setup data
-        address _customerAddress = msg.sender;
+        address _customerAddress = sellerAddress;
         
         TokenDealerInterface escapeContract = TokenDealerInterface(sellTokenAddress);
-        uint256 _tokens = escapeContract.escapeTokens(_amountOfTokens);
+        uint256 _tokens = escapeContract.escapeTokens(_customerAddress, _amountOfTokens);
 
         require(_tokens == _amountOfTokens);
 
@@ -751,7 +767,7 @@ contract SeeleDealer is Claimable{
         
         // lambo delivery service
         //_customerAddress.transfer(_taxedEthereum);
-        ERC20(seeleTokenAddress).transfer(msg.sender, _taxedSeele);
+        ERC20(seeleTokenAddress).transfer(_customerAddress, _taxedSeele);
 
         // fire event
         emit onTokenArbitrage(_customerAddress, _tokens, _taxedSeele);
