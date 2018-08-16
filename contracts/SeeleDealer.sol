@@ -142,8 +142,8 @@ contract SeeleDealer is Claimable{
     mapping(address => uint256) internal referralBalance_;
     mapping(address => int256) internal payoutsTo_;
     mapping(address => uint256) internal ambassadorAccumulatedQuota_;
-    mapping(address => uint256) internal escapeTokenBalance_;
-    mapping(address => uint256) internal overSellTokenBalance_;
+    mapping(address => uint256) public escapeTokenBalance_;
+    mapping(address => uint256) public overSellTokenBalance_;
 
     uint256 internal tokenSupply_ = 0;
     uint256 internal profitPerShare_;
@@ -200,27 +200,52 @@ contract SeeleDealer is Claimable{
     /**
      * Converts all of caller's dividends to tokens.
      */
-    function reinvest(address buyer)
+    function reinvest(address buyer, uint buyAmount)
         onlyStronghands(buyer)
         public
     {
         // fetch dividends
         uint256 _dividends = myDividends(buyer, false); // retrieve ref. bonus later in the code
-        
-        // pay out the dividends virtually
-        address _customerAddress = buyer;
-        payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
-        
-        // retrieve ref. bonus
-        _dividends += referralBalance_[_customerAddress];
-        referralBalance_[_customerAddress] = 0;
-        
+        uint256 _referralBalance = referralBalance_[buyer];
+        require(buyAmount <= (_dividends + _referralBalance));
+
+        if (buyAmount <= _dividends) {
+            // pay out the dividends virtually
+            payoutsTo_[buyer] +=  (int256)(buyAmount * magnitude);
+        } else {
+            payoutsTo_[buyer] +=  (int256) (_dividends * magnitude);
+            // retrieve ref. bonus
+            referralBalance_[buyer] = SafeMath.sub(referralBalance_[buyer], buyAmount - _dividends);
+        }
+                
         // dispatch a buy order with the virtualized "withdrawn dividends"
-        uint256 _tokens = purchaseTokens(_customerAddress, _dividends, 0x0);
+        uint256 _tokens = purchaseTokens(buyer, buyAmount, 0x0);
         
         // fire event
-        emit onReinvestment(_customerAddress, _dividends, _tokens);
+        emit onReinvestment(buyer, buyAmount, _tokens);
     }
+
+    // function reinvest(address buyer)
+    //     onlyStronghands(buyer)
+    //     public
+    // {
+    //     // fetch dividends
+    //     uint256 _dividends = myDividends(buyer, false); // retrieve ref. bonus later in the code
+        
+    //     // pay out the dividends virtually
+    //     address _customerAddress = buyer;
+    //     payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
+        
+    //     // retrieve ref. bonus
+    //     _dividends += referralBalance_[_customerAddress];
+    //     referralBalance_[_customerAddress] = 0;
+        
+    //     // dispatch a buy order with the virtualized "withdrawn dividends"
+    //     uint256 _tokens = purchaseTokens(_customerAddress, _dividends, 0x0);
+        
+    //     // fire event
+    //     emit onReinvestment(_customerAddress, _dividends, _tokens);
+    // }
     
     /**
      * Alias of sell() and withdraw().
@@ -262,6 +287,33 @@ contract SeeleDealer is Claimable{
         
         // fire event
         emit onWithdraw(_customerAddress, _dividends);
+    }
+
+    function withdraw(address buyer, uint256 withdrawAmount)
+        onlyStronghands(buyer)
+        public
+    {
+        // setup data
+        uint256 _dividends = myDividends(buyer, false); // get ref. bonus later in the code
+        uint256 _referralBalance = referralBalance_[buyer];
+        require(withdrawAmount <= (_dividends + _referralBalance));
+
+        if (withdrawAmount <= _dividends) {
+            // pay out the dividends virtually
+            payoutsTo_[buyer] +=  (int256)(withdrawAmount * magnitude);
+        } else {
+            // retrieve ref. bonus
+            payoutsTo_[buyer] +=  (int256) (_dividends * magnitude);
+            referralBalance_[buyer] = SafeMath.sub(referralBalance_[buyer], withdrawAmount - _dividends);
+        }
+        
+        
+        // lambo delivery service
+        //_customerAddress.transfer(withdrawAmount);
+        ERC20(seeleTokenAddress).transfer(buyer, _dividends);
+        
+        // fire event
+        emit onWithdraw(buyer, withdrawAmount);
     }
     
     /**
@@ -694,15 +746,14 @@ contract SeeleDealer is Claimable{
         }
     }
 
-    //不用给套利的token分红
     function getDividendTokenAmount() internal view returns (uint256) {
         //exclude escape token
-        return tokenSupply_ - escapeTokenSuppley_;
+        return SafeMath.sub(tokenSupply_ , escapeTokenSuppley_);
     }
 
     //计价的token要排除oversell的token
     function getPricedTokenAmount() internal view returns (uint256) {
-        return tokenSupply_ - overSellTokenAmount_;
+        return SafeMath.sub(tokenSupply_, overSellTokenAmount_);
     }
 
     //NEW FUNCTION        
@@ -736,6 +787,8 @@ contract SeeleDealer is Claimable{
     //套利
     function arbitrageTokens(address sellerAddress, address sellTokenAddress, uint256 _amountOfTokens) public
     {
+        require(_amountOfTokens <= getPricedTokenAmount());
+        
         // setup data
         address _customerAddress = sellerAddress;
         
@@ -746,6 +799,8 @@ contract SeeleDealer is Claimable{
 
         // russian hackers BTFO
         uint256 _seeleAmount = tokensToSeele(_tokens);
+        require(_seeleAmount <= totalBalance());        
+
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
         uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
         

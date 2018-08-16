@@ -6,18 +6,50 @@ import "../contracts/interface/TokenDealerInterface.sol";
 import "../contracts/library/TokenDealerMapping.sol";
 import "../contracts/library/StringUtils.sol";
 
+contract Console {
+    event LogUint(string, uint);
+    function log(string s , uint x) internal {
+        emit LogUint(s, x);
+    }
+    
+    event LogInt(string, int);
+    function log(string s , int x) internal {
+        emit LogInt(s, x);
+    }
+    
+    event LogBytes(string, bytes);
+    function log(string s , bytes x) internal {
+        emit LogBytes(s, x);
+    }
+    
+    event LogBytes32(string, bytes32);
+    function log(string s , bytes32 x) internal {
+        emit LogBytes32(s, x);
+    }
 
-contract S3DProtocol is Claimable{
+    event LogAddress(string, address);
+    function log(string s , address x) internal {
+        emit LogAddress(s, x);
+    }
+
+    event LogBool(string, bool);
+    function log(string s , bool x) internal {
+        emit LogBool(s, x);
+    }
+}
+
+contract S3DProtocol is Claimable, Console{
 
     TokenDealerMapping.itmap tokenDealerMap;
 
     // proof of stake (defaults at 100 tokens)
     uint256 public stakingRequirement = 100e18;
 
-    uint256 public arbitrageRequirement = 300e18;
+    uint256 public arbitrageRequirement = 1000e18;
 
     string constant public ethSymbol = "eth";
 
+    
     function addDealer(string symbol, address dealerAddress) public onlyOwner returns (uint size) {
         TokenDealerMapping.insert(tokenDealerMap, symbol, dealerAddress);
         return tokenDealerMap.size;
@@ -36,15 +68,15 @@ contract S3DProtocol is Claimable{
     }
     
     //add all s3d
-    function balanceOf(address _customerAddress) public view returns (uint256 sum) {
-        for (var i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
+    function totalBalanceOf(address _customerAddress) public view returns (uint256 sum) {
+        for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
         {
             string memory key;
-            address value; 
+            address value;
             (key, value) = TokenDealerMapping.iterate_get(tokenDealerMap, i);
             TokenDealerInterface dealerContract = TokenDealerInterface(value);
             sum += dealerContract.balanceOf(_customerAddress);
-        }
+        }     
     }
 
     function balanceOf(string symbol, address _customerAddress) public view returns (uint256) {
@@ -56,7 +88,8 @@ contract S3DProtocol is Claimable{
     //add all s3d
     function totalSupply() public view returns (uint256 sum) 
     {
-        for (var i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
+        sum = 0;
+        for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
         {
             string memory key;
             address value;
@@ -70,7 +103,7 @@ contract S3DProtocol is Claimable{
         // are we still in the vulnerable phase?
         // if so, enact anti early whale protocol 
         if( _referredBy != address(0)){
-            require(balanceOf(_referredBy) >= stakingRequirement);
+            require(totalBalanceOf(_referredBy) >= stakingRequirement);
             
             // execute
             _;
@@ -81,7 +114,7 @@ contract S3DProtocol is Claimable{
     }
 
     modifier arbitrageBarrier() {
-        require(balanceOf(msg.sender) >= arbitrageRequirement);
+        require(totalBalanceOf(msg.sender) >= arbitrageRequirement);
         _;
     }
 
@@ -100,10 +133,10 @@ contract S3DProtocol is Claimable{
         }
     }
 
-    function reinvest(string symbol) public{
+    function reinvest(string symbol, uint256 buyAmount) public{
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
-        dealerContract.reinvest(msg.sender);
+        dealerContract.reinvest(msg.sender, buyAmount);
     }
 
     function exit(string symbol) public {
@@ -125,10 +158,10 @@ contract S3DProtocol is Claimable{
         }
     }
 
-    function withdraw(string symbol) public{
+    function withdraw(string symbol, uint256 withdrawAmount) public{
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
-        dealerContract.withdraw(msg.sender);
+        dealerContract.withdraw(msg.sender, withdrawAmount);
     }
 
     function sell(string symbol, uint256 _amountOfTokens) public {
@@ -195,10 +228,10 @@ contract S3DProtocol is Claimable{
         arbitrageBarrier()
         public 
     {
-        TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[fromSymbol].value);
+        TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[sellSymbol].value);
         require(dealerContract != address(0));
-        address toDealerContractAddress = tokenDealerMap.data[sellSymbol].value;
-        require(toDealerContractAddress != address(0));
-        dealerContract.arbitrageTokens(msg.sender, toDealerContractAddress, _amountOfTokens);
+        address fromDealerContractAddress = tokenDealerMap.data[fromSymbol].value;
+        require(fromDealerContractAddress != address(0));
+        dealerContract.arbitrageTokens(msg.sender, fromDealerContractAddress, _amountOfTokens);
     }
 }

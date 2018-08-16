@@ -5,9 +5,10 @@ interface TokenDealerInterface{
     function balanceOf(address _customerAddress) public view returns(uint256);
     function escapeTokens(address sellerAddress, uint256 _amountOfTokens) public returns(uint256);
     function totalSupply() public view returns(uint256);
-    function reinvest(address buyer) public;
+    function reinvest(address buyer, uint256 buyAmount) public;
     function exit(address buyer) public;
     function withdraw(address buyer) public;
+    function withdraw(address buyer, uint256 withdrawAmount) public;
     function sell(address buyer, uint256 _amountOfTokens) public; 
     function totalBalance() public view returns(uint);
     function myDividends(address myAddress, bool _includeReferralBonus) public view returns(uint256);

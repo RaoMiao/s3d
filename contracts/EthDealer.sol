@@ -133,8 +133,9 @@ contract EthDealer is Claimable{
     mapping(address => uint256) internal referralBalance_;
     mapping(address => int256) internal payoutsTo_;
     mapping(address => uint256) internal ambassadorAccumulatedQuota_;
-    mapping(address => uint256) internal escapeTokenBalance_;
-    mapping(address => uint256) internal overSellTokenBalance_;
+
+    mapping(address => uint256) public escapeTokenBalance_;
+    mapping(address => uint256) public overSellTokenBalance_;
 
     uint256 internal tokenSupply_ = 0;
     uint256 internal profitPerShare_;
@@ -188,27 +189,52 @@ contract EthDealer is Claimable{
      * Converts all of caller's dividends to tokens.
      */
     //将当前所有分红拿去再投资
-    function reinvest(address buyer)
+    // function reinvest(address buyer)
+    //     onlyStronghands(buyer)
+    //     public
+    // {
+    //     // fetch dividends
+    //     uint256 _dividends = myDividends(buyer, false); // retrieve ref. bonus later in the code
+        
+    //     // pay out the dividends virtually
+    //     address _customerAddress = buyer;
+    //     payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
+        
+    //     // retrieve ref. bonus
+    //     _dividends += referralBalance_[_customerAddress];
+    //     referralBalance_[_customerAddress] = 0;
+        
+    //     // dispatch a buy order with the virtualized "withdrawn dividends"
+    //     uint256 _tokens = purchaseTokens(_customerAddress, _dividends, 0x0);
+        
+    //     // fire event
+    //     emit onReinvestment(_customerAddress, _dividends, _tokens);
+    // }
+    function reinvest(address buyer, uint buyAmount)
         onlyStronghands(buyer)
         public
     {
         // fetch dividends
         uint256 _dividends = myDividends(buyer, false); // retrieve ref. bonus later in the code
-        
-        // pay out the dividends virtually
-        address _customerAddress = buyer;
-        payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
-        
-        // retrieve ref. bonus
-        _dividends += referralBalance_[_customerAddress];
-        referralBalance_[_customerAddress] = 0;
-        
+        uint256 _referralBalance = referralBalance_[buyer];
+        require(buyAmount <= (_dividends + _referralBalance));
+
+        if (buyAmount <= _dividends) {
+            // pay out the dividends virtually
+            payoutsTo_[buyer] +=  (int256)(buyAmount * magnitude);
+        } else {
+            // retrieve ref. bonus
+            payoutsTo_[buyer] +=  (int256) (_dividends * magnitude);
+            referralBalance_[buyer] = SafeMath.sub(referralBalance_[buyer], buyAmount - _dividends);
+        }
+                
         // dispatch a buy order with the virtualized "withdrawn dividends"
-        uint256 _tokens = purchaseTokens(_customerAddress, _dividends, 0x0);
+        uint256 _tokens = purchaseTokens(buyer, buyAmount, 0x0);
         
         // fire event
-        emit onReinvestment(_customerAddress, _dividends, _tokens);
+        emit onReinvestment(buyer, buyAmount, _tokens);
     }
+
     
     /**
      * Alias of sell() and withdraw().
@@ -252,6 +278,31 @@ contract EthDealer is Claimable{
         emit onWithdraw(_customerAddress, _dividends);
     }
     
+    function withdraw(address buyer, uint256 withdrawAmount)
+        onlyStronghands(buyer)
+        public
+    {
+        // setup data
+        uint256 _dividends = myDividends(buyer, false); // get ref. bonus later in the code
+        uint256 _referralBalance = referralBalance_[buyer];
+        require(withdrawAmount <= (_dividends + _referralBalance));
+
+        if (withdrawAmount <= _dividends) {
+            // pay out the dividends virtually
+            payoutsTo_[buyer] +=  (int256)(withdrawAmount * magnitude);
+        } else {
+            // retrieve ref. bonus
+            payoutsTo_[buyer] +=  (int256) (_dividends * magnitude);
+            referralBalance_[buyer] = SafeMath.sub(referralBalance_[buyer], withdrawAmount - _dividends);
+        }
+        
+        
+        // lambo delivery service
+        buyer.transfer(withdrawAmount);
+        
+        // fire event
+        emit onWithdraw(buyer, withdrawAmount);
+    }
     /**
      * Liquifies tokens to ethereum.
      */
@@ -273,8 +324,9 @@ contract EthDealer is Claimable{
         tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
         
         // update dividends tracker
-        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
-        payoutsTo_[_customerAddress] -= _updatedPayouts;       
+        //int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
+        //payoutsTo_[_customerAddress] -= _updatedPayouts;       
+
         
         // dividing by zero is a bad idea
         uint256 dividendTokenAmount_ =  getDividendTokenAmount();
@@ -615,7 +667,7 @@ contract EthDealer is Claimable{
     {
         uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
         uint256 _tokenSupply =  getPricedTokenAmount();
-        uint256 _tokensReceived = 
+        uint256 _tokensReceived =  
          (
             (
                 // underflow attempts BTFO
@@ -683,12 +735,12 @@ contract EthDealer is Claimable{
     //不用给套利的token分红
     function getDividendTokenAmount() internal view returns (uint256) {
         //exclude escape token
-        return tokenSupply_ - escapeTokenSuppley_;
+        return SafeMath.sub(tokenSupply_ , escapeTokenSuppley_);
     }
 
     //计价的token要排除oversell的token
     function getPricedTokenAmount() internal view returns (uint256) {
-        return tokenSupply_ - overSellTokenAmount_;
+        return SafeMath.sub(tokenSupply_, overSellTokenAmount_);
     }
 
 
@@ -721,6 +773,8 @@ contract EthDealer is Claimable{
 
     function arbitrageTokens(address sellerAddress, address sellTokenAddress, uint256 _amountOfTokens) public
     {
+        require(_amountOfTokens <= getPricedTokenAmount());
+        
         // setup data
         address _customerAddress = sellerAddress;
         
@@ -731,6 +785,8 @@ contract EthDealer is Claimable{
 
         // russian hackers BTFO
         uint256 _ethereum = tokensToEthereum_(_tokens);
+        require(_ethereum <= totalBalance());
+
         uint256 _dividends = SafeMath.div(_ethereum, dividendFee_);
         uint256 _taxedEthereum = SafeMath.sub(_ethereum, _dividends);
         

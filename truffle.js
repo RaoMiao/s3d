@@ -20,6 +20,11 @@ module.exports = {
       host: 'localhost',
       port: 8545,
       network_id: '*'
-    }
+    },
+    privatenet: {
+      host: '106.75.15.248',
+      port: 8546,
+      network_id: '*'
+    },
   }
 };
