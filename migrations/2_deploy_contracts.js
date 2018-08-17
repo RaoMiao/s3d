@@ -51,6 +51,9 @@ module.exports = function(deployer) {
 
         EthDealerInstance.disableInitialStage();
         SeeleDealerInstance.disableInitialStage();
+
+        EthDealerInstance.addAddressToWhitelist(S3DProtocolInstance.address);
+        SeeleDealerInstance.addAddressToWhitelist(S3DProtocolInstance.address);
         
         SeeleTokenInst.unpause().then(function(){
           SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);

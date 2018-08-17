@@ -2,9 +2,10 @@ pragma solidity ^0.4.21;
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "zeppelin-solidity/contracts/access/Whitelist.sol";
 import "../contracts/interface/TokenDealerInterface.sol";
 
-contract SeeleDealer is Claimable{ 
+contract SeeleDealer is Claimable, Whitelist{ 
 
     /*=================================
     =            MODIFIERS            =
@@ -125,14 +126,6 @@ contract SeeleDealer is Claimable{
     uint256 constant internal ambassadorMaxPurchase_ = 10000;
     uint256 constant internal ambassadorQuota_ = 200000;
     
-    
-    mapping(address => bool) public authorizedAddressInfos;
-    modifier onlyAuthorized()
-    {
-        require(authorizedAddressInfos[msg.sender]);
-        _;
-    }
-
     address public seeleTokenAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
    /*================================
     =            DATASETS            =
@@ -142,6 +135,7 @@ contract SeeleDealer is Claimable{
     mapping(address => uint256) internal referralBalance_;
     mapping(address => int256) internal payoutsTo_;
     mapping(address => uint256) internal ambassadorAccumulatedQuota_;
+
     mapping(address => uint256) public escapeTokenBalance_;
     mapping(address => uint256) public overSellTokenBalance_;
 
@@ -180,6 +174,7 @@ contract SeeleDealer is Claimable{
     function buy(address buyer, uint256 seeleAmount, address _referredBy)
         public
         payable
+        onlyIfWhitelisted(msg.sender)
         returns(uint256)
     {
         //transfer seele to contract
@@ -202,6 +197,7 @@ contract SeeleDealer is Claimable{
      */
     function reinvest(address buyer, uint buyAmount)
         onlyStronghands(buyer)
+        onlyIfWhitelisted(msg.sender)
         public
     {
         // fetch dividends
@@ -251,6 +247,7 @@ contract SeeleDealer is Claimable{
      * Alias of sell() and withdraw().
      */
     function exit(address buyer)
+        onlyIfWhitelisted(msg.sender)
         public
     {
         // get token count for caller & sell them all
@@ -268,6 +265,7 @@ contract SeeleDealer is Claimable{
      */
     function withdraw(address buyer)
         onlyStronghands(buyer)
+        onlyIfWhitelisted(msg.sender)
         public
     {
         // setup data
@@ -291,6 +289,7 @@ contract SeeleDealer is Claimable{
 
     function withdraw(address buyer, uint256 withdrawAmount)
         onlyStronghands(buyer)
+        onlyIfWhitelisted(msg.sender)
         public
     {
         // setup data
@@ -321,6 +320,7 @@ contract SeeleDealer is Claimable{
      */
     function sell(address seller, uint256 _amountOfTokens)
         onlyBagholders(seller)
+        onlyIfWhitelisted(msg.sender)
         public
     {
         // setup data
@@ -520,7 +520,7 @@ contract SeeleDealer is Claimable{
         returns(uint256)
     {
         // our calculation relies on the token supply, so we need supply. Doh.
-        if(tokenSupply_ == 0){
+        if(getPricedTokenAmount() == 0){
             return tokenPriceInitial_ - tokenPriceIncremental_;
         } else {
             uint256 _seeleAmount = tokensToSeele(1e18);
@@ -539,7 +539,7 @@ contract SeeleDealer is Claimable{
         returns(uint256)
     {
         // our calculation relies on the token supply, so we need supply. Doh.
-        if(tokenSupply_ == 0){
+        if(getPricedTokenAmount() == 0){
             return tokenPriceInitial_ + tokenPriceIncremental_;
         } else {
             uint256 _seeleAmount = tokensToSeele(1e18);
@@ -583,7 +583,7 @@ contract SeeleDealer is Claimable{
         view 
         returns(uint256)
     {
-        require(_tokensToSell <= tokenSupply_);
+        require(_tokensToSell <= getPricedTokenAmount());
         uint256 _seeleAmount = tokensToSeele(_tokensToSell);
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
         uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
@@ -620,11 +620,11 @@ contract SeeleDealer is Claimable{
             _referredBy != 0x0000000000000000000000000000000000000000 &&
 
             // no cheating!
-            _referredBy != buyer &&
+            _referredBy != buyer
             
             // does the referrer have at least X whole tokens?
             // i.e is the referrer a godly chad masternode
-            tokenBalanceLedger_[_referredBy] >= stakingRequirement
+            //tokenBalanceLedger_[_referredBy] >= stakingRequirement
         ){
             // wealth redistribution
             referralBalance_[_referredBy] = SafeMath.add(referralBalance_[_referredBy], _referralBonus);
@@ -746,19 +746,22 @@ contract SeeleDealer is Claimable{
         }
     }
 
+    //不用给套利的token分红
     function getDividendTokenAmount() internal view returns (uint256) {
         //exclude escape token
-        return SafeMath.sub(tokenSupply_ , escapeTokenSuppley_);
+        //return SafeMath.sub(tokenSupply_ , escapeTokenSuppley_);
+        return tokenSupply_;
     }
 
     //计价的token要排除oversell的token
     function getPricedTokenAmount() internal view returns (uint256) {
-        return SafeMath.sub(tokenSupply_, overSellTokenAmount_);
+        return SafeMath.sub(SafeMath.add(tokenSupply_, escapeTokenSuppley_), overSellTokenAmount_);
     }
 
     //NEW FUNCTION        
     function escapeTokens(address sellerAddress, uint256 _amountOfTokens) 
         onlyBagholders(sellerAddress) 
+        onlyIfWhitelisted(msg.sender)
         public 
         returns(uint256)
     {
@@ -770,6 +773,7 @@ contract SeeleDealer is Claimable{
         uint256 _tokens = _amountOfTokens;
 
         // add the sold tokens to escape tokens
+        tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
         escapeTokenSuppley_ = SafeMath.add(escapeTokenSuppley_, _tokens);
         tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
         escapeTokenBalance_[_customerAddress] = SafeMath.add(escapeTokenBalance_[_customerAddress], _tokens);
@@ -785,20 +789,21 @@ contract SeeleDealer is Claimable{
     }
 
     //套利
-    function arbitrageTokens(address sellerAddress, address sellTokenAddress, uint256 _amountOfTokens) public
+    function arbitrageTokens(address sellerAddress,  uint256 _amountOfTokens) 
+        onlyIfWhitelisted(msg.sender)
+        public
     {
         require(_amountOfTokens <= getPricedTokenAmount());
         
         // setup data
         address _customerAddress = sellerAddress;
         
-        TokenDealerInterface escapeContract = TokenDealerInterface(sellTokenAddress);
-        uint256 _tokens = escapeContract.escapeTokens(_customerAddress, _amountOfTokens);
-
-        require(_tokens == _amountOfTokens);
+        // TokenDealerInterface escapeContract = TokenDealerInterface(sellTokenAddress);
+        // uint256 _tokens = escapeContract.escapeTokens(_customerAddress, _amountOfTokens);
+        // require(_tokens == _amountOfTokens);
 
         // russian hackers BTFO
-        uint256 _seeleAmount = tokensToSeele(_tokens);
+        uint256 _seeleAmount = tokensToSeele(_amountOfTokens);
         require(_seeleAmount <= totalBalance());        
 
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
@@ -809,8 +814,8 @@ contract SeeleDealer is Claimable{
         //tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
 
         // add escape tokens to oversell
-        overSellTokenAmount_ = SafeMath.add(overSellTokenAmount_, _tokens);
-        overSellTokenBalance_[_customerAddress] = SafeMath.add(overSellTokenBalance_[_customerAddress], _tokens);
+        overSellTokenAmount_ = SafeMath.add(overSellTokenAmount_, _amountOfTokens);
+        overSellTokenBalance_[_customerAddress] = SafeMath.add(overSellTokenBalance_[_customerAddress], _amountOfTokens);
 
              
         // dividing by zero is a bad idea
@@ -825,6 +830,6 @@ contract SeeleDealer is Claimable{
         ERC20(seeleTokenAddress).transfer(_customerAddress, _taxedSeele);
 
         // fire event
-        emit onTokenArbitrage(_customerAddress, _tokens, _taxedSeele);
+        emit onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedSeele);
     }
 }

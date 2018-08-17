@@ -43,7 +43,7 @@ contract S3DProtocol is Claimable, Console{
     TokenDealerMapping.itmap tokenDealerMap;
 
     // proof of stake (defaults at 100 tokens)
-    uint256 public stakingRequirement = 100e18;
+    uint256 public stakingRequirement = 500e18;
 
     uint256 public arbitrageRequirement = 1000e18;
 
@@ -99,33 +99,31 @@ contract S3DProtocol is Claimable, Console{
         }
     }
 
-    modifier referralBarrier(address _referredBy){
-        // are we still in the vulnerable phase?
-        // if so, enact anti early whale protocol 
-        if( _referredBy != address(0)){
-            require(totalBalanceOf(_referredBy) >= stakingRequirement);
-            
-            // execute
-            _;
-        } else {
-
-            _;    
-        }     
-    }
-
     modifier arbitrageBarrier() {
         require(totalBalanceOf(msg.sender) >= arbitrageRequirement);
         _;
     }
 
     function buy(string symbol, uint256 _tokenAmount, address _referredBy)
-        referralBarrier(_referredBy)
         public
         payable
         returns(uint256)
     {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
+
+        if( 
+            // no cheating!
+            _referredBy == msg.sender ||
+            
+            // does the referrer have at least X whole tokens?
+            // i.e is the referrer a godly chad masternode
+            totalBalanceOf(_referredBy) < stakingRequirement
+        ) {
+            _referredBy = 0x0000000000000000000000000000000000000000;
+        }
+  
+
         if(StringUtils.compare(symbol, ethSymbol) == 0) {
             dealerContract.buy.value(msg.value)(msg.sender, msg.value, _referredBy);
         } else {
@@ -228,10 +226,15 @@ contract S3DProtocol is Claimable, Console{
         arbitrageBarrier()
         public 
     {
+        TokenDealerInterface escapeContract = TokenDealerInterface(tokenDealerMap.data[fromSymbol].value);
+        require(escapeContract != address(0));
+
+        uint256 _tokens = escapeContract.escapeTokens(msg.sender, _amountOfTokens); 
+        require(_tokens == _amountOfTokens);
+
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[sellSymbol].value);
         require(dealerContract != address(0));
-        address fromDealerContractAddress = tokenDealerMap.data[fromSymbol].value;
-        require(fromDealerContractAddress != address(0));
-        dealerContract.arbitrageTokens(msg.sender, fromDealerContractAddress, _amountOfTokens);
+
+        dealerContract.arbitrageTokens(msg.sender, _amountOfTokens);
     }
 }

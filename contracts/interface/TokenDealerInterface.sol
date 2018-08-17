@@ -19,5 +19,5 @@ interface TokenDealerInterface{
     function calculateTokensReceived(uint256 _ethereumToSpend) public view returns(uint256);
     function calculateBuyTokenSpend(uint256 _tokensToBuy) public view returns(uint256);
     function calculateBuyTokenReceived(uint256 _tokensToSell) public view returns(uint256);
-    function arbitrageTokens(address sellerAddress, address sellTokenAddress, uint256 _amountOfTokens) public;
+    function arbitrageTokens(address sellerAddress, uint256 _amountOfTokens) public;
 }
