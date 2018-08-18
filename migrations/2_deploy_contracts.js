@@ -4,6 +4,7 @@ var EthDealer = artifacts.require("./EthDealer.sol");
 var SeeleDealer = artifacts.require("./SeeleDealer.sol");
 var S3DProtocol = artifacts.require("./S3DProtocol.sol");
 var SeeleToken = artifacts.require("./SeeleToken.sol");
+var SeeleDividendsToEth = artifacts.require("./SeeleDividendsToEth.sol");
 
 module.exports = function(deployer) {
 
@@ -19,7 +20,7 @@ module.exports = function(deployer) {
     }).then(function(instance) {
         SeeleTokenInst = instance;
         deployer.deploy(SeeleDealer, SeeleTokenInst.address);
-
+        deployer.deploy(SeeleDividendsToEth, SeeleTokenInst.address);
  
     })
 
@@ -32,6 +33,7 @@ module.exports = function(deployer) {
     var EthDealerInstance ;
     var SeeleDealerInstance ;
     var S3DProtocolInstance ;
+    var SeeleDividendsToEthInstance;
 
     deployer.then(function(instance) {
         return EthDealer.deployed();
@@ -40,6 +42,9 @@ module.exports = function(deployer) {
         return SeeleDealer.deployed();
       }).then(function(instance) {
         SeeleDealerInstance = instance;
+        return SeeleDividendsToEth.deployed()
+      }).then(function(instance) {
+        SeeleDividendsToEthInstance = instance;
         return S3DProtocol.deployed()
       }).then(function(instance) {
         S3DProtocolInstance = instance;
@@ -54,7 +59,13 @@ module.exports = function(deployer) {
 
         EthDealerInstance.addAddressToWhitelist(S3DProtocolInstance.address);
         SeeleDealerInstance.addAddressToWhitelist(S3DProtocolInstance.address);
-        
+        SeeleDealerInstance.setSeeleDividendsToEthContractAddress(SeeleDividendsToEthInstance.address);
+        SeeleDividendsToEthInstance.setEthDealerAddress(EthDealerInstance.address);
+        SeeleDividendsToEthInstance.addAddressToWhitelist(SeeleDealerInstance.address);
+        SeeleDividendsToEthInstance.addAddressToWhitelist(EthDealerInstance.address);
+
+
+
         SeeleTokenInst.unpause().then(function(){
           SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);
           SeeleTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23, false);

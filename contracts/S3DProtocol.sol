@@ -143,13 +143,14 @@ contract S3DProtocol is Claimable, Console{
         dealerContract.exit(msg.sender);
     }
 
-    function withdrawAll() public {
-        for (var i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
+    function withdrawAll() public returns (uint256 sum) {
+        for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
         {
             string memory key;
             address value;
             (key, value) = TokenDealerMapping.iterate_get(tokenDealerMap, i);
             TokenDealerInterface dealerContract = TokenDealerInterface(value);
+            dealerContract.totalSupply();
             if (dealerContract.myDividends(msg.sender, true) > 0) {
                 dealerContract.withdraw(msg.sender);
             }

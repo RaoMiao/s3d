@@ -4,6 +4,7 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 import "zeppelin-solidity/contracts/access/Whitelist.sol";
 import "../contracts/interface/TokenDealerInterface.sol";
+//import "./SeeleDividendsToEth.sol"
 
 
 contract EthDealer is Claimable, Whitelist{
@@ -138,9 +139,6 @@ contract EthDealer is Claimable, Whitelist{
     //NEED DO!! change to internal
     uint256 public escapeTokenSuppley_ = 0;
     uint256 public overSellTokenAmount_ = 0;
-
-    mapping(address => int256) internal seelePayoutsTo_;
-    uint256 internal profitPerShare_seele_;
 
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
     bool public onlyAmbassadors = true;
@@ -327,8 +325,8 @@ contract EthDealer is Claimable, Whitelist{
         tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
         
         // update dividends tracker
-        //int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
-        //payoutsTo_[_customerAddress] -= _updatedPayouts;       
+        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
+        payoutsTo_[_customerAddress] -= _updatedPayouts;       
 
         
         // dividing by zero is a bad idea

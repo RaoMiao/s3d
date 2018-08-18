@@ -4,6 +4,7 @@ import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "zeppelin-solidity/contracts/access/Whitelist.sol";
 import "../contracts/interface/TokenDealerInterface.sol";
+import "./SeeleDividendsToEth.sol";
 
 contract SeeleDealer is Claimable, Whitelist{ 
 
@@ -113,6 +114,7 @@ contract SeeleDealer is Claimable, Whitelist{
     string public symbol = "Seele-S3D";
     uint8 constant public decimals = 18;
     uint8 constant internal dividendFee_ = 10;
+    uint8 constant internal ethDividendFee_ = 50;
 
     uint256 constant internal tokenPriceInitial_ = 0.0010356 * 1e18;
     uint256 constant internal tokenPriceIncremental_ = 0.00010356 * 1e18;
@@ -150,7 +152,7 @@ contract SeeleDealer is Claimable, Whitelist{
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
     bool public onlyAmbassadors = true;
 
-
+    address public seeleDividendsToEthContractAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
     /*=======================================
     =            PUBLIC FUNCTIONS            =
     =======================================*/
@@ -167,7 +169,13 @@ contract SeeleDealer is Claimable, Whitelist{
         ambassadors_[0xCd16575A90eD9506BCf44C78845d93F1b647F48C] = true;
     }
     
-     
+    function setSeeleDividendsToEthContractAddress(address dividendsAddress)
+        public 
+        onlyOwner()
+    {
+        seeleDividendsToEthContractAddress = dividendsAddress;
+    }
+
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
@@ -330,6 +338,7 @@ contract SeeleDealer is Claimable, Whitelist{
         uint256 _tokens = _amountOfTokens;
         uint256 _seeleAmount = tokensToSeele(_tokens);
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
+        _dividends = splitDividendsToEth(_dividends);
         uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
         
         // burn the sold tokens
@@ -590,6 +599,21 @@ contract SeeleDealer is Claimable, Whitelist{
         return _taxedSeele;
     }
     
+    function splitDividendsToEth(uint256 _undividedDividends)
+        internal 
+        view
+        returns (uint256)
+    {
+        if (ethDividendFee_ > 0) {
+            uint256 _ethDividends = SafeMath.div(_undividedDividends, ethDividendFee_);
+            uint restDividends = SafeMath.sub(_undividedDividends, _ethDividends);  
+            ERC20(seeleTokenAddress).transfer(seeleDividendsToEthContractAddress, _ethDividends);  
+            SeeleDividendsToEth(seeleDividendsToEthContractAddress).AddDividends(_ethDividends);
+            return restDividends;
+        } else {
+            return _undividedDividends;
+        }
+    }
 
     /*==========================================
     =            INTERNAL FUNCTIONS            =
@@ -602,6 +626,7 @@ contract SeeleDealer is Claimable, Whitelist{
         // data setup
         //address _customerAddress = buyer;
         uint256 _undividedDividends = SafeMath.div(_incomingSeele, dividendFee_);
+        _undividedDividends = splitDividendsToEth(_undividedDividends);
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);
         uint256 _taxedSeele = SafeMath.sub(_incomingSeele, _undividedDividends);
