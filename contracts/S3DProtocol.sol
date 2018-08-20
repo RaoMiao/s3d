@@ -6,39 +6,8 @@ import "../contracts/interface/TokenDealerInterface.sol";
 import "../contracts/library/TokenDealerMapping.sol";
 import "../contracts/library/StringUtils.sol";
 
-contract Console {
-    event LogUint(string, uint);
-    function log(string s , uint x) internal {
-        emit LogUint(s, x);
-    }
-    
-    event LogInt(string, int);
-    function log(string s , int x) internal {
-        emit LogInt(s, x);
-    }
-    
-    event LogBytes(string, bytes);
-    function log(string s , bytes x) internal {
-        emit LogBytes(s, x);
-    }
-    
-    event LogBytes32(string, bytes32);
-    function log(string s , bytes32 x) internal {
-        emit LogBytes32(s, x);
-    }
 
-    event LogAddress(string, address);
-    function log(string s , address x) internal {
-        emit LogAddress(s, x);
-    }
-
-    event LogBool(string, bool);
-    function log(string s , bool x) internal {
-        emit LogBool(s, x);
-    }
-}
-
-contract S3DProtocol is Claimable, Console{
+contract S3DProtocol is Claimable{
 
     TokenDealerMapping.itmap tokenDealerMap;
 
@@ -173,6 +142,13 @@ contract S3DProtocol is Claimable, Console{
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.totalBalance();
+    }
+
+    function totalSupply(string symbol) public view returns (uint256 sum) 
+    {
+        TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
+        require(dealerContract != address(0));
+        return dealerContract.totalSupply();
     }
 
     function myDividends(string symbol, bool _includeReferralBonus) public view returns(uint256){

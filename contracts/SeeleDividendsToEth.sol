@@ -25,6 +25,7 @@ contract SeeleDividendsToEth is Claimable, Whitelist{
 
     function SeeleDividendsToEth(address tokenAddress)
         public
+        onlyOwner()
     {
         seeleTokenAddress = tokenAddress;   
     }
@@ -39,7 +40,7 @@ contract SeeleDividendsToEth is Claimable, Whitelist{
 
     function AddDividends(uint256 seeleAmount) 
         public
-       // onlyIfWhitelisted(msg.sender)
+        onlyIfWhitelisted(msg.sender)
     {
         TokenDealerInterface ethDealerContract = TokenDealerInterface(ethDealerAddress);
         require(ethDealerContract != address(0));
@@ -53,7 +54,7 @@ contract SeeleDividendsToEth is Claimable, Whitelist{
 
     function updatePayouts(address userAddress, uint tokens)
         public 
-        //onlyIfWhitelisted(msg.sender)       
+        onlyIfWhitelisted(msg.sender)       
     {
         int256 _updatedPayouts = (int256) (profitPerShare_ * tokens);
         payoutsTo_[userAddress] -= _updatedPayouts;       
@@ -71,9 +72,10 @@ contract SeeleDividendsToEth is Claimable, Whitelist{
         return (uint256) ((int256)(profitPerShare_ * tokenBalance) - payoutsTo_[userAddress]) / magnitude;        
     }
 
+
     function withdraw(address userAddress)
         onlyStronghands(userAddress)
-        //onlyIfWhitelisted(msg.sender)
+        onlyIfWhitelisted(msg.sender)
         public
     {
         // setup data

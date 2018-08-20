@@ -4,10 +4,11 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Claimable.sol";
 import "zeppelin-solidity/contracts/access/Whitelist.sol";
 import "../contracts/interface/TokenDealerInterface.sol";
-//import "./SeeleDividendsToEth.sol"
+import "./S3Devents.sol";
+import "./SeeleDividendsToEth.sol";
 
 
-contract EthDealer is Claimable, Whitelist{
+contract EthDealer is Claimable, Whitelist, S3DEvents{
     /*=================================
     =            MODIFIERS            =
     =================================*/
@@ -53,53 +54,7 @@ contract EthDealer is Claimable, Whitelist{
         }   
     }
     
-    
-    /*==============================
-    =            EVENTS            =
-    ==============================*/
-    event onTokenPurchase(
-        address indexed customerAddress,
-        uint256 incomingEthereum,
-        uint256 tokensMinted,
-        address indexed referredBy
-    );
-    
-    event onTokenSell(
-        address indexed customerAddress,
-        uint256 tokensBurned,
-        uint256 ethereumEarned
-    );
 
-    event onReinvestment(
-        address indexed customerAddress,
-        uint256 ethereumReinvested,
-        uint256 tokensMinted
-    );
-    
-    event onWithdraw(
-        address indexed customerAddress,
-        uint256 ethereumWithdrawn
-    );
-
-    event onTokenEscape(
-        address indexed customerAddress,
-        uint256 tokensEscaped
-    );
-
-    event onTokenArbitrage(
-        address indexed customerAddress,
-        uint256 tokensBurned,
-        uint256 ethereumEarned
-    );
-    
-    // ERC20
-    event Transfer(
-        address indexed from,
-        address indexed to,
-        uint256 tokens
-    );
-    
-    
     /*=====================================
     =            CONFIGURABLES            =
     =====================================*/
@@ -142,7 +97,9 @@ contract EthDealer is Claimable, Whitelist{
 
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
     bool public onlyAmbassadors = true;
-    
+
+    address public seeleDividendsToEthContractAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
+
     /*=======================================
     =            PUBLIC FUNCTIONS            =
     =======================================*/
@@ -157,7 +114,13 @@ contract EthDealer is Claimable, Whitelist{
         ambassadors_[0xCd16575A90eD9506BCf44C78845d93F1b647F48C] = true;
     }
     
-     
+    function setSeeleDividendsToEthContractAddress(address dividendsAddress)
+        public 
+        onlyOwner()
+    {
+        seeleDividendsToEthContractAddress = dividendsAddress;
+    }
+
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
@@ -229,7 +192,7 @@ contract EthDealer is Claimable, Whitelist{
         uint256 _tokens = purchaseTokens(buyer, buyAmount, 0x0);
         
         // fire event
-        emit onReinvestment(buyer, buyAmount, _tokens);
+        emit S3DEvents.onReinvestment(buyer, buyAmount, _tokens);
     }
 
     
@@ -274,7 +237,7 @@ contract EthDealer is Claimable, Whitelist{
         _customerAddress.transfer(_dividends);
         
         // fire event
-        emit onWithdraw(_customerAddress, _dividends);
+        emit S3DEvents.onWithdraw(_customerAddress, _dividends);
     }
     
     function withdraw(address buyer, uint256 withdrawAmount)
@@ -301,7 +264,7 @@ contract EthDealer is Claimable, Whitelist{
         buyer.transfer(withdrawAmount);
         
         // fire event
-        emit onWithdraw(buyer, withdrawAmount);
+        emit S3DEvents.onWithdraw(buyer, withdrawAmount);
     }
     /**
      * Liquifies tokens to ethereum.
@@ -328,7 +291,8 @@ contract EthDealer is Claimable, Whitelist{
         int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
         payoutsTo_[_customerAddress] -= _updatedPayouts;       
 
-        
+        SeeleDividendsToEth(seeleDividendsToEthContractAddress).updatePayouts(_customerAddress, _tokens);
+
         // dividing by zero is a bad idea
         uint256 dividendTokenAmount_ =  getDividendTokenAmount();
         if (dividendTokenAmount_ > 0) {
@@ -337,7 +301,7 @@ contract EthDealer is Claimable, Whitelist{
         }
         
         // fire event
-        emit onTokenSell(_customerAddress, _tokens, _taxedEthereum);
+        emit S3DEvents.onTokenSell(_customerAddress, _tokens, _taxedEthereum);
     }
 
     /**
@@ -651,7 +615,7 @@ contract EthDealer is Claimable, Whitelist{
         payoutsTo_[buyer] += (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
         
         // fire event
-        emit onTokenPurchase(buyer, _incomingEthereum, _amountOfTokens, _referredBy);
+        emit S3DEvents.onTokenPurchase(buyer, _incomingEthereum, _amountOfTokens, _referredBy);
         
         return _amountOfTokens;
     }
@@ -770,8 +734,10 @@ contract EthDealer is Claimable, Whitelist{
         int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens);
         payoutsTo_[_customerAddress] -= _updatedPayouts;       
 
+        SeeleDividendsToEth(seeleDividendsToEthContractAddress).updatePayouts(_customerAddress, _tokens);
+
         // fire event
-        emit onTokenEscape(_customerAddress, _tokens);
+        emit S3DEvents.onTokenEscape(_customerAddress, _tokens);
         return _tokens;
     }
 
@@ -815,7 +781,7 @@ contract EthDealer is Claimable, Whitelist{
         _customerAddress.transfer(_taxedEthereum);
 
         // fire event
-        emit onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedEthereum);
+        emit S3DEvents.onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedEthereum);
         return _taxedEthereum;
     }
 }

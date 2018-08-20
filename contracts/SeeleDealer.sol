@@ -5,8 +5,9 @@ import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "zeppelin-solidity/contracts/access/Whitelist.sol";
 import "../contracts/interface/TokenDealerInterface.sol";
 import "./SeeleDividendsToEth.sol";
+import "./S3Devents.sol";
 
-contract SeeleDealer is Claimable, Whitelist{ 
+contract SeeleDealer is Claimable, Whitelist, S3DEvents{ 
 
     /*=================================
     =            MODIFIERS            =
@@ -55,58 +56,6 @@ contract SeeleDealer is Claimable, Whitelist{
         
     }
     
-    
-    /*==============================
-    =            EVENTS            =
-    ==============================*/
-    event onTokenPurchase(
-        address indexed customerAddress,
-        uint256 incomingEthereum,
-        uint256 tokensMinted,
-        address indexed referredBy
-    );
-    
-    event onTokenSell(
-        address indexed customerAddress,
-        uint256 tokensBurned,
-        uint256 seeleEarned
-    );
-
-    event onTokenSellByProtocol(
-        address indexed customerAddress,
-        uint256 tokensBurned,
-        uint256 seeleEarned
-    );
-    
-    event onReinvestment(
-        address indexed customerAddress,
-        uint256 ethereumReinvested,
-        uint256 tokensMinted
-    );
-    
-    event onWithdraw(
-        address indexed customerAddress,
-        uint256 ethereumWithdrawn
-    );
-    
-    event onTokenEscape(
-        address indexed customerAddress,
-        uint256 tokensEscaped
-    );
-
-    event onTokenArbitrage(
-        address indexed customerAddress,
-        uint256 tokensBurned,
-        uint256 ethereumEarned
-    );
-        
-    // ERC20
-    event Transfer(
-        address indexed from,
-        address indexed to,
-        uint256 tokens
-    );
-
     /*=====================================
     =            CONFIGURABLES            =
     =====================================*/
@@ -114,7 +63,7 @@ contract SeeleDealer is Claimable, Whitelist{
     string public symbol = "Seele-S3D";
     uint8 constant public decimals = 18;
     uint8 constant internal dividendFee_ = 10;
-    uint8 constant internal ethDividendFee_ = 50;
+    uint8 internal ethDividendFee_ = 50;
 
     uint256 constant internal tokenPriceInitial_ = 0.0010356 * 1e18;
     uint256 constant internal tokenPriceIncremental_ = 0.00010356 * 1e18;
@@ -226,7 +175,7 @@ contract SeeleDealer is Claimable, Whitelist{
         uint256 _tokens = purchaseTokens(buyer, buyAmount, 0x0);
         
         // fire event
-        emit onReinvestment(buyer, buyAmount, _tokens);
+        emit S3DEvents.onReinvestment(buyer, buyAmount, _tokens);
     }
 
     // function reinvest(address buyer)
@@ -292,7 +241,7 @@ contract SeeleDealer is Claimable, Whitelist{
         ERC20(seeleTokenAddress).transfer(_customerAddress, _dividends);
         
         // fire event
-        emit onWithdraw(_customerAddress, _dividends);
+        emit S3DEvents.onWithdraw(_customerAddress, _dividends);
     }
 
     function withdraw(address buyer, uint256 withdrawAmount)
@@ -320,7 +269,7 @@ contract SeeleDealer is Claimable, Whitelist{
         ERC20(seeleTokenAddress).transfer(buyer, _dividends);
         
         // fire event
-        emit onWithdraw(buyer, withdrawAmount);
+        emit S3DEvents.onWithdraw(buyer, withdrawAmount);
     }
     
     /**
@@ -357,7 +306,7 @@ contract SeeleDealer is Claimable, Whitelist{
         }
         
         // fire event
-        emit onTokenSell(_customerAddress, _tokens, _taxedSeele);
+        emit S3DEvents.onTokenSell(_customerAddress, _tokens, _taxedSeele);
     }
     
     /**
@@ -599,6 +548,13 @@ contract SeeleDealer is Claimable, Whitelist{
         return _taxedSeele;
     }
     
+    function setEthDividendFee(uint8 ethDividendFee)
+        public
+        onlyOwner()
+    {
+        ethDividendFee_ = ethDividendFee;
+    }
+
     function splitDividendsToEth(uint256 _undividedDividends)
         internal 
         view
@@ -689,7 +645,7 @@ contract SeeleDealer is Claimable, Whitelist{
         payoutsTo_[buyer] += (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
         
         // fire event
-        emit onTokenPurchase(buyer, _incomingSeele, _amountOfTokens, _referredBy);
+        emit S3DEvents.onTokenPurchase(buyer, _incomingSeele, _amountOfTokens, _referredBy);
         
         return _amountOfTokens;
     }
@@ -809,7 +765,7 @@ contract SeeleDealer is Claimable, Whitelist{
         payoutsTo_[_customerAddress] -= _updatedPayouts;       
 
         // fire event
-        emit onTokenEscape(_customerAddress, _tokens);
+        emit S3DEvents.onTokenEscape(_customerAddress, _tokens);
         return _tokens;
     }
 
@@ -855,6 +811,6 @@ contract SeeleDealer is Claimable, Whitelist{
         ERC20(seeleTokenAddress).transfer(_customerAddress, _taxedSeele);
 
         // fire event
-        emit onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedSeele);
+        emit S3DEvents.onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedSeele);
     }
 }
