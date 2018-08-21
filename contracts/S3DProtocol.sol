@@ -18,7 +18,10 @@ contract S3DProtocol is Claimable{
 
     string constant public ethSymbol = "eth";
 
-    
+    uint8 constant public decimals = 18;
+    string constant public name = "S3D perfect";
+    string constant public symbol = "S3D";
+
     function addDealer(string symbol, address dealerAddress) public onlyOwner returns (uint size) {
         TokenDealerMapping.insert(tokenDealerMap, symbol, dealerAddress);
         return tokenDealerMap.size;
@@ -46,6 +49,17 @@ contract S3DProtocol is Claimable{
             TokenDealerInterface dealerContract = TokenDealerInterface(value);
             sum += dealerContract.balanceOf(_customerAddress);
         }     
+    }
+
+    function balanceOf( address _customerAddress) public view returns (uint256 sum) {
+        for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
+        {
+            string memory key;
+            address value;
+            (key, value) = TokenDealerMapping.iterate_get(tokenDealerMap, i);
+            TokenDealerInterface dealerContract = TokenDealerInterface(value);
+            sum += dealerContract.balanceOf(_customerAddress);
+        } 
     }
 
     function balanceOf(string symbol, address _customerAddress) public view returns (uint256) {
@@ -213,5 +227,9 @@ contract S3DProtocol is Claimable{
         require(dealerContract != address(0));
 
         dealerContract.arbitrageTokens(msg.sender, _amountOfTokens);
+    }
+
+    function transfer(address _to, uint _value) public returns (bool success) {
+
     }
 }

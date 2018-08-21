@@ -6,24 +6,10 @@ import "zeppelin-solidity/contracts/access/Whitelist.sol";
 import "../contracts/interface/TokenDealerInterface.sol";
 import "./SeeleDividendsToEth.sol";
 import "./S3Devents.sol";
+import "./S3DTokenBase.sol";
 
-contract SeeleDealer is Claimable, Whitelist, S3DEvents{ 
+contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{ 
 
-    /*=================================
-    =            MODIFIERS            =
-    =================================*/
-    // only people with tokens
-    modifier onlyBagholders(address myAddress) {
-        require(balanceOf(myAddress) > 0);
-        _;
-    }
-    
-    // only people with profits
-    modifier onlyStronghands(address myAddress) {
-        require(myDividends(myAddress, true) > 0);
-        _;
-    }
-    
  
     // ensures that the first tokens in the contract will be equally distributed
     // meaning, no divine dump will be ever possible
@@ -61,16 +47,9 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     =====================================*/
     string public name = "Seele-S3D";
     string public symbol = "Seele-S3D";
-    uint8 constant public decimals = 18;
-    uint8 constant internal dividendFee_ = 10;
+
     uint8 internal ethDividendFee_ = 50;
 
-    uint256 constant internal tokenPriceInitial_ = 0.0010356 * 1e18;
-    uint256 constant internal tokenPriceIncremental_ = 0.00010356 * 1e18;
-    uint256 constant internal magnitude = 2**64;
-    
-    // proof of stake (defaults at 100 tokens)
-    uint256 public stakingRequirement = 100e18;
     
     // ambassador program
     mapping(address => bool) internal ambassadors_;
@@ -78,24 +57,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     uint256 constant internal ambassadorQuota_ = 200000;
     
     address public seeleTokenAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
-   /*================================
-    =            DATASETS            =
-    ================================*/
-    // amount of shares for each address (scaled number)
-    mapping(address => uint256) internal tokenBalanceLedger_;
-    mapping(address => uint256) internal referralBalance_;
-    mapping(address => int256) internal payoutsTo_;
-    mapping(address => uint256) internal ambassadorAccumulatedQuota_;
 
-    mapping(address => uint256) public escapeTokenBalance_;
-    mapping(address => uint256) public overSellTokenBalance_;
-
-    uint256 internal tokenSupply_ = 0;
-    uint256 internal profitPerShare_;
-
-    //NEED DO!! change to internal
-    uint256 public escapeTokenSuppley_ = 0;
-    uint256 public overSellTokenAmount_ = 0;
     
  
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
@@ -111,6 +73,9 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     function SeeleDealer(address tokenAddress)
         public
     {
+        tokenPriceInitial_ = 0.001 * 1e18;
+        tokenPriceIncremental_ = 0.0001 * 1e18;
+
         seeleTokenAddress = tokenAddress;
 
         // add the ambassadors here.
@@ -142,12 +107,12 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     /*
      * default fallback函数
     */
-    function()
-        payable
-        public
-    {
+    // function()
+    //     payable
+    //     public
+    // {
         
-    }
+    // }
 
     /**
      * Converts all of caller's dividends to tokens.
@@ -158,7 +123,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         public
     {
         // fetch dividends
-        uint256 _dividends = myDividends(buyer, false); // retrieve ref. bonus later in the code
+        uint256 _dividends = dividendsOf(buyer); // retrieve ref. bonus later in the code
         uint256 _referralBalance = referralBalance_[buyer];
         require(buyAmount <= (_dividends + _referralBalance));
 
@@ -227,7 +192,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     {
         // setup data
         address _customerAddress = buyer;
-        uint256 _dividends = myDividends(_customerAddress, false); // get ref. bonus later in the code
+        uint256 _dividends = dividendsOf(_customerAddress); // get ref. bonus later in the code
         
         // update dividend tracker
         payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
@@ -250,7 +215,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         public
     {
         // setup data
-        uint256 _dividends = myDividends(buyer, false); // get ref. bonus later in the code
+        uint256 _dividends = dividendsOf(buyer); // get ref. bonus later in the code
         uint256 _referralBalance = referralBalance_[buyer];
         require(withdrawAmount <= (_dividends + _referralBalance));
 
@@ -285,7 +250,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         // russian hackers BTFO
         require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
         uint256 _tokens = _amountOfTokens;
-        uint256 _seeleAmount = tokensToSeele(_tokens);
+        uint256 _seeleAmount = s3dToBuyTokens_(_tokens);
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
         _dividends = splitDividendsToEth(_dividends);
         uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
@@ -378,25 +343,6 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     //     stakingRequirement = _amountOfTokens;
     // }
     
-    /**
-     * If we want to rebrand, we can.
-     */
-    function setName(string _name)
-        onlyOwner()
-        public
-    {
-        name = _name;
-    }
-    
-    /**
-     * If we want to rebrand, we can.
-     */
-    function setSymbol(string _symbol)
-        onlyOwner()
-        public
-    {
-        symbol = _symbol;
-    }
 
     
     /*----------  HELPERS AND CALCULATORS  ----------*/
@@ -410,142 +356,6 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         returns(uint256)
     {
         return ERC20(seeleTokenAddress).balanceOf(address(this));
-    }
-    
-    /**
-     * Retrieve the total token supply.
-     */
-    function totalSupply()
-        public
-        view
-        returns(uint256)
-    {
-        return tokenSupply_;
-    }
-    
-    
-    /**
-     * Retrieve the dividends owned by the caller.
-     * If `_includeReferralBonus` is to to 1/true, the referral bonus will be included in the calculations.
-     * The reason for this, is that in the frontend, we will want to get the total divs (global + ref)
-     * But in the internal calculations, we want them separate. 
-     */ 
-    function myDividends(address myAddress, bool _includeReferralBonus) 
-        public 
-        view 
-        returns(uint256)
-    {
-        address _customerAddress = myAddress;
-        return _includeReferralBonus ? dividendsOf(_customerAddress) + referralBalance_[_customerAddress] : dividendsOf(_customerAddress) ;
-    }
-    
-    /**
-     * Retrieve the token balance of any single address.
-     */
-    function balanceOf(address _customerAddress)
-        view
-        public
-        returns(uint256)
-    {
-        return tokenBalanceLedger_[_customerAddress];
-    }
-    
-    /**
-     * Retrieve the dividend balance of any single address.
-     */
-    function dividendsOf(address _customerAddress)
-        view
-        public
-        returns(uint256)
-    {
-        return (uint256) ((int256)(profitPerShare_ * tokenBalanceLedger_[_customerAddress]) - payoutsTo_[_customerAddress]) / magnitude;
-    }
-    
-    function referralBalanceOf(address _customerAddress)
-        view
-        public 
-        returns(uint256)
-    {
-        return referralBalance_[_customerAddress];
-    }
-
-    /**
-     * Return the buy price of 1 individual token.
-     */
-    function sellPrice() 
-        public 
-        view 
-        returns(uint256)
-    {
-        // our calculation relies on the token supply, so we need supply. Doh.
-        if(getPricedTokenAmount() == 0){
-            return tokenPriceInitial_ - tokenPriceIncremental_;
-        } else {
-            uint256 _seeleAmount = tokensToSeele(1e18);
-            uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_  );
-            uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-            return _taxedSeele;
-        }
-    }
-    
-    /**
-     * Return the sell price of 1 individual token.
-     */
-    function buyPrice() 
-        public 
-        view 
-        returns(uint256)
-    {
-        // our calculation relies on the token supply, so we need supply. Doh.
-        if(getPricedTokenAmount() == 0){
-            return tokenPriceInitial_ + tokenPriceIncremental_;
-        } else {
-            uint256 _seeleAmount = tokensToSeele(1e18);
-            uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_  );
-            uint256 _taxedSeele = SafeMath.add(_seeleAmount, _dividends);
-            return _taxedSeele;
-        }
-    }
-    
-    /**
-     * Function for the frontend to dynamically retrieve the price scaling of buy orders.
-     */
-    function calculateTokensReceived(uint256 _seeleToSpend) 
-        public 
-        view 
-        returns(uint256)
-    {
-        uint256 _dividends = SafeMath.div(_seeleToSpend, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleToSpend, _dividends);
-        uint256 _amountOfTokens = seeleToTokens_(_taxedSeele);
-        
-        return _amountOfTokens;
-    }
-    
-    function calculateBuyTokenSpend(uint256 _tokensToBuy)
-        public 
-        view
-        returns(uint256)
-    {
-        uint256 _seeleAmount = tokensToSeele(_tokensToBuy);
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-        return _taxedSeele;
-    }
-
-    /**
-     * Function for the frontend to dynamically retrieve the price scaling of sell orders.
-     */
-    function calculateBuyTokenReceived(uint256 _tokensToSell) 
-        public 
-        view 
-        returns(uint256)
-    {
-        require(_tokensToSell <= getPricedTokenAmount());
-        uint256 _seeleAmount = tokensToSeele(_tokensToSell);
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-        return _taxedSeele;
     }
     
     function setEthDividendFee(uint8 ethDividendFee)
@@ -586,7 +396,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);
         uint256 _taxedSeele = SafeMath.sub(_incomingSeele, _undividedDividends);
-        uint256 _amountOfTokens = seeleToTokens_(_taxedSeele);
+        uint256 _amountOfTokens = buyTokensToS3d_(_taxedSeele);
         uint256 _fee = _dividends * magnitude;
  
         // no point in continuing execution if OP is a poorfag russian hacker
@@ -650,95 +460,6 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         return _amountOfTokens;
     }
 
-    /**
-     * Calculate Token price based on an amount of incoming ethereum
-     * It's an algorithm, hopefully we gave you the whitepaper with it in scientific notation;
-     * Some conversions occurred to prevent decimal errors or underflows / overflows in solidity code.
-     */
-    function seeleToTokens_(uint256 seeleAmount)
-        internal
-        view
-        returns(uint256)
-    {
-        uint256 _tokenPriceInitial = tokenPriceInitial_ ;
-        uint256 _tokenSupply =  getPricedTokenAmount();
-        uint256 _tokensReceived = 
-         (
-            (
-                // underflow attempts BTFO
-                SafeMath.sub(
-                    (sqrt
-                        (
-                            (_tokenPriceInitial**2)
-                            +
-                            (2*(tokenPriceIncremental_ * 1e18 )*(seeleAmount * 1e18))
-                            +
-                            (((tokenPriceIncremental_)**2)*(tokenSupply_**2))
-                            +
-                            (2*(tokenPriceIncremental_)*_tokenPriceInitial*tokenSupply_)
-                        )
-                    ), _tokenPriceInitial
-                )
-            )/(tokenPriceIncremental_)
-        )-(tokenSupply_)
-        ;
-  
-        return _tokensReceived;
-    }
-    
-    /**
-     * Calculate token sell value.
-     * It's an algorithm, hopefully we gave you the whitepaper with it in scientific notation;
-     * Some conversions occurred to prevent decimal errors or underflows / overflows in solidity code.
-     */
-     function tokensToSeele(uint256 _tokens)
-        internal
-        view
-        returns(uint256)
-    {
-
-        uint256 tokens_ = (_tokens + 1e18);
-        uint256 _tokenSupply = (getPricedTokenAmount() + 1e18);
-        uint256 _seeleReceived =
-        (
-            // underflow attempts BTFO
-            SafeMath.sub(
-                (
-                    (
-                        (
-                            tokenPriceInitial_ +(tokenPriceIncremental_ * (_tokenSupply/1e18))
-                        )-tokenPriceIncremental_
-                    )*(tokens_ - 1e18)
-                ),(tokenPriceIncremental_*((tokens_**2-tokens_)/1e18))/2
-            )
-        /1e18);
-        return _seeleReceived;
-    }
-    
-    
-    //This is where all your gas goes, sorry
-    //Not sorry, you probably only paid 1 gwei
-    function sqrt(uint x) internal pure returns (uint y) {
-        uint z = (x + 1) / 2;
-        y = x;
-        while (z < y) {
-            y = z;
-            z = (x / z + z) / 2;
-        }
-    }
-
-    //不用给套利的token分红
-    function getDividendTokenAmount() internal view returns (uint256) {
-        //exclude escape token
-        //return SafeMath.sub(tokenSupply_ , escapeTokenSuppley_);
-        return tokenSupply_;
-    }
-
-    //计价的token要排除oversell的token
-    function getPricedTokenAmount() internal view returns (uint256) {
-        return SafeMath.sub(SafeMath.add(tokenSupply_, escapeTokenSuppley_), overSellTokenAmount_);
-    }
-
     //NEW FUNCTION        
     function escapeTokens(address sellerAddress, uint256 _amountOfTokens) 
         onlyBagholders(sellerAddress) 
@@ -773,6 +494,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
     function arbitrageTokens(address sellerAddress,  uint256 _amountOfTokens) 
         onlyIfWhitelisted(msg.sender)
         public
+        returns(uint256)
     {
         require(_amountOfTokens <= getPricedTokenAmount());
         
@@ -784,7 +506,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
         // require(_tokens == _amountOfTokens);
 
         // russian hackers BTFO
-        uint256 _seeleAmount = tokensToSeele(_amountOfTokens);
+        uint256 _seeleAmount = s3dToBuyTokens_(_amountOfTokens);
         require(_seeleAmount <= totalBalance());        
 
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
@@ -812,5 +534,6 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents{
 
         // fire event
         emit S3DEvents.onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedSeele);
+        return _taxedSeele;
     }
 }

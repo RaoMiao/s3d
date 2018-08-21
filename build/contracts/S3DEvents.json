@@ -1,0 +1,1325 @@
+{
+  "contractName": "S3DEvents",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "customerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "incomingEthereum",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "tokensMinted",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "referredBy",
+          "type": "address"
+        }
+      ],
+      "name": "onTokenPurchase",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "customerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "tokensBurned",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ethereumEarned",
+          "type": "uint256"
+        }
+      ],
+      "name": "onTokenSell",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "customerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "ethereumReinvested",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "tokensMinted",
+          "type": "uint256"
+        }
+      ],
+      "name": "onReinvestment",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "customerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "ethereumWithdrawn",
+          "type": "uint256"
+        }
+      ],
+      "name": "onWithdraw",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "customerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "tokensEscaped",
+          "type": "uint256"
+        }
+      ],
+      "name": "onTokenEscape",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "customerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "tokensBurned",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ethereumEarned",
+          "type": "uint256"
+        }
+      ],
+      "name": "onTokenArbitrage",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582041ce1578cd95df56c61607472a8226b5464d362049f0e5423105a1613a176dea0029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582041ce1578cd95df56c61607472a8226b5464d362049f0e5423105a1613a176dea0029",
+  "sourceMap": "28:861:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;28:861:2;;;;;;;",
+  "deployedSourceMap": "28:861:2:-;;;;;",
+  "source": "pragma solidity ^0.4.24;\r\n\r\ncontract S3DEvents {\r\n    event onTokenPurchase(\r\n        address indexed customerAddress,\r\n        uint256 incomingEthereum,\r\n        uint256 tokensMinted,\r\n        address indexed referredBy\r\n    );\r\n    \r\n    event onTokenSell(\r\n        address indexed customerAddress,\r\n        uint256 tokensBurned,\r\n        uint256 ethereumEarned\r\n    );\r\n\r\n    event onReinvestment(\r\n        address indexed customerAddress,\r\n        uint256 ethereumReinvested,\r\n        uint256 tokensMinted\r\n    );\r\n    \r\n    event onWithdraw(\r\n        address indexed customerAddress,\r\n        uint256 ethereumWithdrawn\r\n    );\r\n\r\n    event onTokenEscape(\r\n        address indexed customerAddress,\r\n        uint256 tokensEscaped\r\n    );\r\n\r\n    event onTokenArbitrage(\r\n        address indexed customerAddress,\r\n        uint256 tokensBurned,\r\n        uint256 ethereumEarned\r\n    );\r\n\r\n}",
+  "sourcePath": "D:\\work\\truffle\\s3d\\contracts\\S3Devents.sol",
+  "ast": {
+    "absolutePath": "/D/work/truffle/s3d/contracts/S3Devents.sol",
+    "exportedSymbols": {
+      "S3DEvents": [
+        1597
+      ]
+    },
+    "id": 1598,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1550,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1597,
+        "linearizedBaseContracts": [
+          1597
+        ],
+        "name": "S3DEvents",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1560,
+            "name": "onTokenPurchase",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1552,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "86:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1551,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "86:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1554,
+                  "indexed": false,
+                  "name": "incomingEthereum",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "128:24:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1553,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "128:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1556,
+                  "indexed": false,
+                  "name": "tokensMinted",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "163:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1555,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "163:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1558,
+                  "indexed": true,
+                  "name": "referredBy",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "194:26:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1557,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "194:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "75:152:2"
+            },
+            "src": "54:174:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1568,
+            "name": "onTokenSell",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1567,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1562,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1568,
+                  "src": "268:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1561,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "268:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1564,
+                  "indexed": false,
+                  "name": "tokensBurned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1568,
+                  "src": "310:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1563,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "310:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1566,
+                  "indexed": false,
+                  "name": "ethereumEarned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1568,
+                  "src": "341:22:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1565,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "341:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "257:113:2"
+            },
+            "src": "240:131:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1576,
+            "name": "onReinvestment",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1575,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1570,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1576,
+                  "src": "410:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1569,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "410:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1572,
+                  "indexed": false,
+                  "name": "ethereumReinvested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1576,
+                  "src": "452:26:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1571,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "452:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1574,
+                  "indexed": false,
+                  "name": "tokensMinted",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1576,
+                  "src": "489:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1573,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "489:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "399:117:2"
+            },
+            "src": "379:138:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1582,
+            "name": "onWithdraw",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1581,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1578,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1582,
+                  "src": "556:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1577,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "556:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1580,
+                  "indexed": false,
+                  "name": "ethereumWithdrawn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1582,
+                  "src": "598:25:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1579,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "598:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "545:85:2"
+            },
+            "src": "529:102:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1588,
+            "name": "onTokenEscape",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1587,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1584,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1588,
+                  "src": "669:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1583,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "669:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1586,
+                  "indexed": false,
+                  "name": "tokensEscaped",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1588,
+                  "src": "711:21:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1585,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "711:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "658:81:2"
+            },
+            "src": "639:101:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1596,
+            "name": "onTokenArbitrage",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1595,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1590,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1596,
+                  "src": "781:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1589,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "781:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1592,
+                  "indexed": false,
+                  "name": "tokensBurned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1596,
+                  "src": "823:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1591,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "823:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1594,
+                  "indexed": false,
+                  "name": "ethereumEarned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1596,
+                  "src": "854:22:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1593,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "854:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "770:113:2"
+            },
+            "src": "748:136:2"
+          }
+        ],
+        "scope": 1598,
+        "src": "28:861:2"
+      }
+    ],
+    "src": "0:889:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/work/truffle/s3d/contracts/S3Devents.sol",
+    "exportedSymbols": {
+      "S3DEvents": [
+        1597
+      ]
+    },
+    "id": 1598,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1550,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1597,
+        "linearizedBaseContracts": [
+          1597
+        ],
+        "name": "S3DEvents",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1560,
+            "name": "onTokenPurchase",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1552,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "86:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1551,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "86:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1554,
+                  "indexed": false,
+                  "name": "incomingEthereum",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "128:24:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1553,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "128:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1556,
+                  "indexed": false,
+                  "name": "tokensMinted",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "163:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1555,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "163:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1558,
+                  "indexed": true,
+                  "name": "referredBy",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1560,
+                  "src": "194:26:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1557,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "194:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "75:152:2"
+            },
+            "src": "54:174:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1568,
+            "name": "onTokenSell",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1567,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1562,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1568,
+                  "src": "268:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1561,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "268:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1564,
+                  "indexed": false,
+                  "name": "tokensBurned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1568,
+                  "src": "310:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1563,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "310:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1566,
+                  "indexed": false,
+                  "name": "ethereumEarned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1568,
+                  "src": "341:22:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1565,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "341:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "257:113:2"
+            },
+            "src": "240:131:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1576,
+            "name": "onReinvestment",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1575,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1570,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1576,
+                  "src": "410:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1569,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "410:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1572,
+                  "indexed": false,
+                  "name": "ethereumReinvested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1576,
+                  "src": "452:26:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1571,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "452:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1574,
+                  "indexed": false,
+                  "name": "tokensMinted",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1576,
+                  "src": "489:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1573,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "489:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "399:117:2"
+            },
+            "src": "379:138:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1582,
+            "name": "onWithdraw",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1581,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1578,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1582,
+                  "src": "556:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1577,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "556:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1580,
+                  "indexed": false,
+                  "name": "ethereumWithdrawn",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1582,
+                  "src": "598:25:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1579,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "598:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "545:85:2"
+            },
+            "src": "529:102:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1588,
+            "name": "onTokenEscape",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1587,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1584,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1588,
+                  "src": "669:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1583,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "669:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1586,
+                  "indexed": false,
+                  "name": "tokensEscaped",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1588,
+                  "src": "711:21:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1585,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "711:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "658:81:2"
+            },
+            "src": "639:101:2"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 1596,
+            "name": "onTokenArbitrage",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 1595,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1590,
+                  "indexed": true,
+                  "name": "customerAddress",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1596,
+                  "src": "781:31:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1589,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "781:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1592,
+                  "indexed": false,
+                  "name": "tokensBurned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1596,
+                  "src": "823:20:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1591,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "823:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1594,
+                  "indexed": false,
+                  "name": "ethereumEarned",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1596,
+                  "src": "854:22:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1593,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "854:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "770:113:2"
+            },
+            "src": "748:136:2"
+          }
+        ],
+        "scope": 1598,
+        "src": "28:861:2"
+      }
+    ],
+    "src": "0:889:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-08-21T09:50:16.405Z"
+}

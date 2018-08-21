@@ -5,6 +5,7 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 contract S3DTokenBase {
 
     uint8 constant public decimals = 18;
+    uint8 constant internal dividendFee_ = 10;
 
     /*================================
     =            DATASETS            =
@@ -24,8 +25,8 @@ contract S3DTokenBase {
     uint256 internal escapeTokenSuppley_ = 0;
     uint256 internal overSellTokenAmount_ = 0;
 
-    uint256 constant internal tokenPriceInitial_ = 0.0000001 ether;
-    uint256 constant internal tokenPriceIncremental_ = 0.00000001 ether;
+    uint256 internal tokenPriceInitial_ = 0.0000001 ether;
+    uint256 internal tokenPriceIncremental_ = 0.00000001 ether;
     uint256 constant internal magnitude = 2**64;
 
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
