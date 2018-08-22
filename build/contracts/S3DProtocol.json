@@ -28004,13 +28004,13 @@
     "10": {
       "events": {},
       "links": {
-        "StringUtils": "0x3b47d9271e79fa69ec3b7602829e0a37a84411a2",
-        "TokenDealerMapping": "0x845c8c2a87402d5be93722f97400e3b59ef9530b"
+        "StringUtils": "0xd72d62f163d038a7fb47d7eb60bfb593e6b5dd9f",
+        "TokenDealerMapping": "0x4c7014d6b2f3489bc3bc203fd5b419b9acb2d647"
       },
-      "address": "0xd72d62f163d038a7fb47d7eb60bfb593e6b5dd9f",
-      "transactionHash": "0x19cf6f13b39e266e9431c5e8c77012c20d1b01cf8296f920700d865ff1a6e295"
+      "address": "0x194d4215204fe592d45843dbe93586268d689666",
+      "transactionHash": "0xc04078b7aa9d44d859abafaca01c049e06914dd374c85e469d24245e2a995a67"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-21T10:30:52.310Z"
+  "updatedAt": "2018-08-22T02:23:45.086Z"
 }

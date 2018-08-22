@@ -251,7 +251,7 @@ contract EthDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedEthereum * magnitude));
         payoutsTo_[_customerAddress] -= _updatedPayouts;       
 
-        SeeleDividendsToEth(seeleDividendsToEthContractAddress).updatePayouts(_customerAddress, _tokens);
+        //SeeleDividendsToEth(seeleDividendsToEthContractAddress).updatePayouts(_customerAddress, _tokens);
 
         // dividing by zero is a bad idea
         uint256 dividendTokenAmount_ =  getDividendTokenAmount();
@@ -409,7 +409,7 @@ contract EthDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens);
         payoutsTo_[_customerAddress] -= _updatedPayouts;       
 
-        SeeleDividendsToEth(seeleDividendsToEthContractAddress).updatePayouts(_customerAddress, _tokens);
+        //SeeleDividendsToEth(seeleDividendsToEthContractAddress).updatePayouts(_customerAddress, _tokens);
 
         // fire event
         emit S3DEvents.onTokenEscape(_customerAddress, _tokens);

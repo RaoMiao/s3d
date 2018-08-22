@@ -252,7 +252,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         uint256 _tokens = _amountOfTokens;
         uint256 _seeleAmount = s3dToBuyTokens_(_tokens);
         uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        _dividends = splitDividendsToEth(_dividends);
+        //_dividends = splitDividendsToEth(_dividends);
         uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
         
         // burn the sold tokens
@@ -392,7 +392,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         // data setup
         //address _customerAddress = buyer;
         uint256 _undividedDividends = SafeMath.div(_incomingSeele, dividendFee_);
-        _undividedDividends = splitDividendsToEth(_undividedDividends);
+        //_undividedDividends = splitDividendsToEth(_undividedDividends);
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);
         uint256 _taxedSeele = SafeMath.sub(_incomingSeele, _undividedDividends);
