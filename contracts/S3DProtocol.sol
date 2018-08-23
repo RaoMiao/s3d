@@ -22,36 +22,43 @@ contract S3DProtocol is Claimable{
     string constant public name = "S3D perfect";
     string constant public symbol = "S3D";
 
-    function addDealer(string symbol, address dealerAddress) public onlyOwner returns (uint size) {
+    function addDealer(string symbol, address dealerAddress) 
+        public 
+        onlyOwner 
+        returns (uint size) 
+    {
         TokenDealerMapping.insert(tokenDealerMap, symbol, dealerAddress);
         return tokenDealerMap.size;
     }
 
-    function getDealer(string symbol) public view returns (address) {
+    function getDealer(string symbol) 
+        public 
+        view 
+        returns (address) 
+    {
         return tokenDealerMap.data[symbol].value;
     }
 
-    function setStakingRequirement(uint256 _amountOfTokens) onlyOwner() public {
+    function setStakingRequirement(uint256 _amountOfTokens) 
+        onlyOwner() 
+        public 
+    {
         stakingRequirement = _amountOfTokens;
     }
 
-    function setArbitrageRequirement(uint256 _amountOfTokens) onlyOwner() public {
+    function setArbitrageRequirement(uint256 _amountOfTokens) 
+        onlyOwner() 
+        public 
+    {
         arbitrageRequirement = _amountOfTokens;
     }
     
     //add all s3d
-    function totalBalanceOf(address _customerAddress) public view returns (uint256 sum) {
-        for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
-        {
-            string memory key;
-            address value;
-            (key, value) = TokenDealerMapping.iterate_get(tokenDealerMap, i);
-            TokenDealerInterface dealerContract = TokenDealerInterface(value);
-            sum += dealerContract.balanceOf(_customerAddress);
-        }     
-    }
-
-    function balanceOf( address _customerAddress) public view returns (uint256 sum) {
+    function balanceOf( address _customerAddress) 
+        public 
+        view 
+        returns (uint256 sum) 
+    {
         for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
         {
             string memory key;
@@ -62,14 +69,21 @@ contract S3DProtocol is Claimable{
         } 
     }
 
-    function balanceOf(string symbol, address _customerAddress) public view returns (uint256) {
+    function balanceOfOneToken(string symbol, address _customerAddress) 
+        public 
+        view 
+        returns (uint256)
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.balanceOf(_customerAddress);
     }
 
     //add all s3d
-    function totalSupply() public view returns (uint256 sum) 
+    function totalSupply() 
+        public 
+        view 
+        returns (uint256 sum) 
     {
         sum = 0;
         for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
@@ -82,8 +96,19 @@ contract S3DProtocol is Claimable{
         }
     }
 
-    modifier arbitrageBarrier() {
-        require(totalBalanceOf(msg.sender) >= arbitrageRequirement);
+    function totalSupplyOfOneToken(string symbol) 
+        public 
+        view 
+        returns (uint256 sum) 
+    {
+        TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
+        require(dealerContract != address(0));
+        return dealerContract.totalSupply();
+    }
+
+    modifier arbitrageBarrier() 
+    {
+        require(balanceOf(msg.sender) >= arbitrageRequirement);
         _;
     }
 
@@ -101,7 +126,7 @@ contract S3DProtocol is Claimable{
             
             // does the referrer have at least X whole tokens?
             // i.e is the referrer a godly chad masternode
-            totalBalanceOf(_referredBy) < stakingRequirement
+            balanceOf(_referredBy) < stakingRequirement
         ) {
             _referredBy = 0x0000000000000000000000000000000000000000;
         }
@@ -114,19 +139,26 @@ contract S3DProtocol is Claimable{
         }
     }
 
-    function reinvest(string symbol, uint256 buyAmount) public{
+    function reinvest(string symbol, uint256 buyAmount) 
+        public
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         dealerContract.reinvest(msg.sender, buyAmount);
     }
 
-    function exit(string symbol) public {
+    function exit(string symbol) 
+        public 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         dealerContract.exit(msg.sender);
     }
 
-    function withdrawAll() public returns (uint256 sum) {
+    function withdrawAll() 
+        public 
+        returns (uint256 sum) 
+    {
         for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
         {
             string memory key;
@@ -140,74 +172,107 @@ contract S3DProtocol is Claimable{
         }
     }
 
-    function withdraw(string symbol, uint256 withdrawAmount) public{
+    function withdraw(string symbol, uint256 withdrawAmount) 
+        public
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         dealerContract.withdraw(msg.sender, withdrawAmount);
     }
 
-    function sell(string symbol, uint256 _amountOfTokens) public {
+    function sell(string symbol, uint256 _amountOfTokens) 
+        public 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         dealerContract.sell(msg.sender, _amountOfTokens);
     }
 
-    function totalBalance(string symbol) public view returns(uint) {
+    function totalBalance(string symbol) 
+        public 
+        view 
+        returns(uint) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.totalBalance();
     }
 
-    function totalSupply(string symbol) public view returns (uint256 sum) 
+    function myDividends(string symbol, bool _includeReferralBonus) 
+        public 
+        view 
+        returns(uint256)
     {
-        TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
-        require(dealerContract != address(0));
-        return dealerContract.totalSupply();
-    }
-
-    function myDividends(string symbol, bool _includeReferralBonus) public view returns(uint256){
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.myDividends(msg.sender, _includeReferralBonus);
     }
 
-    function dividendsOf(string symbol, address _customerAddress) view public returns(uint256) {
+    function dividendsOf(string symbol, address _customerAddress) 
+        view 
+        public 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.dividendsOf(_customerAddress);
     }
 
-    function referralBalanceOf(string symbol, address _customerAddress) view public returns(uint256) {
+    function referralBalanceOf(string symbol, address _customerAddress) 
+        view 
+        public 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.referralBalanceOf(_customerAddress);
     }
 
-    function sellPrice(string symbol) public view returns(uint256) {
+    function sellPrice(string symbol) 
+        public 
+        view 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.sellPrice();
     }
 
-    function buyPrice(string symbol) public view returns(uint256) {
+    function buyPrice(string symbol) 
+        public 
+        view 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.buyPrice();
     }
 
-    function calculateTokensReceived(string symbol, uint256 _ethereumToSpend) public view returns(uint256) {
+    function calculateTokensReceived(string symbol, uint256 _ethereumToSpend) 
+        public 
+        view 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.calculateTokensReceived(_ethereumToSpend);
     }
 
-    function calculateBuyTokenSpend(string symbol, uint256 _tokensToBuy) public view returns(uint256) {
+    function calculateBuyTokenSpend(string symbol, uint256 _tokensToBuy) 
+        public 
+        view 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.calculateBuyTokenSpend(_tokensToBuy);
     }
 
-    function calculateBuyTokenReceived(string symbol, uint256 _tokensToSell) public view returns(uint256) {
+    function calculateBuyTokenReceived(string symbol, uint256 _tokensToSell) 
+        public 
+        view 
+        returns(uint256) 
+    {
         TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
         require(dealerContract != address(0));
         return dealerContract.calculateBuyTokenReceived(_tokensToSell);
@@ -229,7 +294,10 @@ contract S3DProtocol is Claimable{
         dealerContract.arbitrageTokens(msg.sender, _amountOfTokens);
     }
 
-    function transfer(address _to, uint _value) public returns (bool success) {
-
+    function transfer(address _to, uint _value) 
+        public 
+        returns (bool success) 
+    {
+        return false;
     }
 }
