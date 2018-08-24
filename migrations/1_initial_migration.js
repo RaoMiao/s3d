@@ -1,6 +1,10 @@
 var Migrations = artifacts.require("./Migrations.sol");
 
+
+
 module.exports = function(deployer) {
+  
+
   deployer.deploy(Migrations);
 
   // var adminAddress = '0xcd16575a90ed9506bcf44c78845d93f1b647f48c';

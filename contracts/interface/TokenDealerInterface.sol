@@ -11,7 +11,6 @@ interface TokenDealerInterface{
     function withdraw(address buyer, uint256 withdrawAmount) external;
     function sell(address buyer, uint256 _amountOfTokens) external; 
     function totalBalance() external view returns(uint);
-    function myDividends(address myAddress, bool _includeReferralBonus) external view returns(uint256);
     function dividendsOf(address _customerAddress) view external returns(uint256);
     function referralBalanceOf(address _customerAddress) view external returns(uint256);
     function sellPrice() external view returns(uint256);

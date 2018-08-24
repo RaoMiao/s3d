@@ -6,7 +6,6 @@ import "../contracts/interface/TokenDealerInterface.sol";
 import "../contracts/library/TokenDealerMapping.sol";
 import "../contracts/library/StringUtils.sol";
 
-
 contract S3DProtocol is Claimable{
 
     TokenDealerMapping.itmap tokenDealerMap;
@@ -155,9 +154,9 @@ contract S3DProtocol is Claimable{
         dealerContract.exit(msg.sender);
     }
 
+
     function withdrawAll() 
         public 
-        returns (uint256 sum) 
     {
         for (uint i = TokenDealerMapping.iterate_start(tokenDealerMap); TokenDealerMapping.iterate_valid(tokenDealerMap, i); i = TokenDealerMapping.iterate_next(tokenDealerMap, i))
         {
@@ -165,8 +164,7 @@ contract S3DProtocol is Claimable{
             address value;
             (key, value) = TokenDealerMapping.iterate_get(tokenDealerMap, i);
             TokenDealerInterface dealerContract = TokenDealerInterface(value);
-            dealerContract.totalSupply();
-            if (dealerContract.myDividends(msg.sender, true) > 0) {
+            if (dealerContract.dividendsOf(msg.sender) > 0 || dealerContract.referralBalanceOf(msg.sender) > 0) {
                 dealerContract.withdraw(msg.sender);
             }
         }
@@ -198,15 +196,6 @@ contract S3DProtocol is Claimable{
         return dealerContract.totalBalance();
     }
 
-    function myDividends(string symbol, bool _includeReferralBonus) 
-        public 
-        view 
-        returns(uint256)
-    {
-        TokenDealerInterface dealerContract = TokenDealerInterface(tokenDealerMap.data[symbol].value);
-        require(dealerContract != address(0));
-        return dealerContract.myDividends(msg.sender, _includeReferralBonus);
-    }
 
     function dividendsOf(string symbol, address _customerAddress) 
         view 

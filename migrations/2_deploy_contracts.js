@@ -10,7 +10,7 @@ var OMGToken = artifacts.require("./OMGToken.sol");
 var OMGDealer = artifacts.require("./OMGDealer.sol");
 var ZRXDealer = artifacts.require("./ZRXDealer.sol");
 
-
+const mainAccount = "0xcd16575a90ed9506bcf44c78845d93f1b647f48c";
 module.exports = function(deployer) { 
     var adminAccount = '0xcd16575a90ed9506bcf44c78845d93f1b647f48c';
 
