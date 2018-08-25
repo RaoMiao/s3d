@@ -156,9 +156,9 @@ contract S3DTokenBase {
         view
         returns(uint256)
     {
-        uint256 _buyTokenAmount = needBuyTokensToS3d_(_tokensToBuy);
+        uint256 _buyTokenAmount = needBuyTokensToS3d(_tokensToBuy);
         uint256 _dividends = SafeMath.div(_buyTokenAmount, dividendFee);
-        uint256 _taxedBuyToken = SafeMath.sub(_buyTokenAmount, _dividends);
+        uint256 _taxedBuyToken = SafeMath.add(_buyTokenAmount, _dividends);
         return _taxedBuyToken;
     }
 
@@ -177,15 +177,15 @@ contract S3DTokenBase {
         return _taxedBuyToken;
     }
 
-    function needBuyTokensToS3d_(uint256 _tokens)
+    function needBuyTokensToS3d(uint256 _tokens)
         internal 
         view
         returns(uint256)
     {
-        uint256 _tokenSupply = (getPricedTokenAmount() + 1e18);
+        uint256 _tokenSupply = getPricedTokenAmount();
         uint256 _beginPrice = tokenPriceInitial +(tokenPriceIncremental * (tokenSupply/1e18));
         uint256 _endPrice = _beginPrice + (tokenPriceIncremental * (_tokens/1e18));
-        uint256 _buyTokenNeeded = SafeMath.mul(SafeMath.add(_beginPrice,_endPrice), SafeMath.div(_tokens, 2));
+        uint256 _buyTokenNeeded = ((_beginPrice+_endPrice) * _tokens) / ( 1e18*2);
 
         return _buyTokenNeeded;
     }

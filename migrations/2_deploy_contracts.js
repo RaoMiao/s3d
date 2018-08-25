@@ -86,15 +86,21 @@ module.exports = function(deployer) {
     }).then(function(){
         return SeeleTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23, false);
     }).then(function(){
+        return SeeleTokenInst.mint('0x000Fb41cbDd1E368ED7C2E29Df1717a09aFbbD5a', 1e25, false);
+    }).then(function(){
         return SeeleTokenInst.approve(SeeleDealerInstance.address, 1e23);
     }).then(function(){
         return OMGTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23);
     }).then(function(){
         return OMGTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23);
     }).then(function(){
+        return OMGTokenInst.mint('0x000Fb41cbDd1E368ED7C2E29Df1717a09aFbbD5a', 1e25);
+    }).then(function(){
         return OMGTokenInst.approve(OMGDealerInstance.address, 1e23);
     }).then(function(){
         return ZRXTokenInst.approve(ZRXDealerInstance.address, 1e23);
+    }).then(function(){
+        return ZRXTokenInst.transfer('0x000Fb41cbDd1E368ED7C2E29Df1717a09aFbbD5a', 1e25);
     }).then(function(){
         console.log("s3d depoly success!!!");
     })

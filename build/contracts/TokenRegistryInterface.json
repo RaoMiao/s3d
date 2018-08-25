@@ -100,9 +100,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.24;\r\n\r\ninterface TokenRegistryInterface {\r\n    function registerToken(\r\n        address addr,\r\n        string  symbol\r\n        )\r\n        external;\r\n\r\n    function unregisterToken(\r\n        address addr,\r\n        string  symbol\r\n        )\r\n        external;\r\n\r\n    function getAddressBySymbol(\r\n        string symbol\r\n        )\r\n        external\r\n        view\r\n        returns (address);\r\n\r\n    function isTokenRegisteredBySymbol(\r\n        string symbol\r\n        )\r\n        public\r\n        view\r\n        returns (bool);\r\n\r\n    function isTokenRegistered(\r\n        address addr\r\n        )\r\n        public\r\n        view\r\n        returns (bool);\r\n}",
-  "sourcePath": "D:\\work\\truffle\\s3d - 副本\\contracts\\interface\\TokenRegistryInterface.sol",
+  "sourcePath": "D:\\work\\truffle\\s3d\\contracts\\interface\\TokenRegistryInterface.sol",
   "ast": {
-    "absolutePath": "/D/work/truffle/s3d - 副本/contracts/interface/TokenRegistryInterface.sol",
+    "absolutePath": "/D/work/truffle/s3d/contracts/interface/TokenRegistryInterface.sol",
     "exportedSymbols": {
       "TokenRegistryInterface": [
         8559
@@ -556,7 +556,7 @@
     "src": "0:666:16"
   },
   "legacyAST": {
-    "absolutePath": "/D/work/truffle/s3d - 副本/contracts/interface/TokenRegistryInterface.sol",
+    "absolutePath": "/D/work/truffle/s3d/contracts/interface/TokenRegistryInterface.sol",
     "exportedSymbols": {
       "TokenRegistryInterface": [
         8559
@@ -1015,5 +1015,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-25T04:02:39.790Z"
+  "updatedAt": "2018-08-25T06:33:37.422Z"
 }

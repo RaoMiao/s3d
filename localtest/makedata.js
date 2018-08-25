@@ -636,6 +636,18 @@ module.exports = function(callback) {
     }).then(function(instance){
         ZRXDealerInstance = instance;
         
+        //SendBuy("0xcd16575a90ed9506bcf44c78845d93f1b647f48c", "eth", 1e18, "0x0000000000000000000000000000000000000000");
+        S3DProtocolInstance.balanceOfOneToken.call('eth', '0xcd16575a90ed9506bcf44c78845d93f1b647f48c').then(function(balance){
+            var ownAmount = balance;
+            console.log("ownAmount" + ownAmount)        
+        })
+
+        // SendBuy("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", "eth", 1e18, "0x0000000000000000000000000000000000000000");
+        // S3DProtocolInstance.balanceOfOneToken.call('eth', '0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa').then(function(balance){
+        //     var ownAmount = balance;
+        //     console.log("ownAmount" + ownAmount)        
+        // })
+
         // SendBuy("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", "eth", 1e18, "0x6690F54bc3a912EB5959ca52102410b2ABE362C3");
         // SendBuy("0x4956D13120447ceBb1bddEBae03F4c7E0c2eE3Bf", "eth", 1e18, "0x0000000000000000000000000000000000000000");
         // SendBuy("0x5068EDfB644C8Cc4acCb1649b1969EBcB76B60d6", "eth", 1e18, "0x0000000000000000000000000000000000000000");
@@ -746,11 +758,11 @@ module.exports = function(callback) {
         // SendWithdrawAll("0x5567Fd0a8164acbd463dd28A69CFAD90CF4F0D9B");
         // SendWithdrawAll("0x5575b7fD2b1119F2E45021fac13c1381d83293cA");
 
-        SendArbitrage("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", "seele", "eth");
-        SendArbitrage("0x4956D13120447ceBb1bddEBae03F4c7E0c2eE3Bf", "seele", "eth");
-        SendArbitrage("0x5068EDfB644C8Cc4acCb1649b1969EBcB76B60d6", "seele", "eth");
-        SendArbitrage("0x5567Fd0a8164acbd463dd28A69CFAD90CF4F0D9B", "seele", "eth");
-        SendArbitrage("0x5575b7fD2b1119F2E45021fac13c1381d83293cA", "seele", "eth");
+        // SendArbitrage("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", "seele", "eth");
+        // SendArbitrage("0x4956D13120447ceBb1bddEBae03F4c7E0c2eE3Bf", "seele", "eth");
+        // SendArbitrage("0x5068EDfB644C8Cc4acCb1649b1969EBcB76B60d6", "seele", "eth");
+        // SendArbitrage("0x5567Fd0a8164acbd463dd28A69CFAD90CF4F0D9B", "seele", "eth");
+        // SendArbitrage("0x5575b7fD2b1119F2E45021fac13c1381d83293cA", "seele", "eth");
 
         // SendArbitrage("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", "eth", "seele");
         // SendArbitrage("0x4956D13120447ceBb1bddEBae03F4c7E0c2eE3Bf", "eth", "seele");

@@ -129,24 +129,24 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582035f47c00a7ccc4c006788ba0d21484e1b3ae6fce50ae7a3a53a4d84228f4e5880029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582035f47c00a7ccc4c006788ba0d21484e1b3ae6fce50ae7a3a53a4d84228f4e5880029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820bdeaa55abbc7b91ef88f92f9b30a6c3fe7a016691c3b7f0cb136f089022d23d30029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820bdeaa55abbc7b91ef88f92f9b30a6c3fe7a016691c3b7f0cb136f089022d23d30029",
   "sourceMap": "26:796:4:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;26:796:4;;;;;;;",
   "deployedSourceMap": "26:796:4:-;;;;;",
   "source": "pragma solidity ^0.4.24;\n\ncontract S3DEvents {\n    event onTokenPurchase(\n        address indexed customerAddress,\n        uint256 incomingTokens,\n        uint256 s3dMinted,\n        address indexed referredBy\n    );\n    \n    event onTokenSell(\n        address indexed customerAddress,\n        uint256 s3dBurned,\n        uint256 tokenEarned\n    );\n\n    event onReinvestment(\n        address indexed customerAddress,\n        uint256 tokenReinvested,\n        uint256 s3dMinted\n    );\n    \n    event onWithdraw(\n        address indexed customerAddress,\n        uint256 tokenWithdrawn\n    );\n\n    event onTokenEscape(\n        address indexed customerAddress,\n        uint256 s3dEscaped\n    );\n\n    event onTokenArbitrage(\n        address indexed customerAddress,\n        uint256 s3dBurned,\n        uint256 tokenEarned\n    );\n\n}",
-  "sourcePath": "D:\\work\\truffle\\s3d - 副本\\contracts\\S3Devents.sol",
+  "sourcePath": "D:\\work\\truffle\\s3d\\contracts\\S3Devents.sol",
   "ast": {
-    "absolutePath": "/D/work/truffle/s3d - 副本/contracts/S3Devents.sol",
+    "absolutePath": "/D/work/truffle/s3d/contracts/S3Devents.sol",
     "exportedSymbols": {
       "S3DEvents": [
-        3599
+        3595
       ]
     },
-    "id": 3600,
+    "id": 3596,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3552,
+        "id": 3548,
         "literals": [
           "solidity",
           "^",
@@ -162,9 +162,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3599,
+        "id": 3595,
         "linearizedBaseContracts": [
-          3599
+          3595
         ],
         "name": "S3DEvents",
         "nodeType": "ContractDefinition",
@@ -172,20 +172,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3562,
+            "id": 3558,
             "name": "onTokenPurchase",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3561,
+              "id": 3557,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3554,
+                  "id": 3550,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "82:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -194,7 +194,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3553,
+                    "id": 3549,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "82:7:4",
@@ -208,11 +208,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3556,
+                  "id": 3552,
                   "indexed": false,
                   "name": "incomingTokens",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "123:22:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -221,7 +221,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3555,
+                    "id": 3551,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "123:7:4",
@@ -235,11 +235,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3558,
+                  "id": 3554,
                   "indexed": false,
                   "name": "s3dMinted",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "155:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -248,7 +248,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3557,
+                    "id": 3553,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "155:7:4",
@@ -262,11 +262,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3560,
+                  "id": 3556,
                   "indexed": true,
                   "name": "referredBy",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "182:26:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -275,7 +275,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3559,
+                    "id": 3555,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "182:7:4",
@@ -295,20 +295,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3570,
+            "id": 3566,
             "name": "onTokenSell",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3569,
+              "id": 3565,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3564,
+                  "id": 3560,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3570,
+                  "scope": 3566,
                   "src": "252:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -317,7 +317,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3563,
+                    "id": 3559,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "252:7:4",
@@ -331,11 +331,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3566,
+                  "id": 3562,
                   "indexed": false,
                   "name": "s3dBurned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3570,
+                  "scope": 3566,
                   "src": "293:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -344,7 +344,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3565,
+                    "id": 3561,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "293:7:4",
@@ -358,11 +358,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3568,
+                  "id": 3564,
                   "indexed": false,
                   "name": "tokenEarned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3570,
+                  "scope": 3566,
                   "src": "320:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -371,7 +371,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3567,
+                    "id": 3563,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "320:7:4",
@@ -391,20 +391,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3578,
+            "id": 3574,
             "name": "onReinvestment",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3577,
+              "id": 3573,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3572,
+                  "id": 3568,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3578,
+                  "scope": 3574,
                   "src": "382:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -413,7 +413,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3571,
+                    "id": 3567,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "382:7:4",
@@ -427,11 +427,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3574,
+                  "id": 3570,
                   "indexed": false,
                   "name": "tokenReinvested",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3578,
+                  "scope": 3574,
                   "src": "423:23:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -440,7 +440,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3573,
+                    "id": 3569,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "423:7:4",
@@ -454,11 +454,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3576,
+                  "id": 3572,
                   "indexed": false,
                   "name": "s3dMinted",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3578,
+                  "scope": 3574,
                   "src": "456:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -467,7 +467,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3575,
+                    "id": 3571,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "456:7:4",
@@ -487,20 +487,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3584,
+            "id": 3580,
             "name": "onWithdraw",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3583,
+              "id": 3579,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3580,
+                  "id": 3576,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3584,
+                  "scope": 3580,
                   "src": "516:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -509,7 +509,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3579,
+                    "id": 3575,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "516:7:4",
@@ -523,11 +523,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3582,
+                  "id": 3578,
                   "indexed": false,
                   "name": "tokenWithdrawn",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3584,
+                  "scope": 3580,
                   "src": "557:22:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -536,7 +536,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3581,
+                    "id": 3577,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "557:7:4",
@@ -556,20 +556,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3590,
+            "id": 3586,
             "name": "onTokenEscape",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3589,
+              "id": 3585,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3586,
+                  "id": 3582,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3590,
+                  "scope": 3586,
                   "src": "621:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -578,7 +578,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3585,
+                    "id": 3581,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "621:7:4",
@@ -592,11 +592,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3588,
+                  "id": 3584,
                   "indexed": false,
                   "name": "s3dEscaped",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3590,
+                  "scope": 3586,
                   "src": "662:18:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -605,7 +605,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3587,
+                    "id": 3583,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "662:7:4",
@@ -625,20 +625,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3598,
+            "id": 3594,
             "name": "onTokenArbitrage",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3597,
+              "id": 3593,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3592,
+                  "id": 3588,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3598,
+                  "scope": 3594,
                   "src": "725:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -647,7 +647,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3591,
+                    "id": 3587,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "725:7:4",
@@ -661,11 +661,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3594,
+                  "id": 3590,
                   "indexed": false,
                   "name": "s3dBurned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3598,
+                  "scope": 3594,
                   "src": "766:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -674,7 +674,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3593,
+                    "id": 3589,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "766:7:4",
@@ -688,11 +688,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3596,
+                  "id": 3592,
                   "indexed": false,
                   "name": "tokenEarned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3598,
+                  "scope": 3594,
                   "src": "793:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -701,7 +701,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3595,
+                    "id": 3591,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "793:7:4",
@@ -719,24 +719,24 @@
             "src": "693:126:4"
           }
         ],
-        "scope": 3600,
+        "scope": 3596,
         "src": "26:796:4"
       }
     ],
     "src": "0:822:4"
   },
   "legacyAST": {
-    "absolutePath": "/D/work/truffle/s3d - 副本/contracts/S3Devents.sol",
+    "absolutePath": "/D/work/truffle/s3d/contracts/S3Devents.sol",
     "exportedSymbols": {
       "S3DEvents": [
-        3599
+        3595
       ]
     },
-    "id": 3600,
+    "id": 3596,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3552,
+        "id": 3548,
         "literals": [
           "solidity",
           "^",
@@ -752,9 +752,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3599,
+        "id": 3595,
         "linearizedBaseContracts": [
-          3599
+          3595
         ],
         "name": "S3DEvents",
         "nodeType": "ContractDefinition",
@@ -762,20 +762,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3562,
+            "id": 3558,
             "name": "onTokenPurchase",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3561,
+              "id": 3557,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3554,
+                  "id": 3550,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "82:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -784,7 +784,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3553,
+                    "id": 3549,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "82:7:4",
@@ -798,11 +798,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3556,
+                  "id": 3552,
                   "indexed": false,
                   "name": "incomingTokens",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "123:22:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -811,7 +811,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3555,
+                    "id": 3551,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "123:7:4",
@@ -825,11 +825,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3558,
+                  "id": 3554,
                   "indexed": false,
                   "name": "s3dMinted",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "155:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -838,7 +838,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3557,
+                    "id": 3553,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "155:7:4",
@@ -852,11 +852,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3560,
+                  "id": 3556,
                   "indexed": true,
                   "name": "referredBy",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3562,
+                  "scope": 3558,
                   "src": "182:26:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -865,7 +865,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3559,
+                    "id": 3555,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "182:7:4",
@@ -885,20 +885,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3570,
+            "id": 3566,
             "name": "onTokenSell",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3569,
+              "id": 3565,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3564,
+                  "id": 3560,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3570,
+                  "scope": 3566,
                   "src": "252:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -907,7 +907,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3563,
+                    "id": 3559,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "252:7:4",
@@ -921,11 +921,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3566,
+                  "id": 3562,
                   "indexed": false,
                   "name": "s3dBurned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3570,
+                  "scope": 3566,
                   "src": "293:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -934,7 +934,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3565,
+                    "id": 3561,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "293:7:4",
@@ -948,11 +948,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3568,
+                  "id": 3564,
                   "indexed": false,
                   "name": "tokenEarned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3570,
+                  "scope": 3566,
                   "src": "320:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -961,7 +961,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3567,
+                    "id": 3563,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "320:7:4",
@@ -981,20 +981,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3578,
+            "id": 3574,
             "name": "onReinvestment",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3577,
+              "id": 3573,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3572,
+                  "id": 3568,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3578,
+                  "scope": 3574,
                   "src": "382:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1003,7 +1003,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3571,
+                    "id": 3567,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "382:7:4",
@@ -1017,11 +1017,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3574,
+                  "id": 3570,
                   "indexed": false,
                   "name": "tokenReinvested",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3578,
+                  "scope": 3574,
                   "src": "423:23:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1030,7 +1030,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3573,
+                    "id": 3569,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "423:7:4",
@@ -1044,11 +1044,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3576,
+                  "id": 3572,
                   "indexed": false,
                   "name": "s3dMinted",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3578,
+                  "scope": 3574,
                   "src": "456:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1057,7 +1057,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3575,
+                    "id": 3571,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "456:7:4",
@@ -1077,20 +1077,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3584,
+            "id": 3580,
             "name": "onWithdraw",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3583,
+              "id": 3579,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3580,
+                  "id": 3576,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3584,
+                  "scope": 3580,
                   "src": "516:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1099,7 +1099,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3579,
+                    "id": 3575,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "516:7:4",
@@ -1113,11 +1113,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3582,
+                  "id": 3578,
                   "indexed": false,
                   "name": "tokenWithdrawn",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3584,
+                  "scope": 3580,
                   "src": "557:22:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1126,7 +1126,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3581,
+                    "id": 3577,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "557:7:4",
@@ -1146,20 +1146,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3590,
+            "id": 3586,
             "name": "onTokenEscape",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3589,
+              "id": 3585,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3586,
+                  "id": 3582,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3590,
+                  "scope": 3586,
                   "src": "621:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1168,7 +1168,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3585,
+                    "id": 3581,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "621:7:4",
@@ -1182,11 +1182,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3588,
+                  "id": 3584,
                   "indexed": false,
                   "name": "s3dEscaped",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3590,
+                  "scope": 3586,
                   "src": "662:18:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1195,7 +1195,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3587,
+                    "id": 3583,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "662:7:4",
@@ -1215,20 +1215,20 @@
           {
             "anonymous": false,
             "documentation": null,
-            "id": 3598,
+            "id": 3594,
             "name": "onTokenArbitrage",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 3597,
+              "id": 3593,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3592,
+                  "id": 3588,
                   "indexed": true,
                   "name": "customerAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3598,
+                  "scope": 3594,
                   "src": "725:31:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1237,7 +1237,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3591,
+                    "id": 3587,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "725:7:4",
@@ -1251,11 +1251,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3594,
+                  "id": 3590,
                   "indexed": false,
                   "name": "s3dBurned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3598,
+                  "scope": 3594,
                   "src": "766:17:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1264,7 +1264,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3593,
+                    "id": 3589,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "766:7:4",
@@ -1278,11 +1278,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 3596,
+                  "id": 3592,
                   "indexed": false,
                   "name": "tokenEarned",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3598,
+                  "scope": 3594,
                   "src": "793:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1291,7 +1291,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3595,
+                    "id": 3591,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "793:7:4",
@@ -1309,7 +1309,7 @@
             "src": "693:126:4"
           }
         ],
-        "scope": 3600,
+        "scope": 3596,
         "src": "26:796:4"
       }
     ],
@@ -1321,5 +1321,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-25T04:05:46.658Z"
+  "updatedAt": "2018-08-25T08:25:10.948Z"
 }
