@@ -80,14 +80,6 @@ module.exports = function(deployer) {
     }).then(function(){
         return ZRXDealerInstance.addAddressToWhitelist(S3DProtocolInstance.address);
     }).then(function(){
-        return SeeleDealerInstance.setSeeleDividendsToEthContractAddress(SeeleDividendsToEthInstance.address);
-    }).then(function(){
-        return SeeleDividendsToEthInstance.setEthDealerAddress(EthDealerInstance.address);
-    }).then(function(){
-        return SeeleDividendsToEthInstance.addAddressToWhitelist(SeeleDealerInstance.address);
-    }).then(function(){
-        return SeeleDividendsToEthInstance.addAddressToWhitelist(EthDealerInstance.address);
-    }).then(function(){
         return SeeleTokenInst.unpause();
     }).then(function(){
         return SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);

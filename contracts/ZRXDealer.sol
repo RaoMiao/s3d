@@ -13,23 +13,23 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     // ensures that the first tokens in the contract will be equally distributed
     // meaning, no divine dump will be ever possible
     // result: healthy longevity.
-    modifier antiEarlyWhale(address buyer, uint256 _amountOfEthereum){
-        address _customerAddress = buyer;
+    modifier antiEarlyWhale(address _buyer, uint256 _amountOfEthereum){
+        address _customerAddress = _buyer;
         
         // are we still in the vulnerable phase?
         // if so, enact anti early whale protocol 
-        if( onlyAmbassadors && ((totalBalance() - _amountOfEthereum) <= ambassadorQuota_ )){
+        if( onlyAmbassadors && ((totalBalance() - _amountOfEthereum) <= ambassadorQuota )){
             require(
                 // is the customer in the ambassador list?
-                ambassadors_[_customerAddress] == true &&
+                ambassadors[_customerAddress] == true &&
                 
                 // does the customer purchase exceed the max ambassador quota?
-                (ambassadorAccumulatedQuota_[_customerAddress] + _amountOfEthereum) <= ambassadorMaxPurchase_
+                (ambassadorAccumulatedQuota[_customerAddress] + _amountOfEthereum) <= ambassadorMaxPurchase
                 
             );
             
             // updated the accumulated quota    
-            ambassadorAccumulatedQuota_[_customerAddress] = SafeMath.add(ambassadorAccumulatedQuota_[_customerAddress], _amountOfEthereum);
+            ambassadorAccumulatedQuota[_customerAddress] = SafeMath.add(ambassadorAccumulatedQuota[_customerAddress], _amountOfEthereum);
         
             // execute
             _;
@@ -44,16 +44,12 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     /*=====================================
     =            CONFIGURABLES            =
     =====================================*/
-    string public name = "ZRX-S3D";
-    string public symbol = "ZRX-S3D";
 
-    uint8 internal ethDividendFee_ = 50;
-
-    
+   
     // ambassador program
-    mapping(address => bool) internal ambassadors_;
-    uint256 constant internal ambassadorMaxPurchase_ = 10000;
-    uint256 constant internal ambassadorQuota_ = 200000;
+    mapping(address => bool) internal ambassadors;
+    uint256 constant internal ambassadorMaxPurchase = 10000;
+    uint256 constant internal ambassadorQuota = 200000;
     
     address public zrxTokenAddress = 0x47879ac781938CFfd879392Cd2164b9F7306188a;
 
@@ -66,31 +62,31 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     /*
     * -- APPLICATION ENTRY POINTS --  
     */
-    function ZRXDealer(address tokenAddress)
+    function ZRXDealer(address _tokenAddress)
         public
     {
-        tokenPriceInitial_ = 0.00004000 * 1e18;
-        tokenPriceIncremental_ = 0.000004 * 1e18;
+        tokenPriceInitial = 0.00004000 * 1e18;
+        tokenPriceIncremental = 0.000004 * 1e18;
 
-        zrxTokenAddress = tokenAddress;
+        zrxTokenAddress = _tokenAddress;
 
         // add the ambassadors here.
         // mantso - lead solidity dev & lead web dev. 
-        ambassadors_[0xCd16575A90eD9506BCf44C78845d93F1b647F48C] = true;
+        ambassadors[0xCd16575A90eD9506BCf44C78845d93F1b647F48C] = true;
     }
     
     /**
      * Converts all incoming ethereum to tokens for the caller, and passes down the referral addy (if any)
      */
-    function buy(address buyer, uint256 seeleAmount, address _referredBy)
+    function buy(address _buyer, uint256 _zrxAmount, address _referredBy)
         public
         payable
         onlyIfWhitelisted(msg.sender)
         returns(uint256)
     {
         //transfer seele to contract
-        require(ERC20(zrxTokenAddress).transferFrom(buyer, address(this), seeleAmount));
-        purchaseTokens(buyer, seeleAmount, _referredBy);
+        require(ERC20(zrxTokenAddress).transferFrom(_buyer, address(this), _zrxAmount));
+        purchaseTokens(_buyer, _zrxAmount, _referredBy);
     }
     
     /*
@@ -106,30 +102,30 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     /**
      * Converts all of caller's dividends to tokens.
      */
-    function reinvest(address buyer, uint buyAmount)
-        onlyStronghands(buyer)
-        onlyIfWhitelisted(msg.sender)
+    function reinvest(address _buyer, uint _buyAmount)
         public
+        onlyStronghands(_buyer)
+        onlyIfWhitelisted(msg.sender)
     {
         // fetch dividends
-        uint256 _dividends = dividendsOf(buyer); // retrieve ref. bonus later in the code
-        uint256 _referralBalance = referralBalance_[buyer];
-        require(buyAmount <= (_dividends + _referralBalance));
+        uint256 _dividends = dividendsOf(_buyer); // retrieve ref. bonus later in the code
+        uint256 _referralBalance = referralBalance[_buyer];
+        require(_buyAmount <= (_dividends + _referralBalance));
 
-        if (buyAmount <= _dividends) {
+        if (_buyAmount <= _dividends) {
             // pay out the dividends virtually
-            payoutsTo_[buyer] +=  (int256)(buyAmount * magnitude);
+            payoutsTo[_buyer] +=  (int256)(_buyAmount * magnitude);
         } else {
-            payoutsTo_[buyer] +=  (int256) (_dividends * magnitude);
+            payoutsTo[_buyer] +=  (int256) (_dividends * magnitude);
             // retrieve ref. bonus
-            referralBalance_[buyer] = SafeMath.sub(referralBalance_[buyer], buyAmount - _dividends);
+            referralBalance[_buyer] = SafeMath.sub(referralBalance[_buyer], SafeMath.sub(_buyAmount,_dividends));
         }
                 
         // dispatch a buy order with the virtualized "withdrawn dividends"
-        uint256 _tokens = purchaseTokens(buyer, buyAmount, 0x0);
+        uint256 _tokens = purchaseTokens(_buyer, _buyAmount, 0x0);
         
         // fire event
-        emit S3DEvents.onReinvestment(buyer, buyAmount, _tokens);
+        emit S3DEvents.onReinvestment(_buyer, _buyAmount, _tokens);
     }
 
     // function reinvest(address buyer)
@@ -157,38 +153,38 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     /**
      * Alias of sell() and withdraw().
      */
-    function exit(address buyer)
-        onlyIfWhitelisted(msg.sender)
+    function exit(address _buyer)
         public
+        onlyIfWhitelisted(msg.sender)
     {
         // get token count for caller & sell them all
-        address _customerAddress = buyer;
-        uint256 _tokens = tokenBalanceLedger_[_customerAddress];
+        address _customerAddress = _buyer;
+        uint256 _tokens = tokenBalanceLedger[_customerAddress];
         if(_tokens > 0) 
-            sell(buyer, _tokens);
+            sell(_buyer, _tokens);
         
         // lambo delivery service
-        withdraw(buyer);
+        withdrawAll(_buyer);
     }
 
     /**
      * Withdraws all of the callers earnings.
      */
-    function withdraw(address buyer)
-        onlyStronghands(buyer)
-        onlyIfWhitelisted(msg.sender)
+    function withdrawAll(address _buyer)
         public
+        onlyStronghands(_buyer)
+        onlyIfWhitelisted(msg.sender)
     {
         // setup data
-        address _customerAddress = buyer;
+        address _customerAddress = _buyer;
         uint256 _dividends = dividendsOf(_customerAddress); // get ref. bonus later in the code
         
         // update dividend tracker
-        payoutsTo_[_customerAddress] +=  (int256) (_dividends * magnitude);
+        payoutsTo[_customerAddress] +=  (int256) (_dividends * magnitude);
         
         // add ref. bonus
-        _dividends += referralBalance_[_customerAddress];
-        referralBalance_[_customerAddress] = 0;
+        _dividends += referralBalance[_customerAddress];
+        referralBalance[_customerAddress] = 0;
         
         // lambo delivery service
         //_customerAddress.transfer(_dividends);
@@ -198,68 +194,68 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         emit S3DEvents.onWithdraw(_customerAddress, _dividends);
     }
 
-    function withdraw(address buyer, uint256 withdrawAmount)
-        onlyStronghands(buyer)
-        onlyIfWhitelisted(msg.sender)
+    function withdraw(address _buyer, uint256 _withdrawAmount)
         public
+        onlyStronghands(_buyer)
+        onlyIfWhitelisted(msg.sender)
     {
         // setup data
-        uint256 _dividends = dividendsOf(buyer); // get ref. bonus later in the code
-        uint256 _referralBalance = referralBalance_[buyer];
-        require(withdrawAmount <= (_dividends + _referralBalance));
+        uint256 _dividends = dividendsOf(_buyer); // get ref. bonus later in the code
+        uint256 _referralBalance = referralBalance[_buyer];
+        require(_withdrawAmount <= (_dividends + _referralBalance));
 
-        if (withdrawAmount <= _dividends) {
+        if (_withdrawAmount <= _dividends) {
             // pay out the dividends virtually
-            payoutsTo_[buyer] +=  (int256)(withdrawAmount * magnitude);
+            payoutsTo[_buyer] +=  (int256)(_withdrawAmount * magnitude);
         } else {
             // retrieve ref. bonus
-            payoutsTo_[buyer] +=  (int256) (_dividends * magnitude);
-            referralBalance_[buyer] = SafeMath.sub(referralBalance_[buyer], withdrawAmount - _dividends);
+            payoutsTo[_buyer] +=  (int256) (_dividends * magnitude);
+            referralBalance[_buyer] = SafeMath.sub(referralBalance[_buyer], SafeMath.sub(_withdrawAmount, _dividends));
         }
         
         
         // lambo delivery service
         //_customerAddress.transfer(withdrawAmount);
-        ERC20(zrxTokenAddress).transfer(buyer, _dividends);
+        ERC20(zrxTokenAddress).transfer(_buyer, _dividends);
         
         // fire event
-        emit S3DEvents.onWithdraw(buyer, withdrawAmount);
+        emit S3DEvents.onWithdraw(_buyer, _withdrawAmount);
     }
     
     /**
      * Liquifies tokens to ethereum.
      */
-    function sell(address seller, uint256 _amountOfTokens)
-        onlyBagholders(seller)
-        onlyIfWhitelisted(msg.sender)
+    function sell(address _seller, uint256 _amountOfTokens)
         public
+        onlyBagholders(_seller)
+        onlyIfWhitelisted(msg.sender)
     {
         // setup data
-        address _customerAddress = seller;
+        address _customerAddress = _seller;
         // russian hackers BTFO
-        require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
+        require(_amountOfTokens <= tokenBalanceLedger[_customerAddress]);
         uint256 _tokens = _amountOfTokens;
-        uint256 _seeleAmount = s3dToBuyTokens_(_tokens);
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
+        uint256 _zrxAmount = s3dToBuyTokens(_tokens);
+        uint256 _dividends = SafeMath.div(_zrxAmount, dividendFee);
+        uint256 _taxedZrx = SafeMath.sub(_zrxAmount, _dividends);
         
         // burn the sold tokens
-        tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
-        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
+        tokenSupply = SafeMath.sub(tokenSupply, _tokens);
+        tokenBalanceLedger[_customerAddress] = SafeMath.sub(tokenBalanceLedger[_customerAddress], _tokens);
         
         // update dividends tracker
-        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens + (_taxedSeele * magnitude));
-        payoutsTo_[_customerAddress] -= _updatedPayouts;       
+        int256 _updatedPayouts = (int256) (profitPerShare * _tokens + (_taxedZrx * magnitude));
+        payoutsTo[_customerAddress] -= _updatedPayouts;       
         
         // dividing by zero is a bad idea
-        uint256 dividendTokenAmount_ =  getDividendTokenAmount();
-        if (dividendTokenAmount_ > 0) {
+        uint256 _dividendTokenAmount =  getDividendTokenAmount();
+        if (_dividendTokenAmount > 0) {
             // update the amount of dividends per token
-            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / dividendTokenAmount_);
+            profitPerShare = SafeMath.add(profitPerShare, (_dividends * magnitude) / _dividendTokenAmount);
         }
         
         // fire event
-        emit S3DEvents.onTokenSell(_customerAddress, _tokens, _taxedSeele);
+        emit S3DEvents.onTokenSell(_customerAddress, _tokens, _taxedZrx);
     }
     
     /**
@@ -315,8 +311,8 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
      * In case the amassador quota is not met, the administrator can manually disable the ambassador phase.
      */
     function disableInitialStage()
-        onlyOwner()
         public
+        onlyOwner()
     {
         onlyAmbassadors = false;
     }
@@ -350,25 +346,25 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     /*==========================================
     =            INTERNAL FUNCTIONS            =
     ==========================================*/
-    function purchaseTokens(address buyer, uint256 _incomingSeele, address _referredBy)
-        antiEarlyWhale(buyer, _incomingSeele)
+    function purchaseTokens(address _buyer, uint256 _incomingZrx, address _referredBy)
         internal
+        antiEarlyWhale(_buyer, _incomingZrx)
         returns(uint256)
     {
         // data setup
         //address _customerAddress = buyer;
-        uint256 _undividedDividends = SafeMath.div(_incomingSeele, dividendFee_);
+        uint256 _undividedDividends = SafeMath.div(_incomingZrx, dividendFee);
         uint256 _referralBonus = SafeMath.div(_undividedDividends, 3);
         uint256 _dividends = SafeMath.sub(_undividedDividends, _referralBonus);
-        uint256 _taxedSeele = SafeMath.sub(_incomingSeele, _undividedDividends);
-        uint256 _amountOfTokens = buyTokensToS3d_(_taxedSeele);
+        uint256 _taxedZrx = SafeMath.sub(_incomingZrx, _undividedDividends);
+        uint256 _amountOfTokens = buyTokensToS3d(_taxedZrx);
         uint256 _fee = _dividends * magnitude;
  
         // no point in continuing execution if OP is a poorfag russian hacker
         // prevents overflow in the case that the pyramid somehow magically starts being used by everyone in the world
         // (or hackers)
         // and yes we know that the safemath function automatically rules out the "greater then" equasion.
-        require(_amountOfTokens > 0 && (SafeMath.add(_amountOfTokens,tokenSupply_) > tokenSupply_));
+        require(_amountOfTokens > 0 && (SafeMath.add(_amountOfTokens,tokenSupply) > tokenSupply));
         
         // is the user referred by a masternode?
         if(
@@ -376,14 +372,14 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
             _referredBy != 0x0000000000000000000000000000000000000000 &&
 
             // no cheating!
-            _referredBy != buyer
+            _referredBy != _buyer
             
             // does the referrer have at least X whole tokens?
             // i.e is the referrer a godly chad masternode
             //tokenBalanceLedger_[_referredBy] >= stakingRequirement
         ){
             // wealth redistribution
-            referralBalance_[_referredBy] = SafeMath.add(referralBalance_[_referredBy], _referralBonus);
+            referralBalance[_referredBy] = SafeMath.add(referralBalance[_referredBy], _referralBonus);
         } else {
             // no ref purchase
             // add the referral bonus back to the global dividends cake
@@ -392,63 +388,63 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         }
         
         // we can't give people infinite ethereum
-        if(tokenSupply_ > 0){
+        if(tokenSupply > 0){
             
             // add tokens to the pool
-            tokenSupply_ = SafeMath.add(tokenSupply_, _amountOfTokens);
+            tokenSupply = SafeMath.add(tokenSupply, _amountOfTokens);
 
             //uint256 dividendTokenAmount_ =  getDividendTokenAmount();
  
             // take the amount of dividends gained through this transaction, and allocates them evenly to each shareholder
-            profitPerShare_ += (_dividends * magnitude / (getDividendTokenAmount()));
+            profitPerShare += (_dividends * magnitude / (getDividendTokenAmount()));
             
             // calculate the amount of tokens the customer receives over his purchase 
             _fee = _fee - (_fee-(_amountOfTokens * (_dividends * magnitude / (getDividendTokenAmount()))));
         
         } else {
             // add tokens to the pool
-            tokenSupply_ = _amountOfTokens;
+            tokenSupply = _amountOfTokens;
         }
         
         // update circulating supply & the ledger address for the customer
-        tokenBalanceLedger_[buyer] = SafeMath.add(tokenBalanceLedger_[buyer], _amountOfTokens);
+        tokenBalanceLedger[_buyer] = SafeMath.add(tokenBalanceLedger[_buyer], _amountOfTokens);
         
         // Tells the contract that the buyer doesn't deserve dividends for the tokens before they owned them;
         //really i know you think you do but you don't
 
         //int256 _updatedPayouts = (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
-        payoutsTo_[buyer] += (int256) ((profitPerShare_ * _amountOfTokens) - _fee);
+        payoutsTo[_buyer] += (int256) ((profitPerShare * _amountOfTokens) - _fee);
         
         // fire event
-        emit S3DEvents.onTokenPurchase(buyer, _incomingSeele, _amountOfTokens, _referredBy);
+        emit S3DEvents.onTokenPurchase(_buyer, _incomingZrx, _amountOfTokens, _referredBy);
         
         return _amountOfTokens;
     }
 
     //NEW FUNCTION        
-    function escapeTokens(address sellerAddress, uint256 _amountOfTokens) 
-        onlyBagholders(sellerAddress) 
-        onlyIfWhitelisted(msg.sender)
+    function escapeTokens(address _sellerAddress, uint256 _amountOfTokens) 
         public 
+        onlyBagholders(_sellerAddress) 
+        onlyIfWhitelisted(msg.sender)
         returns(uint256)
     {
         // setup data
-        address _customerAddress = sellerAddress;
+        address _customerAddress = _sellerAddress;
 
         // russian hackers BTFO
-        require(_amountOfTokens <= tokenBalanceLedger_[_customerAddress]);
+        require(_amountOfTokens <= tokenBalanceLedger[_customerAddress]);
         uint256 _tokens = _amountOfTokens;
 
         // add the sold tokens to escape tokens
-        tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
-        escapeTokenSuppley_ = SafeMath.add(escapeTokenSuppley_, _tokens);
-        tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
-        escapeTokenBalance_[_customerAddress] = SafeMath.add(escapeTokenBalance_[_customerAddress], _tokens);
+        tokenSupply = SafeMath.sub(tokenSupply, _tokens);
+        escapeTokenSuppley = SafeMath.add(escapeTokenSuppley, _tokens);
+        tokenBalanceLedger[_customerAddress] = SafeMath.sub(tokenBalanceLedger[_customerAddress], _tokens);
+        escapeTokenBalance[_customerAddress] = SafeMath.add(escapeTokenBalance[_customerAddress], _tokens);
    
         // update dividends tracker
         // take you token dividends
-        int256 _updatedPayouts = (int256) (profitPerShare_ * _tokens);
-        payoutsTo_[_customerAddress] -= _updatedPayouts;       
+        int256 _updatedPayouts = (int256) (profitPerShare * _tokens);
+        payoutsTo[_customerAddress] -= _updatedPayouts;       
 
         // fire event
         emit S3DEvents.onTokenEscape(_customerAddress, _tokens);
@@ -456,49 +452,49 @@ contract ZRXDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
     }
 
     //套利
-    function arbitrageTokens(address sellerAddress,  uint256 _amountOfTokens) 
-        onlyIfWhitelisted(msg.sender)
+    function arbitrageTokens(address _sellerAddress,  uint256 _amountOfTokens) 
         public
+        onlyIfWhitelisted(msg.sender)
         returns(uint256)
     {
         require(_amountOfTokens <= getPricedTokenAmount());
         
         // setup data
-        address _customerAddress = sellerAddress;
+        address _customerAddress = _sellerAddress;
         
         // TokenDealerInterface escapeContract = TokenDealerInterface(sellTokenAddress);
         // uint256 _tokens = escapeContract.escapeTokens(_customerAddress, _amountOfTokens);
         // require(_tokens == _amountOfTokens);
 
         // russian hackers BTFO
-        uint256 _seeleAmount = s3dToBuyTokens_(_amountOfTokens);
-        require(_seeleAmount <= totalBalance());        
+        uint256 _zrxAmount = s3dToBuyTokens(_amountOfTokens);
+        require(_zrxAmount <= totalBalance());        
 
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
+        uint256 _dividends = SafeMath.div(_zrxAmount, dividendFee);
+        uint256 _taxedZrx = SafeMath.sub(_zrxAmount, _dividends);
         
         // burn the sold tokens
         //tokenSupply_ = SafeMath.sub(tokenSupply_, _tokens);
         //tokenBalanceLedger_[_customerAddress] = SafeMath.sub(tokenBalanceLedger_[_customerAddress], _tokens);
 
         // add escape tokens to oversell
-        overSellTokenAmount_ = SafeMath.add(overSellTokenAmount_, _amountOfTokens);
-        overSellTokenBalance_[_customerAddress] = SafeMath.add(overSellTokenBalance_[_customerAddress], _amountOfTokens);
+        overSellTokenAmount = SafeMath.add(overSellTokenAmount, _amountOfTokens);
+        overSellTokenBalance[_customerAddress] = SafeMath.add(overSellTokenBalance[_customerAddress], _amountOfTokens);
 
              
         // dividing by zero is a bad idea
-        uint256 dividendTokenAmount_ =  getDividendTokenAmount();
-        if (dividendTokenAmount_ > 0) {
+        uint256 _dividendTokenAmount =  getDividendTokenAmount();
+        if (_dividendTokenAmount > 0) {
             // update the amount of dividends per token
-            profitPerShare_ = SafeMath.add(profitPerShare_, (_dividends * magnitude) / dividendTokenAmount_);
+            profitPerShare = SafeMath.add(profitPerShare, (_dividends * magnitude) / _dividendTokenAmount);
         }
         
         // lambo delivery service
         //_customerAddress.transfer(_taxedEthereum);
-        ERC20(zrxTokenAddress).transfer(_customerAddress, _taxedSeele);
+        ERC20(zrxTokenAddress).transfer(_customerAddress, _taxedZrx);
 
         // fire event
-        emit S3DEvents.onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedSeele);
-        return _taxedSeele;
+        emit S3DEvents.onTokenArbitrage(_customerAddress, _amountOfTokens, _taxedZrx);
+        return _taxedZrx;
     }
 }

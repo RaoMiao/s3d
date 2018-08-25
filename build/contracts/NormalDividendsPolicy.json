@@ -1,14 +1,14 @@
 {
   "contractName": "NormalDividendsPolicy",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820f78a622a23bb48704694f6a042c70021c25d04c3ec50927d5e2b37ba716558f00029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820f78a622a23bb48704694f6a042c70021c25d04c3ec50927d5e2b37ba716558f00029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a723058201b980c0b01240c4526f0a7579005b99a78d43e1d5f0a2236ae05455b6ed913b30029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a723058201b980c0b01240c4526f0a7579005b99a78d43e1d5f0a2236ae05455b6ed913b30029",
   "sourceMap": "28:41:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;28:41:0;;;;;;;",
   "deployedSourceMap": "28:41:0:-;;;;;",
   "source": "pragma solidity ^0.4.24;\r\n\r\ncontract NormalDividendsPolicy {\r\n    \r\n}",
-  "sourcePath": "D:\\work\\truffle\\s3d\\contracts\\DividensPolicy.sol",
+  "sourcePath": "D:\\work\\truffle\\s3d - 副本\\contracts\\DividensPolicy.sol",
   "ast": {
-    "absolutePath": "/D/work/truffle/s3d/contracts/DividensPolicy.sol",
+    "absolutePath": "/D/work/truffle/s3d - 副本/contracts/DividensPolicy.sol",
     "exportedSymbols": {
       "NormalDividendsPolicy": [
         2
@@ -48,7 +48,7 @@
     "src": "0:69:0"
   },
   "legacyAST": {
-    "absolutePath": "/D/work/truffle/s3d/contracts/DividensPolicy.sol",
+    "absolutePath": "/D/work/truffle/s3d - 副本/contracts/DividensPolicy.sol",
     "exportedSymbols": {
       "NormalDividendsPolicy": [
         2
@@ -93,5 +93,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-24T02:53:50.604Z"
+  "updatedAt": "2018-08-25T04:02:39.597Z"
 }

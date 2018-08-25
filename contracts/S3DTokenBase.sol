@@ -4,29 +4,28 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract S3DTokenBase {
 
-    uint8 constant public decimals = 18;
-    uint8 constant internal dividendFee_ = 10;
+    uint8 constant internal dividendFee = 10;
 
     /*================================
     =            DATASETS            =
     ================================*/
     // amount of shares for each address (scaled number)
-    mapping(address => uint256) internal tokenBalanceLedger_;
-    mapping(address => uint256) internal referralBalance_;
-    mapping(address => int256) internal payoutsTo_;
-    mapping(address => uint256) internal ambassadorAccumulatedQuota_;
+    mapping(address => uint256) internal tokenBalanceLedger;
+    mapping(address => uint256) internal referralBalance;
+    mapping(address => int256) internal payoutsTo;
+    mapping(address => uint256) internal ambassadorAccumulatedQuota;
 
-    mapping(address => uint256) public escapeTokenBalance_;
-    mapping(address => uint256) public overSellTokenBalance_;
+    mapping(address => uint256) internal escapeTokenBalance;
+    mapping(address => uint256) internal overSellTokenBalance;
 
-    uint256 internal tokenSupply_ = 0;
-    uint256 internal profitPerShare_;
+    uint256 internal tokenSupply = 0;
+    uint256 internal profitPerShare;
 
-    uint256 internal escapeTokenSuppley_ = 0;
-    uint256 internal overSellTokenAmount_ = 0;
+    uint256 internal escapeTokenSuppley = 0;
+    uint256 internal overSellTokenAmount = 0;
 
-    uint256 internal tokenPriceInitial_ = 0.0000001 ether;
-    uint256 internal tokenPriceIncremental_ = 0.00000001 ether;
+    uint256 internal tokenPriceInitial = 0.0000001 ether;
+    uint256 internal tokenPriceIncremental = 0.00000001 ether;
     uint256 constant internal magnitude = 2**64;
 
     // when this is set to true, only ambassadors can purchase tokens (this prevents a whale premine, it ensures a fairly distributed upper pyramid)
@@ -42,14 +41,14 @@ contract S3DTokenBase {
     =            MODIFIERS            =
     =================================*/
     // only people with tokens
-    modifier onlyBagholders(address myAddress) {
-        require(balanceOf(myAddress) > 0);
+    modifier onlyBagholders(address _myAddress) {
+        require(balanceOf(_myAddress) > 0);
         _;
     }
     
     // only people with profits
-    modifier onlyStronghands(address myAddress) {
-        require(dividendsOf(myAddress) + referralBalanceOf(myAddress) > 0);
+    modifier onlyStronghands(address _myAddress) {
+        require(dividendsOf(_myAddress) + referralBalanceOf(_myAddress) > 0);
         _;
     }
 
@@ -63,40 +62,40 @@ contract S3DTokenBase {
         view
         returns(uint256)
     {
-        return tokenSupply_;
+        return tokenSupply;
     }
 
     /**
      * Retrieve the token balance of any single address.
      */
     function balanceOf(address _customerAddress)
-        view
         public
+        view
         returns(uint256)
     {
-        return tokenBalanceLedger_[_customerAddress];
+        return tokenBalanceLedger[_customerAddress];
     }
 
     /**
      * Retrieve the dividend balance of any single address.
      */
     function dividendsOf(address _customerAddress)
-        view
         public
+        view
         returns(uint256)
     {
-        return (uint256) ((int256)(profitPerShare_ * tokenBalanceLedger_[_customerAddress]) - payoutsTo_[_customerAddress]) / magnitude;
+        return (uint256) ((int256)(profitPerShare * tokenBalanceLedger[_customerAddress]) - payoutsTo[_customerAddress]) / magnitude;
     }
 
     /**
      * Retrieve the referral balance of any single address.
      */
     function referralBalanceOf(address _customerAddress)
-        view
         public 
+        view
         returns(uint256)
     {
-        return referralBalance_[_customerAddress];
+        return referralBalance[_customerAddress];
     }
 
     /**
@@ -109,12 +108,12 @@ contract S3DTokenBase {
     {
         // our calculation relies on the token supply, so we need supply. Doh.
         if(getPricedTokenAmount() == 0){
-            return tokenPriceInitial_ - tokenPriceIncremental_;
+            return tokenPriceInitial - tokenPriceIncremental;
         } else {
-            uint256 _seeleAmount = s3dToBuyTokens_(1e18);
-            uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_  );
-            uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-            return _taxedSeele;
+            uint256 _buyTokenAmount = s3dToBuyTokens(1e18);
+            uint256 _dividends = SafeMath.div(_buyTokenAmount, dividendFee);
+            uint256 _taxedBuyToken = SafeMath.sub(_buyTokenAmount, _dividends);
+            return _taxedBuyToken;
         }
     }
     
@@ -128,26 +127,26 @@ contract S3DTokenBase {
     {
         // our calculation relies on the token supply, so we need supply. Doh.
         if(getPricedTokenAmount() == 0){
-            return tokenPriceInitial_ + tokenPriceIncremental_;
+            return tokenPriceInitial + tokenPriceIncremental;
         } else {
-            uint256 _seeleAmount = s3dToBuyTokens_(1e18);
-            uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_  );
-            uint256 _taxedSeele = SafeMath.add(_seeleAmount, _dividends);
-            return _taxedSeele;
+            uint256 _buyTokenAmount = s3dToBuyTokens(1e18);
+            uint256 _dividends = SafeMath.div(_buyTokenAmount, dividendFee);
+            uint256 _taxedBuyToken = SafeMath.add(_buyTokenAmount, _dividends);
+            return _taxedBuyToken;
         }
     }
     
     /**
      * Function for the frontend to dynamically retrieve the price scaling of buy orders.
      */
-    function calculateTokensReceived(uint256 _seeleToSpend) 
+    function calculateTokensReceived(uint256 _buyTokenToSpend) 
         public 
         view 
         returns(uint256)
     {
-        uint256 _dividends = SafeMath.div(_seeleToSpend, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleToSpend, _dividends);
-        uint256 _amountOfTokens = buyTokensToS3d_(_taxedSeele);
+        uint256 _dividends = SafeMath.div(_buyTokenToSpend, dividendFee);
+        uint256 _taxedBuyToken = SafeMath.sub(_buyTokenToSpend, _dividends);
+        uint256 _amountOfTokens = buyTokensToS3d(_taxedBuyToken);
         
         return _amountOfTokens;
     }
@@ -157,10 +156,10 @@ contract S3DTokenBase {
         view
         returns(uint256)
     {
-        uint256 _seeleAmount = needBuyTokensToS3d_(_tokensToBuy);
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-        return _taxedSeele;
+        uint256 _buyTokenAmount = needBuyTokensToS3d_(_tokensToBuy);
+        uint256 _dividends = SafeMath.div(_buyTokenAmount, dividendFee);
+        uint256 _taxedBuyToken = SafeMath.sub(_buyTokenAmount, _dividends);
+        return _taxedBuyToken;
     }
 
     /**
@@ -172,10 +171,10 @@ contract S3DTokenBase {
         returns(uint256)
     {
         require(_tokensToSell <= getPricedTokenAmount());
-        uint256 _seeleAmount = s3dToBuyTokens_(_tokensToSell);
-        uint256 _dividends = SafeMath.div(_seeleAmount, dividendFee_);
-        uint256 _taxedSeele = SafeMath.sub(_seeleAmount, _dividends);
-        return _taxedSeele;
+        uint256 _buyTokenAmount = s3dToBuyTokens(_tokensToSell);
+        uint256 _dividends = SafeMath.div(_buyTokenAmount, dividendFee);
+        uint256 _taxedBuyToken = SafeMath.sub(_buyTokenAmount, _dividends);
+        return _taxedBuyToken;
     }
 
     function needBuyTokensToS3d_(uint256 _tokens)
@@ -184,9 +183,9 @@ contract S3DTokenBase {
         returns(uint256)
     {
         uint256 _tokenSupply = (getPricedTokenAmount() + 1e18);
-        uint256 beginPrice = tokenPriceInitial_ +(tokenPriceIncremental_ * (_tokenSupply/1e18));
-        uint256 endPrice = beginPrice + (tokenPriceIncremental_ * (_tokens/1e18));
-        uint256 _buyTokenNeeded = SafeMath.mul(SafeMath.add(beginPrice , endPrice), SafeMath.div(_tokens, 2));
+        uint256 _beginPrice = tokenPriceInitial +(tokenPriceIncremental * (tokenSupply/1e18));
+        uint256 _endPrice = _beginPrice + (tokenPriceIncremental * (_tokens/1e18));
+        uint256 _buyTokenNeeded = SafeMath.mul(SafeMath.add(_beginPrice,_endPrice), SafeMath.div(_tokens, 2));
 
         return _buyTokenNeeded;
     }
@@ -196,12 +195,12 @@ contract S3DTokenBase {
      * It's an algorithm, hopefully we gave you the whitepaper with it in scientific notation;
      * Some conversions occurred to prevent decimal errors or underflows / overflows in solidity code.
      */
-    function buyTokensToS3d_(uint256 seeleAmount)
+    function buyTokensToS3d(uint256 _buyTokenAmount)
         internal
         view
         returns(uint256)
     {
-        uint256 _tokenPriceInitial = tokenPriceInitial_ ;
+        uint256 _tokenPriceInitial = tokenPriceInitial ;
         uint256 _tokenSupply =  getPricedTokenAmount();
         uint256 _tokensReceived = 
          (
@@ -212,23 +211,23 @@ contract S3DTokenBase {
                         (   
                             (_tokenPriceInitial**2)
                             +
-                            (2*(tokenPriceIncremental_ * 1e18 )*(seeleAmount * 1e18))
+                            (2*(tokenPriceIncremental * 1e18 )*(_buyTokenAmount * 1e18))
                             +
-                            (((tokenPriceIncremental_)**2)*(tokenSupply_**2))
+                            (((tokenPriceIncremental)**2)*(tokenSupply**2))
                             +
-                            (2*(tokenPriceIncremental_)*_tokenPriceInitial*tokenSupply_)
+                            (2*(tokenPriceIncremental)*_tokenPriceInitial*tokenSupply)
                         )
                     ), _tokenPriceInitial
                 )
-            )/(tokenPriceIncremental_)
-        )-(tokenSupply_)
+            )/(tokenPriceIncremental)
+        )-(tokenSupply)
         ;
   
         return _tokensReceived;
     }
     
 
-    function s3dToBuyTokens_(uint256 _tokens)
+    function s3dToBuyTokens(uint256 _tokens)
         internal
         view
         returns(uint256)
@@ -236,20 +235,20 @@ contract S3DTokenBase {
 
         uint256 tokens_ = (_tokens + 1e18);
         uint256 _tokenSupply = (getPricedTokenAmount() + 1e18);
-        uint256 _seeleReceived =
+        uint256 _buyTokensReceived =
         (
             // underflow attempts BTFO
             SafeMath.sub(
                 (
                     (
                         (
-                            tokenPriceInitial_ +(tokenPriceIncremental_ * (_tokenSupply/1e18))
-                        )-tokenPriceIncremental_
+                            tokenPriceInitial +(tokenPriceIncremental * (_tokenSupply/1e18))
+                        )-tokenPriceIncremental
                     )*(tokens_ - 1e18)
-                ),(tokenPriceIncremental_*((tokens_**2-tokens_)/1e18))/2
+                ),(tokenPriceIncremental*((tokens_**2-tokens_)/1e18))/2
             )
         /1e18);
-        return _seeleReceived;
+        return _buyTokensReceived;
     }
     
 
@@ -265,10 +264,10 @@ contract S3DTokenBase {
     }
 
     function getDividendTokenAmount() internal view returns (uint256) {
-        return tokenSupply_;
+        return tokenSupply;
     }
 
     function getPricedTokenAmount() internal view returns (uint256) {
-        return SafeMath.sub(SafeMath.add(tokenSupply_, escapeTokenSuppley_), overSellTokenAmount_);
+        return SafeMath.sub(SafeMath.add(tokenSupply, escapeTokenSuppley), overSellTokenAmount);
     }
 }
