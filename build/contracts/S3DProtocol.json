@@ -27318,13 +27318,13 @@
     "10": {
       "events": {},
       "links": {
-        "StringUtils": "0x3b47d9271e79fa69ec3b7602829e0a37a84411a2",
-        "TokenDealerMapping": "0x845c8c2a87402d5be93722f97400e3b59ef9530b"
+        "StringUtils": "0x1ce4b3475dcddc728ba0ef0e50878305ad48ccab",
+        "TokenDealerMapping": "0x002dab950fc1f763d4f120328fa54e5c8b4659d7"
       },
-      "address": "0xd72d62f163d038a7fb47d7eb60bfb593e6b5dd9f",
-      "transactionHash": "0x9cfe19d1530ebd54a49fc9237da0fc1f49a9baed03c7b1126cedd1edf3df918a"
+      "address": "0xa5da69628432e37fa728e0d47a106b603e566b55",
+      "transactionHash": "0xcbf30097f05713be2f34942a4a155c22bf73fd78a8e8ece3172775950bad274c"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-25T08:30:06.923Z"
+  "updatedAt": "2018-08-25T09:02:47.192Z"
 }
