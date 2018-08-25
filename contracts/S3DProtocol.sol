@@ -9,13 +9,13 @@ import "../contracts/library/StringUtils.sol";
 contract S3DProtocol is Claimable{
     TokenDealerMapping.itmap tokenDealerMap;
 
-    uint256 internal referralRequirement = 500e18;
-    uint256 internal arbitrageRequirement = 1000e18;
+    uint256 public referralRequirement = 500e18;
+    uint256 public arbitrageRequirement = 1000e18;
 
     string constant internal ethSymbol = "eth";
 
     uint8 constant public decimals = 18;
-    string constant public name = "S3D perfect";
+    string constant public name = "S3D Token";
     string constant public symbol = "S3D";
 
     mapping(address => bool) internal referralers;

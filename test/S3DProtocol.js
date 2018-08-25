@@ -70,4 +70,73 @@ contract('S3DProtocol', function(accounts) {
         assert.notEqual(zrxAddress, null, "zrx dealer is null");
     })
   });
+
+  it("should addReferraler correctly", function() {
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
+    return S3DProtocolInstance.isReferraler(testaddress).then(function(isReferraler){
+        assert.equal(isReferraler, false, "is not a referraler");       
+        return S3DProtocolInstance.addReferraler(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isReferraler(testaddress);
+    }).then(function(isReferraler){
+        assert.equal(isReferraler, true, "is a referraler");        
+        return S3DProtocolInstance.removeReferraler(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isReferraler(testaddress);
+    }).then(function(isReferraler){
+        assert.equal(isReferraler, false, "is not a referraler");
+    })
+  });
+
+  it("should addArbitrager correctly", function() {
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
+    return S3DProtocolInstance.isArbitrager(testaddress).then(function(isArbitrager){
+        assert.equal(isArbitrager, false, "is not a Arbitrager");       
+        return S3DProtocolInstance.addArbitrager(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isArbitrager(testaddress);
+    }).then(function(isArbitrager){
+        assert.equal(isArbitrager, true, "is a Arbitrager");        
+        return S3DProtocolInstance.removeArbitrager(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isArbitrager(testaddress);
+    }).then(function(isArbitrager){
+        assert.equal(isArbitrager, false, "is not a Arbitrager");
+    })
+  });
+
+  it("should setReferralRequirement correctly", function() {
+    var amountOfTokens = 800e18;
+    return S3DProtocolInstance.referralRequirement.call().then(function(referralRequirement){
+        assert.equal(referralRequirement, 500e18, "referralRequirement is not correct");       
+        return S3DProtocolInstance.setReferralRequirement(amountOfTokens);
+    }).then(function(){
+        return S3DProtocolInstance.referralRequirement.call();
+    }).then(function(referralRequirement){
+        assert.equal(referralRequirement, amountOfTokens, "referralRequirement is not 800e18");       
+        return S3DProtocolInstance.setReferralRequirement(500e18);       
+    }).then(function(){
+        return S3DProtocolInstance.referralRequirement.call();
+    }).then(function(referralRequirement){
+        assert.equal(referralRequirement, 500e18, "referralRequirement is not 500e18");         
+    })
+  });
+
+  
+  it("should setArbitrageRequirement correctly", function() {
+    var amountOfTokens = 1500e18;
+    return S3DProtocolInstance.arbitrageRequirement.call().then(function(arbitrageRequirement){
+        assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not correct");       
+        return S3DProtocolInstance.setArbitrageRequirement(amountOfTokens);
+    }).then(function(){
+        return S3DProtocolInstance.arbitrageRequirement.call();
+    }).then(function(arbitrageRequirement){
+        assert.equal(arbitrageRequirement, amountOfTokens, "arbitrageRequirement is not 1500e18");       
+        return S3DProtocolInstance.setArbitrageRequirement(1000e18);       
+    }).then(function(){
+        return S3DProtocolInstance.arbitrageRequirement.call();
+    }).then(function(arbitrageRequirement){
+        assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not 1000e18");         
+    })
+  });
 });

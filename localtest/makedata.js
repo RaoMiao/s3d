@@ -635,12 +635,13 @@ module.exports = function(callback) {
         return ZRXDealer.deployed();
     }).then(function(instance){
         ZRXDealerInstance = instance;
-        
+
+        console.log(S3DProtocolInstance.arbitrageRequirement);
         //SendBuy("0xcd16575a90ed9506bcf44c78845d93f1b647f48c", "eth", 1e18, "0x0000000000000000000000000000000000000000");
-        S3DProtocolInstance.balanceOfOneToken.call('eth', '0xcd16575a90ed9506bcf44c78845d93f1b647f48c').then(function(balance){
-            var ownAmount = balance;
-            console.log("ownAmount" + ownAmount)        
-        })
+        // S3DProtocolInstance.balanceOfOneToken.call('eth', '0xcd16575a90ed9506bcf44c78845d93f1b647f48c').then(function(balance){
+        //     var ownAmount = balance;
+        //     console.log("ownAmount" + ownAmount)        
+        // })
 
         // SendBuy("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", "eth", 1e18, "0x0000000000000000000000000000000000000000");
         // S3DProtocolInstance.balanceOfOneToken.call('eth', '0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa').then(function(balance){
