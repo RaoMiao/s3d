@@ -640,6 +640,81 @@ contract('S3DProtocol', function(accounts) {
     })
   });
 
+  
+  it("should withdrawall eth correctly", function(){
+
+    var before_ethBalance = 0;
+    var before_seeleBalance = 0;
+    var before_omgBalance = 0;
+    var before_zrxBalance = 0;
+
+    var before_ethdividends = 0;
+    var before_seeledividends = 0;
+    var before_omgdividends = 0;
+    var before_zrxdividends = 0;
+
+    var after_ethdividends = 0;
+    var after_seeledividends = 0;
+    var after_omgdividends = 0;
+    var after_zrxdividends = 0;
+
+    var after_ethBalance = 0;
+    var after_seeleBalance = 0;
+    var after_omgBalance = 0;
+    var after_zrxBalance = 0; 
+
+    return S3DProtocolInstance.dividendsOf.call("eth", notOwnerAccount).then(function(dividends){
+        before_ethdividends = dividends;
+        return S3DProtocolInstance.dividendsOf.call("seele", notOwnerAccount);
+    }).then(function(dividends){
+        before_seeledividends = dividends;
+        return S3DProtocolInstance.dividendsOf.call("omg", notOwnerAccount);       
+    }).then(function(dividends){
+        before_omgdividends = dividends;
+        return S3DProtocolInstance.dividendsOf.call("zrx", notOwnerAccount);            
+    }).then(function(dividends){
+        before_zrxdividends = dividends;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        before_ethBalance = balance;
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_seeleBalance = balance;
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_omgBalance = balance;
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_zrxBalance = balance;
+        return S3DProtocolInstance.withdrawAll();
+    }).then(function(){
+        return S3DProtocolInstance.dividendsOf.call("eth", notOwnerAccount){
+            before_ethdividends = dividends;
+            return S3DProtocolInstance.dividendsOf.call("seele", notOwnerAccount);
+        }).then(function(dividends){
+            before_seeledividends = dividends;
+            return S3DProtocolInstance.dividendsOf.call("omg", notOwnerAccount);       
+        }).then(function(dividends){
+            before_omgdividends = dividends;
+            return S3DProtocolInstance.dividendsOf.call("zrx", notOwnerAccount);            
+        }).then(function(dividends){
+            before_zrxdividends = dividends;
+            return web3.eth.getBalance(notOwnerAccount);
+        }).then(function(balance){
+            before_ethBalance = balance;
+            return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+        }).then(function(balance){
+            before_seeleBalance = balance;
+            return OMGTokenInst.balanceOf.call(notOwnerAccount);
+        }).then(function(balance){
+            before_omgBalance = balance;
+            return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+        }).then(function(balance){
+            before_zrxBalance = balance;
+    }
+  });
+
+
   it("should owner functions correctly", function(){
     var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';  
     return S3DProtocolInstance.addReferraler(testaddress, {from: notOwnerAccount, value: 0}).catch(function(e) {
