@@ -19,4 +19,5 @@ interface TokenDealerInterface{
     function calculateBuyTokenSpend(uint256 _tokensToBuy) external view returns(uint256);
     function calculateBuyTokenReceived(uint256 _tokensToSell) external view returns(uint256);
     function arbitrageTokens(address _sellerAddress, uint256 _amountOfTokens) external;
+    function getProfitPerShare() external view returns(uint256);
 }

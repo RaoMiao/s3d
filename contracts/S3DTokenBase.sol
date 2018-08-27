@@ -263,11 +263,27 @@ contract S3DTokenBase {
         }
     }
 
-    function getDividendTokenAmount() internal view returns (uint256) {
+    function getDividendTokenAmount() 
+        internal 
+        view 
+        returns (uint256) 
+    {
         return tokenSupply;
     }
 
-    function getPricedTokenAmount() internal view returns (uint256) {
+    function getPricedTokenAmount() 
+        internal 
+        view 
+        returns (uint256) 
+    {
         return SafeMath.sub(SafeMath.add(tokenSupply, escapeTokenSuppley), overSellTokenAmount);
+    }
+
+    function getProfitPerShare() 
+        public
+        view
+        returns(uint256)
+    {
+        return profitPerShare;
     }
 }

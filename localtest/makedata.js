@@ -636,7 +636,13 @@ module.exports = function(callback) {
     }).then(function(instance){
         ZRXDealerInstance = instance;
 
-        console.log(S3DProtocolInstance.arbitrageRequirement);
+        web3.personal.unlockAccount("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", 'asdf1234', 1500000)
+
+        S3DProtocolInstance.addReferraler("0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", {from: "0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa", value: 0}).catch(function(e) {
+            console.log(e);
+        });
+
+
         //SendBuy("0xcd16575a90ed9506bcf44c78845d93f1b647f48c", "eth", 1e18, "0x0000000000000000000000000000000000000000");
         // S3DProtocolInstance.balanceOfOneToken.call('eth', '0xcd16575a90ed9506bcf44c78845d93f1b647f48c').then(function(balance){
         //     var ownAmount = balance;

@@ -9,7 +9,14 @@ var S3DProtocolInstance ;
 var OMGDealerInstance;
 var ZRXDealerInstance;
 
+var notOwnerAccount = "0x4925D66978FB4f13e574107Fb01F4c3B51AbA7Aa";
+
+
 contract('S3DProtocol', function(accounts) {
+
+  //unlock account
+  web3.personal.unlockAccount(notOwnerAccount, 'asdf1234', 1500000)
+
   it("should depoly correct", function() {
 
     S3DProtocol.deployed().then(function(instance) {
@@ -71,6 +78,22 @@ contract('S3DProtocol', function(accounts) {
     })
   });
 
+  if("should add dealer and remove dealer correctly", function(){
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
+    S3DProtocolInstance.addDealer("testdealer", testaddress).then(function(size){
+        assert.equal(size, 5, "adddealer failed");       
+        return S3DProtocolInstance.getDealer("testdealer");
+    }).then(function(testDealerAddress){
+        assert.equal(testaddress, testDealerAddress, "getDealer the data is not same");            
+        return S3DProtocolInstance.removeDealer("testdealer");
+    }).then(function(size){
+        assert.equal(size, 4, "removeDealer failed");       
+        return S3DProtocolInstance.getDealer("testdealer");       
+    }).then(function(testDealerAddress){
+        assert.equal(testDealerAddress, "0x0000000000000000000000000000000000000000", "getDealer the data is not same");           
+    }); 
+  })
+
   it("should addReferraler correctly", function() {
     var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
     return S3DProtocolInstance.isReferraler(testaddress).then(function(isReferraler){
@@ -85,6 +108,8 @@ contract('S3DProtocol', function(accounts) {
         return S3DProtocolInstance.isReferraler(testaddress);
     }).then(function(isReferraler){
         assert.equal(isReferraler, false, "is not a referraler");
+
+        
     })
   });
 
@@ -137,6 +162,34 @@ contract('S3DProtocol', function(accounts) {
         return S3DProtocolInstance.arbitrageRequirement.call();
     }).then(function(arbitrageRequirement){
         assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not 1000e18");         
+    })
+  });
+
+  if("should owner functions correctly", function(){
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';  
+    return S3DProtocolInstance.addReferraler(testaddress, {from: notOwnerAccount, value: 0}).catch(function(e) {
+        assert.notEqual(e, null, "notowner call addReferraler");                
+        return S3DProtocolInstance.removeReferraler(testaddress, {from: notOwnerAccount, value: 0})
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call removeReferraler");                
+        return S3DProtocolInstance.addArbitrager(testaddress, {from: notOwnerAccount, value: 0})       
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call addArbitrager");                
+        return S3DProtocolInstance.removeArbitrager(testaddress, {from: notOwnerAccount, value: 0})       
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call removeArbitrager");                
+        return S3DProtocolInstance.addDealer("eth", testaddress, {from: notOwnerAccount, value: 0})       
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call addDealer");                
+        return S3DProtocolInstance.removeDealer("eth", testaddress, {from: notOwnerAccount, value: 0})       
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call removeDealer");                
+        return S3DProtocolInstance.setReferralRequirement(1000e18, {from: notOwnerAccount, value: 0})       
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call setReferralRequirement");                
+        return S3DProtocolInstance.setArbitrageRequirement(1000e18, {from: notOwnerAccount, value: 0})       
+    }).catch(function(e) {
+        assert.notEqual(e, null, "notowner call setArbitrageRequirement");                
     })
   });
 });

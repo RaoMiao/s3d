@@ -74,6 +74,15 @@ contract S3DProtocol is Claimable{
         return tokenDealerMap.size;
     }
 
+    function removeDealer(string _symbol) 
+        public 
+        onlyOwner()
+        returns (uint size) 
+    {
+        TokenDealerMapping.remove(tokenDealerMap, _symbol);
+        return tokenDealerMap.size;
+    }
+
     function getDealer(string _symbol) 
         public 
         view 
@@ -330,5 +339,15 @@ contract S3DProtocol is Claimable{
         assert(_dealerContract != address(0));
 
         _dealerContract.arbitrageTokens(msg.sender, _amountOfTokens);
+    }
+
+    function getProfitPerShareOfOneToken(string _symbol) 
+        public
+        view
+        returns(uint256)
+    {
+        TokenDealerInterface _dealerContract = TokenDealerInterface(tokenDealerMap.data[_symbol].value);
+        assert(_dealerContract != address(0));
+        return _dealerContract.getProfitPerShare();
     }
 }
