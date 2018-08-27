@@ -10,9 +10,13 @@ var OMGToken = artifacts.require("./OMGToken.sol");
 var OMGDealer = artifacts.require("./OMGDealer.sol");
 var ZRXDealer = artifacts.require("./ZRXDealer.sol");
 
-const mainAccount = "0xcd16575a90ed9506bcf44c78845d93f1b647f48c";
+//const mainAccount = "0xcd16575a90ed9506bcf44c78845d93f1b647f48c";
+const mainAccount = "0x13Afd24848f08a06Ac21c9320aA6217BC9a7c9D1";
+
 module.exports = function(deployer) { 
-    var adminAccount = '0xcd16575a90ed9506bcf44c78845d93f1b647f48c';
+    //var adminAccount = '0xcd16575a90ed9506bcf44c78845d93f1b647f48c';
+    var adminAccount = '0x13Afd24848f08a06Ac21c9320aA6217BC9a7c9D1';
+
 
     var SeeleTokenInst;
     var ZRXTokenInst;
@@ -82,7 +86,7 @@ module.exports = function(deployer) {
     }).then(function(){
         return SeeleTokenInst.unpause();
     }).then(function(){
-        return SeeleTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23, false);
+        return SeeleTokenInst.mint(mainAccount, 1e23, false);
     }).then(function(){
         return SeeleTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23, false);
     }).then(function(){
@@ -90,7 +94,7 @@ module.exports = function(deployer) {
     }).then(function(){
         return SeeleTokenInst.approve(SeeleDealerInstance.address, 1e23);
     }).then(function(){
-        return OMGTokenInst.mint('0xcd16575a90ed9506bcf44c78845d93f1b647f48c', 1e23);
+        return OMGTokenInst.mint(mainAccount, 1e23);
     }).then(function(){
         return OMGTokenInst.mint('0x9af4bb5e60e6e0cc890a0978ed3a9a33cbcbdf98', 1e23);
     }).then(function(){
