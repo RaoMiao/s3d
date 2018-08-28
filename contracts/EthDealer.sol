@@ -128,7 +128,7 @@ contract EthDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         // fetch dividends
         uint256 _dividends = dividendsOf(_buyer); // retrieve ref. bonus later in the code
         uint256 _referralBalance = referralBalance[_buyer];
-        require(_buyAmount <= (_dividends + _referralBalance));
+        require(_buyAmount <= SafeMath.add(_dividends, _referralBalance));
 
         if (_buyAmount <= _dividends) {
             // pay out the dividends virtually
@@ -198,7 +198,7 @@ contract EthDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         // setup data
         uint256 _dividends = dividendsOf(_buyer); // get ref. bonus later in the code
         uint256 _referralBalance = referralBalance[_buyer];
-        require(_withdrawAmount <= (_dividends + _referralBalance));
+        require(_withdrawAmount <= SafeMath.add(_dividends,_referralBalance));
 
         if (_withdrawAmount <= _dividends) {
             // pay out the dividends virtually

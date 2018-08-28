@@ -112,7 +112,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         // fetch dividends
         uint256 _dividends = dividendsOf(_buyer); // retrieve ref. bonus later in the code
         uint256 _referralBalance = referralBalance[_buyer];
-        require(_buyAmount <= (_dividends + _referralBalance));
+        require(_buyAmount <= SafeMath.add(_dividends,_referralBalance));
 
         if (_buyAmount <= _dividends) {
             // pay out the dividends virtually
@@ -190,7 +190,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         
         // lambo delivery service
         //_customerAddress.transfer(_dividends);
-        ERC20(seeleTokenAddress).transfer(_customerAddress, _dividends);
+        //ERC20(seeleTokenAddress).transfer(_customerAddress, _dividends);
         
         // fire event
         emit S3DEvents.onWithdraw(_customerAddress, _dividends);
@@ -204,7 +204,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         // setup data
         uint256 _dividends = dividendsOf(_buyer); // get ref. bonus later in the code
         uint256 _referralBalance = referralBalance[_buyer];
-        require(_withdrawAmount <= (_dividends + _referralBalance));
+        require(_withdrawAmount <= SafeMath.add(_dividends,_referralBalance));
 
         if (_withdrawAmount <= _dividends) {
             // pay out the dividends virtually
@@ -218,7 +218,7 @@ contract SeeleDealer is Claimable, Whitelist, S3DEvents, S3DTokenBase{
         
         // lambo delivery service
         //_customerAddress.transfer(withdrawAmount);
-        ERC20(seeleTokenAddress).transfer(_buyer, _dividends);
+        ERC20(seeleTokenAddress).transfer(_buyer, _withdrawAmount);
         
         // fire event
         emit S3DEvents.onWithdraw(_buyer, _withdrawAmount);

@@ -16,7 +16,9 @@ var S3DProtocolInstance ;
 var OMGDealerInstance;
 var ZRXDealerInstance;
 
+//var notOwnerAccount = "0xB9B2cf809241A1Ee1Cc1b985f0bD8bd875aE8671";
 var notOwnerAccount = "0xB9B2cf809241A1Ee1Cc1b985f0bD8bd875aE8671";
+
 
 const floatEpsilon = Math.pow(2, -23);
  
@@ -26,7 +28,6 @@ const equalNumber = (a, b) => {
 
 contract('S3DProtocol', function(accounts) {
 
-  console.log(accounts);
 
   //unlock account
   web3.personal.unlockAccount(notOwnerAccount, 'asdf1234', 1500000)
@@ -68,116 +69,116 @@ contract('S3DProtocol', function(accounts) {
     });
   });
 
-//   it("should have eth dealer", function() {
-//     return S3DProtocolInstance.getDealer("eth").then(function(ethAddress){
-//         assert.notEqual(ethAddress, null, "eth dealer is null");
-//     })
-//   });
+  it("should have eth dealer", function() {
+    return S3DProtocolInstance.getDealer("eth").then(function(ethAddress){
+        assert.notEqual(ethAddress, null, "eth dealer is null");
+    })
+  });
 
-//   it("should have seele dealer", function() {
-//     return S3DProtocolInstance.getDealer("seele").then(function(seeleAddress){
-//         assert.notEqual(seeleAddress, null, "eth dealer is null");
-//     })
-//   });
+  it("should have seele dealer", function() {
+    return S3DProtocolInstance.getDealer("seele").then(function(seeleAddress){
+        assert.notEqual(seeleAddress, null, "eth dealer is null");
+    })
+  });
 
-//   it("should have omg dealer", function() {
-//     return S3DProtocolInstance.getDealer("omg").then(function(omgAddress){
-//         assert.notEqual(omgAddress, null, "eth dealer is null");
-//     })
-//   });
+  it("should have omg dealer", function() {
+    return S3DProtocolInstance.getDealer("omg").then(function(omgAddress){
+        assert.notEqual(omgAddress, null, "eth dealer is null");
+    })
+  });
 
-//   it("should have zrx dealer", function() {
-//     return S3DProtocolInstance.getDealer("zrx").then(function(zrxAddress){
-//         assert.notEqual(zrxAddress, null, "zrx dealer is null");
-//     })
-//   });
+  it("should have zrx dealer", function() {
+    return S3DProtocolInstance.getDealer("zrx").then(function(zrxAddress){
+        assert.notEqual(zrxAddress, null, "zrx dealer is null");
+    })
+  });
 
-//   if("should add dealer and remove dealer correctly", function(){
-//     var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
-//     S3DProtocolInstance.addDealer("testdealer", testaddress).then(function(size){
-//         assert.equal(size, 5, "adddealer failed");       
-//         return S3DProtocolInstance.getDealer("testdealer");
-//     }).then(function(testDealerAddress){
-//         assert.equal(testaddress, testDealerAddress, "getDealer the data is not same");            
-//         return S3DProtocolInstance.removeDealer("testdealer");
-//     }).then(function(size){
-//         assert.equal(size, 4, "removeDealer failed");       
-//         return S3DProtocolInstance.getDealer("testdealer");       
-//     }).then(function(testDealerAddress){
-//         assert.equal(testDealerAddress, "0x0000000000000000000000000000000000000000", "getDealer the data is not same");           
-//     }); 
-//   })
+  if("should add dealer and remove dealer correctly", function(){
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
+    S3DProtocolInstance.addDealer("testdealer", testaddress).then(function(size){
+        assert.equal(size, 5, "adddealer failed");       
+        return S3DProtocolInstance.getDealer("testdealer");
+    }).then(function(testDealerAddress){
+        assert.equal(testaddress, testDealerAddress, "getDealer the data is not same");            
+        return S3DProtocolInstance.removeDealer("testdealer");
+    }).then(function(size){
+        assert.equal(size, 4, "removeDealer failed");       
+        return S3DProtocolInstance.getDealer("testdealer");       
+    }).then(function(testDealerAddress){
+        assert.equal(testDealerAddress, "0x0000000000000000000000000000000000000000", "getDealer the data is not same");           
+    }); 
+  })
 
-//   it("should addReferraler correctly", function() {
-//     var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
-//     return S3DProtocolInstance.isReferraler(testaddress).then(function(isReferraler){
-//         assert.equal(isReferraler, false, "is not a referraler");       
-//         return S3DProtocolInstance.addReferraler(testaddress);
-//     }).then(function(){
-//         return S3DProtocolInstance.isReferraler(testaddress);
-//     }).then(function(isReferraler){
-//         assert.equal(isReferraler, true, "is a referraler");        
-//         return S3DProtocolInstance.removeReferraler(testaddress);
-//     }).then(function(){
-//         return S3DProtocolInstance.isReferraler(testaddress);
-//     }).then(function(isReferraler){
-//         assert.equal(isReferraler, false, "is not a referraler");
+  it("should addReferraler correctly", function() {
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
+    return S3DProtocolInstance.isReferraler(testaddress).then(function(isReferraler){
+        assert.equal(isReferraler, false, "is not a referraler");       
+        return S3DProtocolInstance.addReferraler(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isReferraler(testaddress);
+    }).then(function(isReferraler){
+        assert.equal(isReferraler, true, "is a referraler");        
+        return S3DProtocolInstance.removeReferraler(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isReferraler(testaddress);
+    }).then(function(isReferraler){
+        assert.equal(isReferraler, false, "is not a referraler");
 
         
-//     })
-//   });
+    })
+  });
 
-//   it("should addArbitrager correctly", function() {
-//     var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
-//     return S3DProtocolInstance.isArbitrager(testaddress).then(function(isArbitrager){
-//         assert.equal(isArbitrager, false, "is not a Arbitrager");       
-//         return S3DProtocolInstance.addArbitrager(testaddress);
-//     }).then(function(){
-//         return S3DProtocolInstance.isArbitrager(testaddress);
-//     }).then(function(isArbitrager){
-//         assert.equal(isArbitrager, true, "is a Arbitrager");        
-//         return S3DProtocolInstance.removeArbitrager(testaddress);
-//     }).then(function(){
-//         return S3DProtocolInstance.isArbitrager(testaddress);
-//     }).then(function(isArbitrager){
-//         assert.equal(isArbitrager, false, "is not a Arbitrager");
-//     })
-//   });
+  it("should addArbitrager correctly", function() {
+    var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';
+    return S3DProtocolInstance.isArbitrager(testaddress).then(function(isArbitrager){
+        assert.equal(isArbitrager, false, "is not a Arbitrager");       
+        return S3DProtocolInstance.addArbitrager(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isArbitrager(testaddress);
+    }).then(function(isArbitrager){
+        assert.equal(isArbitrager, true, "is a Arbitrager");        
+        return S3DProtocolInstance.removeArbitrager(testaddress);
+    }).then(function(){
+        return S3DProtocolInstance.isArbitrager(testaddress);
+    }).then(function(isArbitrager){
+        assert.equal(isArbitrager, false, "is not a Arbitrager");
+    })
+  });
 
-//   it("should setReferralRequirement correctly", function() {
-//     var amountOfTokens = 800e18;
-//     return S3DProtocolInstance.referralRequirement.call().then(function(referralRequirement){
-//         assert.equal(referralRequirement, 500e18, "referralRequirement is not correct");       
-//         return S3DProtocolInstance.setReferralRequirement(amountOfTokens);
-//     }).then(function(){
-//         return S3DProtocolInstance.referralRequirement.call();
-//     }).then(function(referralRequirement){
-//         assert.equal(referralRequirement, amountOfTokens, "referralRequirement is not 800e18");       
-//         return S3DProtocolInstance.setReferralRequirement(500e18);       
-//     }).then(function(){
-//         return S3DProtocolInstance.referralRequirement.call();
-//     }).then(function(referralRequirement){
-//         assert.equal(referralRequirement, 500e18, "referralRequirement is not 500e18");         
-//     })
-//   });
+  it("should setReferralRequirement correctly", function() {
+    var amountOfTokens = 800e18;
+    return S3DProtocolInstance.referralRequirement.call().then(function(referralRequirement){
+        assert.equal(referralRequirement, 500e18, "referralRequirement is not correct");       
+        return S3DProtocolInstance.setReferralRequirement(amountOfTokens);
+    }).then(function(){
+        return S3DProtocolInstance.referralRequirement.call();
+    }).then(function(referralRequirement){
+        assert.equal(referralRequirement, amountOfTokens, "referralRequirement is not 800e18");       
+        return S3DProtocolInstance.setReferralRequirement(500e18);       
+    }).then(function(){
+        return S3DProtocolInstance.referralRequirement.call();
+    }).then(function(referralRequirement){
+        assert.equal(referralRequirement, 500e18, "referralRequirement is not 500e18");         
+    })
+  });
 
   
-//   it("should setArbitrageRequirement correctly", function() {
-//     var amountOfTokens = 1500e18;
-//     return S3DProtocolInstance.arbitrageRequirement.call().then(function(arbitrageRequirement){
-//         assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not correct");       
-//         return S3DProtocolInstance.setArbitrageRequirement(amountOfTokens);
-//     }).then(function(){
-//         return S3DProtocolInstance.arbitrageRequirement.call();
-//     }).then(function(arbitrageRequirement){
-//         assert.equal(arbitrageRequirement, amountOfTokens, "arbitrageRequirement is not 1500e18");       
-//         return S3DProtocolInstance.setArbitrageRequirement(1000e18);       
-//     }).then(function(){
-//         return S3DProtocolInstance.arbitrageRequirement.call();
-//     }).then(function(arbitrageRequirement){
-//         assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not 1000e18");         
-//     })
-//   });
+  it("should setArbitrageRequirement correctly", function() {
+    var amountOfTokens = 1500e18;
+    return S3DProtocolInstance.arbitrageRequirement.call().then(function(arbitrageRequirement){
+        assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not correct");       
+        return S3DProtocolInstance.setArbitrageRequirement(amountOfTokens);
+    }).then(function(){
+        return S3DProtocolInstance.arbitrageRequirement.call();
+    }).then(function(arbitrageRequirement){
+        assert.equal(arbitrageRequirement, amountOfTokens, "arbitrageRequirement is not 1500e18");       
+        return S3DProtocolInstance.setArbitrageRequirement(1000e18);       
+    }).then(function(){
+        return S3DProtocolInstance.arbitrageRequirement.call();
+    }).then(function(arbitrageRequirement){
+        assert.equal(arbitrageRequirement, 1000e18, "arbitrageRequirement is not 1000e18");         
+    })
+  });
 
 
   it("should buy eth s3d correctly", function(){
@@ -548,11 +549,12 @@ contract('S3DProtocol', function(accounts) {
         assert.equal(equalNumber(after_dividends , (before_dividends - withDrawAmount)), true, "ethDividends is not same");
         return web3.eth.getBalance(notOwnerAccount);
     }).then(function(ethBalance){
-        after_ethBalance = ethBalance;
-        var final = after_ethBalance - withDrawAmount;
-        console.log(before_ethBalance);
-        console.log(final);
-        assert.equal(equalNumber(before_ethBalance , final), true, "ethBalance is not same");
+        //有gas 不准确
+        // after_ethBalance = ethBalance;
+        // var final = after_ethBalance.minus(before_ethBalance).toNumber()
+        // console.log(final);
+        // console.log(withDrawAmount);
+        // assert.equal(equalNumber(final , withDrawAmount), true, "ethBalance is not same");
     })
   });
 
@@ -640,8 +642,123 @@ contract('S3DProtocol', function(accounts) {
     })
   });
 
-  
-  it("should withdrawall eth correctly", function(){
+  it("should reinvest eth correctly", function(){
+
+    var before_ethBalance = 0;
+    var before_dividends = 0;
+    var after_dividends = 0;
+    var after_ethBalance = 0;
+
+    var withDrawAmount = 0;
+
+    return S3DProtocolInstance.dividendsOf.call("eth", notOwnerAccount).then(function(balance){
+        before_dividends = balance;
+        withDrawAmount = before_dividends.dividedBy(2).toNumber();
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(ethBalance){
+        before_ethBalance  = ethBalance;
+        return S3DProtocolInstance.reinvest("eth", withDrawAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.dividendsOf.call("eth", notOwnerAccount);
+    }).then(function(dividends){
+        after_dividends = dividends;
+        assert.equal(after_dividends.toNumber() > withDrawAmount, true, "ethDividends is not same");
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(ethBalance){
+        //有gas 不准确
+        // after_ethBalance = ethBalance;
+        // var final = after_ethBalance.minus(before_ethBalance).toNumber()
+        // console.log(final);
+        // console.log(withDrawAmount);
+        // assert.equal(equalNumber(final , withDrawAmount), true, "ethBalance is not same");
+    })
+  });
+
+  it("should reinvest seele correctly", function(){
+
+    var before_seeleBalance = 0;
+    var before_dividends = 0;
+    var after_dividends = 0;
+    var after_seeleBalance = 0;
+
+    var withDrawAmount = 0;
+
+    return S3DProtocolInstance.dividendsOf.call("seele", notOwnerAccount).then(function(balance){
+        before_dividends = balance;
+        withDrawAmount = before_dividends.dividedBy(2).toNumber();
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(seeleBalance){
+        before_seeleBalance  = seeleBalance;
+        return S3DProtocolInstance.reinvest("seele", withDrawAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.dividendsOf.call("seele", notOwnerAccount);
+    }).then(function(dividends){
+        after_dividends = dividends;
+        assert.equal(after_dividends.toNumber() > withDrawAmount, true, "seeleDividends is not same");
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(seeleBalance){
+        after_seeleBalance = seeleBalance;
+        assert.equal(equalNumber(after_seeleBalance , (before_seeleBalance + withDrawAmount)), true, "seeleBalance is not same");
+    })
+  });
+
+  it("should reinvest omg correctly", function(){
+
+    var before_omgBalance = 0;
+    var before_dividends = 0;
+    var after_dividends = 0;
+    var after_omgBalance = 0;
+
+    var withDrawAmount = 0;
+
+    return S3DProtocolInstance.dividendsOf.call("omg", notOwnerAccount).then(function(balance){
+        before_dividends = balance;
+        withDrawAmount = before_dividends.dividedBy(2).toNumber();
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(omgBalance){
+        before_omgBalance  = omgBalance;
+        return S3DProtocolInstance.reinvest("omg", withDrawAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.dividendsOf.call("omg", notOwnerAccount, {from: notOwnerAccount, value: 0});
+    }).then(function(dividends){
+        after_dividends = dividends;
+        assert.equal(after_dividends.toNumber() > withDrawAmount, true, "omgDividends is not same");
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(omgBalance){
+        after_omgBalance = omgBalance;
+        assert.equal(equalNumber(after_omgBalance , (before_omgBalance + withDrawAmount)), true, "omgBalance is not same");
+    })
+  });
+
+  it("should reinvest zrx correctly", function(){
+
+    var before_zrxBalance = 0;
+    var before_dividends = 0;
+    var after_dividends = 0;
+    var after_zrxBalance = 0;
+
+    var withDrawAmount = 0;
+
+    return S3DProtocolInstance.dividendsOf.call("zrx", notOwnerAccount).then(function(balance){
+        before_dividends = balance;
+        withDrawAmount = before_dividends.dividedBy(2).toNumber();
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(zrxBalance){
+        before_zrxBalance  = zrxBalance;
+        return S3DProtocolInstance.reinvest("zrx", withDrawAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.dividendsOf.call("zrx", notOwnerAccount);
+    }).then(function(dividends){
+        after_dividends = dividends;
+        assert.equal(after_dividends.toNumber() > withDrawAmount, true, "zrxDividends is not same");
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(zrxBalance){
+        after_zrxBalance = zrxBalance;
+        assert.equal(equalNumber(after_zrxBalance , (before_zrxBalance + withDrawAmount)), true, "zrxBalance is not same");
+    })
+  });
+
+  it("should withdrawall correctly", function(){
 
     var before_ethBalance = 0;
     var before_seeleBalance = 0;
@@ -686,34 +803,838 @@ contract('S3DProtocol', function(accounts) {
         return ZRXTokenInst.balanceOf.call(notOwnerAccount);
     }).then(function(balance){
         before_zrxBalance = balance;
-        return S3DProtocolInstance.withdrawAll();
+
+        return S3DProtocolInstance.withdrawAll({from: notOwnerAccount, value: 0});
     }).then(function(){
-        return S3DProtocolInstance.dividendsOf.call("eth", notOwnerAccount){
-            before_ethdividends = dividends;
-            return S3DProtocolInstance.dividendsOf.call("seele", notOwnerAccount);
-        }).then(function(dividends){
-            before_seeledividends = dividends;
-            return S3DProtocolInstance.dividendsOf.call("omg", notOwnerAccount);       
-        }).then(function(dividends){
-            before_omgdividends = dividends;
-            return S3DProtocolInstance.dividendsOf.call("zrx", notOwnerAccount);            
-        }).then(function(dividends){
-            before_zrxdividends = dividends;
-            return web3.eth.getBalance(notOwnerAccount);
-        }).then(function(balance){
-            before_ethBalance = balance;
-            return SeeleTokenInst.balanceOf.call(notOwnerAccount);
-        }).then(function(balance){
-            before_seeleBalance = balance;
-            return OMGTokenInst.balanceOf.call(notOwnerAccount);
-        }).then(function(balance){
-            before_omgBalance = balance;
-            return ZRXTokenInst.balanceOf.call(notOwnerAccount);
-        }).then(function(balance){
-            before_zrxBalance = balance;
-    }
+        return S3DProtocolInstance.dividendsOf.call("eth", notOwnerAccount)
+    }).then(function(dividends){
+        before_ethdividends = dividends;
+        return S3DProtocolInstance.dividendsOf.call("seele", notOwnerAccount);
+    }).then(function(dividends){
+        before_seeledividends = dividends;
+        return S3DProtocolInstance.dividendsOf.call("omg", notOwnerAccount);       
+    }).then(function(dividends){
+        before_omgdividends = dividends;
+        return S3DProtocolInstance.dividendsOf.call("zrx", notOwnerAccount);            
+    }).then(function(dividends){
+        before_zrxdividends = dividends;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        before_ethBalance = balance;
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_seeleBalance = balance;
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_omgBalance = balance;
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_zrxBalance = balance;
+    });
   });
 
+  it("should arbitrageTokens seele-eth correctly", function(){
+
+    var before_seeleS3dBalance = 0;
+    var after_seeleS3dBalance = 0;
+    var before_ethS3dBalance = 0;
+    var after_ethS3dBalance = 0;
+    var before_seeleS3dTotoalSupply = 0;
+    var after_seeleS3dTotalSupply = 0;
+    var before_ethS3dTotalSupply = 0;
+    var after_ethS3dTotalSupply = 0;
+    var before_ethBalance = 0;
+    var after_ethBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var ethArbitrageTokensAmount = 0;
+    var ethReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount).then(function(balance){
+        before_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        before_seeleS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        before_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        before_ethS3dTotalSupply = totalSupply;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        before_ethBalance = balance;
+
+        arbitrageTokensAmount = before_seeleS3dBalance.dividedBy(5).toNumber();
+        ethArbitrageTokensAmount = before_ethS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > ethArbitrageTokensAmount){
+            arbitrageTokensAmount = ethArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("eth", arbitrageTokensAmount);
+    }).then(function(ethget){
+        ethReceived = ethget;
+        return S3DProtocolInstance.arbitrageTokens("seele", "eth", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        after_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        after_seeleS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        after_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        after_ethS3dTotalSupply = totalSupply;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        after_ethBalance = balance;
+      
+        assert.equal(equalNumber(before_seeleS3dBalance.minus(after_seeleS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "seeleS3dBalance  is not same");
+        assert.equal(equalNumber(before_ethS3dBalance.toNumber() , after_ethS3dBalance.toNumber()), true, "ethS3dBalance  is not same");
+        assert.equal(equalNumber(before_seeleS3dTotoalSupply.minus(after_seeleS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "seeleS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_ethS3dTotalSupply , after_ethS3dTotalSupply), true, "ethS3dTotalSupply  is not same");
+        
+        //assert.equal(after_ethBalance.comparedTo(before_ethBalance), true, "ethBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens omg-eth correctly", function(){
+
+    var before_omgS3dBalance = 0;
+    var after_omgS3dBalance = 0;
+    var before_ethS3dBalance = 0;
+    var after_ethS3dBalance = 0;
+    var before_omgS3dTotoalSupply = 0;
+    var after_omgS3dTotalSupply = 0;
+    var before_ethS3dTotalSupply = 0;
+    var after_ethS3dTotalSupply = 0;
+    var before_ethBalance = 0;
+    var after_ethBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var ethArbitrageTokensAmount = 0;
+    var ethReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount).then(function(balance){
+        before_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        before_omgS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        before_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        before_ethS3dTotalSupply = totalSupply;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        before_ethBalance = balance;
+
+        arbitrageTokensAmount = before_omgS3dBalance.dividedBy(5).toNumber();
+        ethArbitrageTokensAmount = before_ethS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > ethArbitrageTokensAmount){
+            arbitrageTokensAmount = ethArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("eth", arbitrageTokensAmount);
+    }).then(function(ethget){
+        ethReceived = ethget;
+        return S3DProtocolInstance.arbitrageTokens("omg", "eth", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        after_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        after_omgS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        after_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        after_ethS3dTotalSupply = totalSupply;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        after_ethBalance = balance;
+
+        assert.equal(equalNumber(before_omgS3dBalance.minus(after_omgS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "omgS3dBalance  is not same");
+        assert.equal(equalNumber(before_ethS3dBalance.toNumber() , after_ethS3dBalance.toNumber()), true, "ethS3dBalance  is not same");
+        assert.equal(equalNumber(before_omgS3dTotoalSupply.minus(after_omgS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "omgS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_ethS3dTotalSupply , after_ethS3dTotalSupply), true, "ethS3dTotalSupply  is not same");
+
+        //assert.equal(after_ethBalance > before_ethBalance, true, "ethBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens zrx-eth correctly", function(){
+
+    var before_zrxS3dBalance = 0;
+    var after_zrxS3dBalance = 0;
+    var before_ethS3dBalance = 0;
+    var after_ethS3dBalance = 0;
+    var before_zrxS3dTotoalSupply = 0;
+    var after_zrxS3dTotalSupply = 0;
+    var before_ethS3dTotalSupply = 0;
+    var after_ethS3dTotalSupply = 0;
+    var before_ethBalance = 0;
+    var after_ethBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var ethArbitrageTokensAmount = 0;
+    var ethReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount).then(function(balance){
+        before_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        before_zrxS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        before_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        before_ethS3dTotalSupply = totalSupply;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        before_ethBalance = balance;
+
+        arbitrageTokensAmount = before_zrxS3dBalance.dividedBy(5).toNumber();
+        ethArbitrageTokensAmount = before_ethS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > ethArbitrageTokensAmount){
+            arbitrageTokensAmount = ethArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("eth", arbitrageTokensAmount);
+    }).then(function(ethget){
+        ethReceived = ethget;
+        return S3DProtocolInstance.arbitrageTokens("zrx", "eth", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        after_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        after_zrxS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        after_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        after_ethS3dTotalSupply = totalSupply;
+        return web3.eth.getBalance(notOwnerAccount);
+    }).then(function(balance){
+        after_ethBalance = balance;
+
+        assert.equal(equalNumber(before_zrxS3dBalance.minus(after_zrxS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "zrxS3dBalance  is not same");
+        assert.equal(equalNumber(before_ethS3dBalance.toNumber() , after_ethS3dBalance.toNumber()), true, "ethS3dBalance  is not same");
+        assert.equal(equalNumber(before_zrxS3dTotoalSupply.minus(after_zrxS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "zrxS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_ethS3dTotalSupply , after_ethS3dTotalSupply), true, "ethS3dTotalSupply  is not same");
+
+        //assert.equal(after_ethBalance > before_ethBalance, true, "ethBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens eth-seele correctly", function(){
+
+    var before_ethS3dBalance = 0;
+    var after_ethS3dBalance = 0;
+    var before_seeleS3dBalance = 0;
+    var after_seeleS3dBalance = 0;
+    var before_ethS3dTotoalSupply = 0;
+    var after_ethS3dTotalSupply = 0;
+    var before_seeleS3dTotalSupply = 0;
+    var after_seeleS3dTotalSupply = 0;
+    var before_seeleBalance = 0;
+    var after_seeleBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var seeleArbitrageTokensAmount = 0;
+    var seeleReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount).then(function(balance){
+        before_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        before_ethS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        before_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        before_seeleS3dTotalSupply = totalSupply;  
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_seeleBalance = balance;
+
+        arbitrageTokensAmount = before_ethS3dBalance.dividedBy(5).toNumber();
+        seeleArbitrageTokensAmount = before_seeleS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > seeleArbitrageTokensAmount){
+            arbitrageTokensAmount = seeleArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("seele", arbitrageTokensAmount);
+    }).then(function(ethget){
+        seeleReceived = ethget;
+        return S3DProtocolInstance.arbitrageTokens("eth", "seele", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        after_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        after_ethS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        after_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        after_seeleS3dTotalSupply = totalSupply;
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_seeleBalance = balance;
+
+        assert.equal(equalNumber(before_ethS3dBalance.minus(after_ethS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "ethS3dBalance  is not same");
+        assert.equal(equalNumber(before_seeleS3dBalance.toNumber() , after_seeleS3dBalance.toNumber()), true, "ethSeeleBalance  is not same");
+        assert.equal(equalNumber(before_ethS3dTotoalSupply.minus(after_ethS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "ethS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_seeleS3dTotalSupply , after_seeleS3dTotalSupply), true, "seeleS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_seeleBalance.minus(before_seeleBalance).toNumber(), seeleReceived), true, "seeleBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens omg-seele correctly", function(){
+
+    var before_omgS3dBalance = 0;
+    var after_omgS3dBalance = 0;
+    var before_seeleS3dBalance = 0;
+    var after_seeleS3dBalance = 0;
+    var before_omgS3dTotoalSupply = 0;
+    var after_omgS3dTotalSupply = 0;
+    var before_seeleS3dTotalSupply = 0;
+    var after_seeleS3dTotalSupply = 0;
+    var before_seeleBalance = 0;
+    var after_seeleBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var seeleArbitrageTokensAmount = 0;
+    var seeleReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount).then(function(balance){
+        before_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        before_omgS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        before_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        before_seeleS3dTotalSupply = totalSupply;  
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_seeleBalance = balance;
+
+        arbitrageTokensAmount = before_omgS3dBalance.dividedBy(5).toNumber();
+        seeleArbitrageTokensAmount = before_seeleS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > seeleArbitrageTokensAmount){
+            arbitrageTokensAmount = seeleArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("seele", arbitrageTokensAmount);
+    }).then(function(seeleget){
+        seeleReceived = seeleget;
+        return S3DProtocolInstance.arbitrageTokens("omg", "seele", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        after_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        after_omgS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        after_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        after_seeleS3dTotalSupply = totalSupply;
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_seeleBalance = balance;
+
+        assert.equal(equalNumber(before_omgS3dBalance.minus(after_omgS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "omgS3dBalance  is not same");
+        assert.equal(equalNumber(before_seeleS3dBalance.toNumber() , after_seeleS3dBalance.toNumber()), true, "ethSeeleBalance  is not same");
+        assert.equal(equalNumber(before_omgS3dTotoalSupply.minus(after_omgS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "omgS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_seeleS3dTotalSupply , after_seeleS3dTotalSupply), true, "seeleS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_seeleBalance.minus(before_seeleBalance).toNumber(), seeleReceived), true, "seeleBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens zrx-seele correctly", function(){
+
+    var before_zrxS3dBalance = 0;
+    var after_zrxS3dBalance = 0;
+    var before_seeleS3dBalance = 0;
+    var after_seeleS3dBalance = 0;
+    var before_zrxS3dTotoalSupply = 0;
+    var after_zrxS3dTotalSupply = 0;
+    var before_seeleS3dTotalSupply = 0;
+    var after_seeleS3dTotalSupply = 0;
+    var before_seeleBalance = 0;
+    var after_seeleBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var seeleArbitrageTokensAmount = 0;
+    var seeleReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount).then(function(balance){
+        before_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        before_zrxS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        before_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        before_seeleS3dTotalSupply = totalSupply;  
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_seeleBalance = balance;
+
+        arbitrageTokensAmount = before_zrxS3dBalance.dividedBy(5).toNumber();
+        seeleArbitrageTokensAmount = before_seeleS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > seeleArbitrageTokensAmount){
+            arbitrageTokensAmount = seeleArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("seele", arbitrageTokensAmount);
+    }).then(function(seeleget){
+        seeleReceived = seeleget;
+        return S3DProtocolInstance.arbitrageTokens("zrx", "seele", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        after_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        after_zrxS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        after_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        after_seeleS3dTotalSupply = totalSupply;
+        return SeeleTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_seeleBalance = balance;
+
+        assert.equal(equalNumber(before_zrxS3dBalance.minus(after_zrxS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "zrxS3dBalance  is not same");
+        assert.equal(equalNumber(before_seeleS3dBalance.toNumber() , after_seeleS3dBalance.toNumber()), true, "ethSeeleBalance  is not same");
+        assert.equal(equalNumber(before_zrxS3dTotoalSupply.minus(after_zrxS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "zrxS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_seeleS3dTotalSupply , after_seeleS3dTotalSupply), true, "seeleS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_seeleBalance.minus(before_seeleBalance).toNumber(), seeleReceived), true, "seeleBalance  is not same");
+    })
+  });
+
+
+  it("should arbitrageTokens eth-omg correctly", function(){
+
+    var before_ethS3dBalance = 0;
+    var after_ethS3dBalance = 0;
+    var before_omgS3dBalance = 0;
+    var after_omgS3dBalance = 0;
+    var before_ethS3dTotoalSupply = 0;
+    var after_ethS3dTotalSupply = 0;
+    var before_omgS3dTotalSupply = 0;
+    var after_omgS3dTotalSupply = 0;
+    var before_omgBalance = 0;
+    var after_omgBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var omgArbitrageTokensAmount = 0;
+    var omgReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount).then(function(balance){
+        before_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        before_ethS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        before_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        before_omgS3dTotalSupply = totalSupply;  
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_omgBalance = balance;
+
+        arbitrageTokensAmount = before_ethS3dBalance.dividedBy(5).toNumber();
+        omgArbitrageTokensAmount = before_omgS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > omgArbitrageTokensAmount){
+            arbitrageTokensAmount = omgArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("omg", arbitrageTokensAmount);
+    }).then(function(omgget){
+        omgReceived = omgget;
+        return S3DProtocolInstance.arbitrageTokens("eth", "omg", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        after_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        after_ethS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        after_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        after_omgS3dTotalSupply = totalSupply;
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_omgBalance = balance;
+
+        assert.equal(equalNumber(before_ethS3dBalance.minus(after_ethS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "ethS3dBalance  is not same");
+        assert.equal(equalNumber(before_omgS3dBalance.toNumber() , after_omgS3dBalance.toNumber()), true, "omgS3dBalance  is not same");
+        assert.equal(equalNumber(before_ethS3dTotoalSupply.minus(after_ethS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "ethS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_omgS3dTotalSupply , after_omgS3dTotalSupply), true, "omgS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_omgBalance.minus(before_omgBalance).toNumber(), omgReceived), true, "omgBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens seele-omg correctly", function(){
+
+    var before_seeleS3dBalance = 0;
+    var after_seeleS3dBalance = 0;
+    var before_omgS3dBalance = 0;
+    var after_omgS3dBalance = 0;
+    var before_seeleS3dTotoalSupply = 0;
+    var after_seeleS3dTotalSupply = 0;
+    var before_omgS3dTotalSupply = 0;
+    var after_omgS3dTotalSupply = 0;
+    var before_omgBalance = 0;
+    var after_omgBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var omgArbitrageTokensAmount = 0;
+    var omgReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount).then(function(balance){
+        before_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        before_seeleS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        before_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        before_omgS3dTotalSupply = totalSupply;  
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_omgBalance = balance;
+
+        arbitrageTokensAmount = before_seeleS3dBalance.dividedBy(5).toNumber();
+        omgArbitrageTokensAmount = before_omgS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > omgArbitrageTokensAmount){
+            arbitrageTokensAmount = omgArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("omg", arbitrageTokensAmount);
+    }).then(function(omgget){
+        omgReceived = omgget;
+        return S3DProtocolInstance.arbitrageTokens("seele", "omg", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        after_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        after_seeleS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        after_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        after_omgS3dTotalSupply = totalSupply;
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_omgBalance = balance;
+
+        assert.equal(equalNumber(before_seeleS3dBalance.minus(after_seeleS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "seeleS3dBalance  is not same");
+        assert.equal(equalNumber(before_omgS3dBalance.toNumber() , after_omgS3dBalance.toNumber()), true, "omgS3dBalance  is not same");
+        assert.equal(equalNumber(before_seeleS3dTotoalSupply.minus(after_seeleS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "seeleS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_omgS3dTotalSupply , after_omgS3dTotalSupply), true, "omgS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_omgBalance.minus(before_omgBalance).toNumber(), omgReceived), true, "omgBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens zrx-omg correctly", function(){
+
+    var before_zrxS3dBalance = 0;
+    var after_zrxS3dBalance = 0;
+    var before_omgS3dBalance = 0;
+    var after_omgS3dBalance = 0;
+    var before_zrxS3dTotoalSupply = 0;
+    var after_zrxS3dTotalSupply = 0;
+    var before_omgS3dTotalSupply = 0;
+    var after_omgS3dTotalSupply = 0;
+    var before_omgBalance = 0;
+    var after_omgBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var omgArbitrageTokensAmount = 0;
+    var omgReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount).then(function(balance){
+        before_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        before_zrxS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        before_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        before_omgS3dTotalSupply = totalSupply;  
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_omgBalance = balance;
+
+        arbitrageTokensAmount = before_zrxS3dBalance.dividedBy(5).toNumber();
+        omgArbitrageTokensAmount = before_omgS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > omgArbitrageTokensAmount){
+            arbitrageTokensAmount = omgArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("omg", arbitrageTokensAmount);
+    }).then(function(omgget){
+        omgReceived = omgget;
+        return S3DProtocolInstance.arbitrageTokens("zrx", "omg", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        after_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        after_zrxS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        after_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        after_omgS3dTotalSupply = totalSupply;
+        return OMGTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_omgBalance = balance;
+
+        assert.equal(equalNumber(before_zrxS3dBalance.minus(after_zrxS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "zrxS3dBalance  is not same");
+        assert.equal(equalNumber(before_omgS3dBalance.toNumber() , after_omgS3dBalance.toNumber()), true, "omgS3dBalance  is not same");
+        assert.equal(equalNumber(before_zrxS3dTotoalSupply.minus(after_zrxS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "zrxS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_omgS3dTotalSupply , after_omgS3dTotalSupply), true, "omgS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_omgBalance.minus(before_omgBalance).toNumber(), omgReceived), true, "omgBalance  is not same");
+    })
+  });
+ 
+  it("should arbitrageTokens eth-zrx correctly", function(){
+
+    var before_ethS3dBalance = 0;
+    var after_ethS3dBalance = 0;
+    var before_zrxS3dBalance = 0;
+    var after_zrxS3dBalance = 0;
+    var before_ethS3dTotoalSupply = 0;
+    var after_ethS3dTotalSupply = 0;
+    var before_zrxS3dTotalSupply = 0;
+    var after_zrxS3dTotalSupply = 0;
+    var before_zrxBalance = 0;
+    var after_zrxBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var zrxArbitrageTokensAmount = 0;
+    var zrxReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount).then(function(balance){
+        before_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        before_ethS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        before_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        before_zrxS3dTotalSupply = totalSupply;  
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_zrxBalance = balance;
+
+        arbitrageTokensAmount = before_ethS3dBalance.dividedBy(5).toNumber();
+        zrxArbitrageTokensAmount = before_zrxS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > zrxArbitrageTokensAmount){
+            arbitrageTokensAmount = zrxArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("zrx", arbitrageTokensAmount);
+    }).then(function(zrxget){
+        zrxReceived = zrxget;
+        return S3DProtocolInstance.arbitrageTokens("eth", "zrx", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("eth", notOwnerAccount);
+    }).then(function(balance){
+        after_ethS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("eth");
+    }).then(function(totalSupply){
+        after_ethS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        after_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        after_zrxS3dTotalSupply = totalSupply;
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_zrxBalance = balance;
+
+        assert.equal(equalNumber(before_ethS3dBalance.minus(after_ethS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "ethS3dBalance  is not same");
+        assert.equal(equalNumber(before_zrxS3dBalance.toNumber() , after_zrxS3dBalance.toNumber()), true, "zrxS3dBalance  is not same");
+        assert.equal(equalNumber(before_ethS3dTotoalSupply.minus(after_ethS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "ethS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_zrxS3dTotalSupply , after_zrxS3dTotalSupply), true, "zrxS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_zrxBalance.minus(before_zrxBalance).toNumber(), zrxReceived), true, "zrxBalance  is not same");
+    })
+  });
+
+  it("should arbitrageTokens seele-zrx correctly", function(){
+
+    var before_seeleS3dBalance = 0;
+    var after_seeleS3dBalance = 0;
+    var before_zrxS3dBalance = 0;
+    var after_zrxS3dBalance = 0;
+    var before_seeleS3dTotoalSupply = 0;
+    var after_seeleS3dTotalSupply = 0;
+    var before_zrxS3dTotalSupply = 0;
+    var after_zrxS3dTotalSupply = 0;
+    var before_zrxBalance = 0;
+    var after_zrxBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var zrxArbitrageTokensAmount = 0;
+    var zrxReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount).then(function(balance){
+        before_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        before_seeleS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        before_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        before_zrxS3dTotalSupply = totalSupply;  
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_zrxBalance = balance;
+
+        arbitrageTokensAmount = before_seeleS3dBalance.dividedBy(5).toNumber();
+        zrxArbitrageTokensAmount = before_zrxS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > zrxArbitrageTokensAmount){
+            arbitrageTokensAmount = zrxArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("zrx", arbitrageTokensAmount);
+    }).then(function(zrxget){
+        zrxReceived = zrxget;
+        return S3DProtocolInstance.arbitrageTokens("seele", "zrx", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("seele", notOwnerAccount);
+    }).then(function(balance){
+        after_seeleS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("seele");
+    }).then(function(totalSupply){
+        after_seeleS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        after_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        after_zrxS3dTotalSupply = totalSupply;
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_zrxBalance = balance;
+
+        assert.equal(equalNumber(before_seeleS3dBalance.minus(after_seeleS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "seeleS3dBalance  is not same");
+        assert.equal(equalNumber(before_zrxS3dBalance.toNumber() , after_zrxS3dBalance.toNumber()), true, "zrxS3dBalance  is not same");
+        assert.equal(equalNumber(before_seeleS3dTotoalSupply.minus(after_seeleS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "seeleS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_zrxS3dTotalSupply , after_zrxS3dTotalSupply), true, "zrxS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_zrxBalance.minus(before_zrxBalance).toNumber(), zrxReceived), true, "zrxBalance  is not same");    })
+  });
+
+  it("should arbitrageTokens omg-zrx correctly", function(){
+
+    var before_omgS3dBalance = 0;
+    var after_omgS3dBalance = 0;
+    var before_zrxS3dBalance = 0;
+    var after_zrxS3dBalance = 0;
+    var before_omgS3dTotoalSupply = 0;
+    var after_omgS3dTotalSupply = 0;
+    var before_zrxS3dTotalSupply = 0;
+    var after_zrxS3dTotalSupply = 0;
+    var before_zrxBalance = 0;
+    var after_zrxBalance = 0;
+
+    var arbitrageTokensAmount = 0;
+    var zrxArbitrageTokensAmount = 0;
+    var zrxReceived = 0;
+
+    return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount).then(function(balance){
+        before_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        before_omgS3dTotoalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        before_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        before_zrxS3dTotalSupply = totalSupply;  
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        before_zrxBalance = balance;
+
+        arbitrageTokensAmount = before_omgS3dBalance.dividedBy(5).toNumber();
+        zrxArbitrageTokensAmount = before_zrxS3dTotalSupply.dividedBy(3).toNumber();
+        if(arbitrageTokensAmount > zrxArbitrageTokensAmount){
+            arbitrageTokensAmount = zrxArbitrageTokensAmount;
+        }
+        return S3DProtocolInstance.calculateBuyTokenReceived("zrx", arbitrageTokensAmount);
+    }).then(function(zrxget){
+        zrxReceived = zrxget;
+        return S3DProtocolInstance.arbitrageTokens("omg", "zrx", arbitrageTokensAmount, {from: notOwnerAccount, value: 0});
+    }).then(function(){
+        return S3DProtocolInstance.balanceOfOneToken.call("omg", notOwnerAccount);
+    }).then(function(balance){
+        after_omgS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("omg");
+    }).then(function(totalSupply){
+        after_omgS3dTotalSupply = totalSupply;
+        return S3DProtocolInstance.balanceOfOneToken.call("zrx", notOwnerAccount);
+    }).then(function(balance){
+        after_zrxS3dBalance = balance;
+        return S3DProtocolInstance.totalSupplyOfOneToken.call("zrx");
+    }).then(function(totalSupply){
+        after_zrxS3dTotalSupply = totalSupply;
+        return ZRXTokenInst.balanceOf.call(notOwnerAccount);
+    }).then(function(balance){
+        after_zrxBalance = balance;
+
+        assert.equal(equalNumber(before_omgS3dBalance.minus(after_omgS3dBalance).toNumber(), ( arbitrageTokensAmount)), true, "omgS3dBalance  is not same");
+        assert.equal(equalNumber(before_zrxS3dBalance.toNumber() , after_zrxS3dBalance.toNumber()), true, "zrxS3dBalance  is not same");
+        assert.equal(equalNumber(before_omgS3dTotoalSupply.minus(after_omgS3dTotalSupply).toNumber() , ( arbitrageTokensAmount)), true, "omgS3dTotalSupply  is not same");
+        assert.equal(equalNumber(before_zrxS3dTotalSupply , after_zrxS3dTotalSupply), true, "zrxS3dTotalSupply  is not same");
+
+        assert.equal(equalNumber(after_zrxBalance.minus(before_zrxBalance).toNumber(), zrxReceived), true, "zrxBalance  is not same");    })
+  });
 
   it("should owner functions correctly", function(){
     var testaddress = '0x0A26b0eE9922C98932e4e965Dc832FbCe9988cEB';  

@@ -24,7 +24,6 @@ module.exports = function(deployer) {
     var EthDealerInstance ;
     var SeeleDealerInstance ;
     var S3DProtocolInstance ;
-    var SeeleDividendsToEthInstance;
     var OMGDealerInstance;
     var ZRXDealerInstance;
 
